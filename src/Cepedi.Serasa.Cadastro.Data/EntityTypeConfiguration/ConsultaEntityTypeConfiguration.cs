@@ -8,8 +8,11 @@ public class ConsultaEntityTypeConfiguration : IEntityTypeConfiguration<Consulta
     public void Configure(EntityTypeBuilder<ConsultaEntity> builder) {
         builder.ToTable("Consulta");
         builder.HasKey(consulta => consulta.Id);
-        builder.Property(consulta => consulta.IdPessoa);
+
+        builder.Property(consulta => consulta.IdPessoa).IsRequired();
         builder.Property(consulta => consulta.Data).IsRequired();
         builder.Property(consulta => consulta.Status).IsRequired();
+        builder.HasOne(consulta => consulta.Pessoa)
+            .HasForeignKey(consulta => consulta.IdPessoa);
     }
 }

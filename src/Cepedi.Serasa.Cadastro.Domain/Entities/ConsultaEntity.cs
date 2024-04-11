@@ -5,5 +5,6 @@ public class ConsultaEntity{
     public int IdPessoa { get; set; }
     public required DateTime Data { get; set; }
     public required bool Status { get; set; }
+    public Pessoa Pessoa{ get; set; }
     
 }
