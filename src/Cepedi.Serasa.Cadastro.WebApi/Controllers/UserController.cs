@@ -1,5 +1,4 @@
 ﻿using Cepedi.Serasa.Cadastro.Domain;
-using Cepedi.Serasa.Cadastro.Domain.Repository;
 using Cepedi.Shareable.Exceptions;
 using Cepedi.Shareable.Requests;
 using Cepedi.Shareable.Responses;

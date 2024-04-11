@@ -1,9 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using Cepedi.Serasa.Cadastro.Data;
-using Cepedi.Serasa.Cadastro.Data.Repositories;
 using Cepedi.Serasa.Cadastro.Domain;
-using Cepedi.Serasa.Cadastro.Domain.Repository;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -21,7 +19,6 @@ namespace Cepedi.Serasa.Cadastro.IoC
             cfg.RegisterServicesFromAssemblies(AppDomain.CurrentDomain.GetAssemblies()));
             //services.AddMediatR(new[] { typeof(IDomainEntryPoint).Assembly });
 
-            services.AddScoped<IUsuarioRepository, UsuarioRepository>();
             //services.AddHttpContextAccessor();
 
             services.AddHealthChecks()
