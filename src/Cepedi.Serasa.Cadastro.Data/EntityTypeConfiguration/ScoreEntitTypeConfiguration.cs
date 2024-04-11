@@ -14,5 +14,9 @@ public class ScoreEntitTypeConfiguration : IEntityTypeConfiguration<ScoreEntity>
 
         builder.Property(e => e.Score).IsRequired();
         builder.Property(e => e.IdPessoa).IsRequired();
+
+        builder.HasOne(e => e.Pessoa)
+               .WithOne() 
+               .HasForeignKey(e => e.IdPessoa);
     }
 }

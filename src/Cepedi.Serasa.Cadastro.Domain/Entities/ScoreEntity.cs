@@ -3,6 +3,7 @@
 public class ScoreEntity
 {
     public int Id { get; set; }
+    public Pessoa Pessoa { get; set; }
     public required string IdPessoa { get; set; }
     public required double Score { get; set; }
 }
