@@ -2,18 +2,25 @@ using Cepedi.Serasa.Cadastro.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Cepedi.Serasa.Cadastro.Data.EntityTypeConfiguration;
-public class MovimentacaoEntityTypeConfiguration : IEntityTypeConfiguration<MovimentacaoEntity>
+namespace Cepedi.Serasa.Cadastro.Data.EntityTypeConfiguration
 {
-    public void Configure(EntityTypeBuilder<MovimentacaoEntity> builder)
+    public class MovimentacaoEntityTypeConfiguration : IEntityTypeConfiguration<MovimentacaoEntity>
     {
-        builder.ToTable("Movimentacao");
-        builder.HasKey(c => c.Id); // Define a chave primária
+        public void Configure(EntityTypeBuilder<MovimentacaoEntity> builder)
+        {
+            builder.ToTable("Movimentacao");
+            builder.HasKey(c => c.MovimentacaoId);
 
-        builder.Property(c => c.Nome).IsRequired().HasMaxLength(150);
-        builder.Property(c => c.Email).HasMaxLength(255);
-        builder.Property(c => c.Cpf).IsRequired().HasMaxLength(12);
-        builder.Property(c => c.Celular).IsRequired().HasMaxLength(12);
-        builder.Property(c => c.DataNascimento).IsRequired();
+            builder.Property(c => c.ClienteId).IsRequired();
+            builder.Property(c => c.DataHora).IsRequired(); // Renomeada para DataHora
+            builder.Property(c => c.TipoMovimentacaoId).IsRequired();
+            builder.Property(c => c.Valor).IsRequired();
+
+            builder.Property(c => c.NomeEstabelecimento).HasMaxLength(255); // Renomeada para NomeEstabelecimento
+
+            builder.HasOne(c => c.TipoMovimentacao)
+                   .WithMany()
+                   .HasForeignKey(c => c.TipoMovimentacaoId);
+        }
     }
 }

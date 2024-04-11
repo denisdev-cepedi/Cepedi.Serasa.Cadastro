@@ -1,14 +1,24 @@
-namespace Cepedi.Serasa.Cadastro.Domain.Entities;
-public class MovimentacaoEntity
-{
-    public int Id { get; set; }
-    public DateTime Data { get; set; }
-    public string? Tipo { get; set; } // Crédito, Débito, etc.
-    public decimal Valor { get; set; }
-    public string? Descricao { get; set; } // Descrição da movimentação.
-    public string? Categoria { get; set; } // Categoria (ex: Alimentação, Saúde, Lazer).
-    public string? Origem { get; set; } // Origem da movimentação (ex: Salário, Compras, Empréstimo).
-    public string? Localizacao { get; set; } // Localização geográfica da movimentação.
-    public bool Confirmada { get; set; } // Indica se a movimentação foi confirmada.
+using System;
 
+namespace Cepedi.Serasa.Cadastro.Domain.Entities
+{
+    public class MovimentacaoEntity
+    {
+        public int MovimentacaoId { get; set; } 
+
+        public int ClienteId { get; set; } // ID do cliente associado à movimentação
+
+        public Cliente Cliente { get; set; } 
+
+        public DateTime DataHora { get; set; } 
+
+        public int TipoMovimentacaoId { get; set; } // Identificador do tipo de movimentação (Crédito, Débito, empréstimo, pagamento etc.)
+
+        public TipoMovimentacao TipoMovimentacao { get; set; }
+
+        public decimal Valor { get; set; } 
+
+        public string? NomeEstabelecimento { get; set; } // Local ou estabelecimento relacionado à movimentação (Supermercado, Lanchonete, etc.)
+
+    }
 }
