@@ -8,13 +8,13 @@ namespace Cepedi.Serasa.Cadastro.Domain.Entities
 
         public int PessoaId { get; set; } // ID do Pessoa associado à movimentação
 
-        public Pessoa Pessoa { get; set; } 
+        public PessoaEntity PessoaEntity { get; set; } 
 
         public DateTime DataHora { get; set; } 
 
         public int TipoMovimentacaoId { get; set; } // Identificador do tipo de movimentação (Crédito, Débito, empréstimo, pagamento etc.)
 
-        public TipoMovimentacao TipoMovimentacao { get; set; }
+        public TipoMovimentacaoEntity TipoMovimentacaoEntity { get; set; }
 
         public decimal Valor { get; set; } 
 
