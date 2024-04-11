@@ -6,9 +6,9 @@ namespace Cepedi.Serasa.Cadastro.Domain.Entities
     {
         public int MovimentacaoId { get; set; } 
 
-        public int ClienteId { get; set; } // ID do cliente associado à movimentação
+        public int PessoaId { get; set; } // ID do Pessoa associado à movimentação
 
-        public Cliente Cliente { get; set; } 
+        public Pessoa Pessoa { get; set; } 
 
         public DateTime DataHora { get; set; } 
 
