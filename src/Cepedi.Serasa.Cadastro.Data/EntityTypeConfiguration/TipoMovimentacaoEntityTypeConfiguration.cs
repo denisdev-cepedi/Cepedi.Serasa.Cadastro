@@ -7,7 +7,7 @@ public class TipoMovimentacaoTypeConfiguration : IEntityTypeConfiguration<TipoMo
 {
     public void Configure(EntityTypeBuilder<TipoMovimentacaoEntity> builder)
     {
-        builder.ToTable("Usuario");
+        builder.ToTable("TipoMovimentacao");
         builder.HasKey(e => e.Id);
 
         builder.Property(e => e.NomeTipo).IsRequired().HasMaxLength(255);
