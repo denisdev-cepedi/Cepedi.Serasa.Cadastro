@@ -1,13 +1,13 @@
-﻿using Cepedi.Serasa.Cadastro.WebApi.Controllers;
-using Cepedi.Shareable.Requests;
-using Cepedi.Shareable.Responses;
+﻿using Cepedi.Serasa.Cadastro.Api.Controllers;
+using Cepedi.Serasa.Cadastro.Compartilhado.Requests;
+using Cepedi.Serasa.Cadastro.Compartilhado.Responses;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Moq;
 using NSubstitute;
 using OperationResult;
 
-namespace Cepedi.Serasa.Cadastro.WebApi.Tests
+namespace Cepedi.Serasa.Cadastro.Api.Tests
 {
     public class UserControllerTests
     {
