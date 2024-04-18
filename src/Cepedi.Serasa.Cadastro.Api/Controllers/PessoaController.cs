@@ -20,7 +20,7 @@ public class PessoaController : BaseController
     }
 
     [HttpPost]
-    [ProducesResponseType(typeof(CriarUsuarioResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(CriarPessoaResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<CriarPessoaResponse>> CriarPessoaAsync(
         [FromBody] CriarPessoaRequest request)
