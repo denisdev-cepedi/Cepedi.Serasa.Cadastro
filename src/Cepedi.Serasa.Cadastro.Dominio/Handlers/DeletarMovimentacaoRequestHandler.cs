@@ -7,56 +7,54 @@ using OperationResult;
 using Cepedi.Serasa.Cadastro.Compartilhado.Enums;
 using Cepedi.Serasa.Cadastro.Compartilhado.Exececoes;
 
-namespace Cepedi.Serasa.Cadastro.Dominio.Handlers
+namespace Cepedi.Serasa.Cadastro.Dominio.Handlers;
+public class DeletarMovimentacaoRequestHandler : IRequestHandler<DeletarMovimentacaoRequest, Result<DeletarMovimentacaoResponse>>
 {
-    public class DeletarMovimentacaoRequestHandler : IRequestHandler<DeletarMovimentacaoRequest, Result<DeletarMovimentacaoResponse>>
+    private readonly ILogger<DeletarMovimentacaoRequestHandler> _logger;
+    private readonly IMovimentacaoRepository _movimentacaoRepository;
+
+    public DeletarMovimentacaoRequestHandler(IMovimentacaoRepository movimentacaoRepository, ILogger<DeletarMovimentacaoRequestHandler> logger)
     {
-        private readonly ILogger<DeletarMovimentacaoRequestHandler> _logger;
-        private readonly IMovimentacaoRepository _movimentacaoRepository;
+        _movimentacaoRepository = movimentacaoRepository;
+        _logger = logger;
+    }
 
-        public DeletarMovimentacaoRequestHandler(IMovimentacaoRepository movimentacaoRepository, ILogger<DeletarMovimentacaoRequestHandler> logger)
+    public async Task<Result<DeletarMovimentacaoResponse>> Handle(DeletarMovimentacaoRequest request, CancellationToken cancellationToken)
+    {
+        try
         {
-            _movimentacaoRepository = movimentacaoRepository;
-            _logger = logger;
-        }
+            var movimentacaoEntity = await _movimentacaoRepository.ObterMovimentacaoAsync(request.MovimentacaoId);
 
-        public async Task<Result<DeletarMovimentacaoResponse>> Handle(DeletarMovimentacaoRequest request, CancellationToken cancellationToken)
-        {
-            try
+            if (movimentacaoEntity == null)
             {
-                var movimentacaoEntity = await _movimentacaoRepository.ObterMovimentacaoAsync(request.MovimentacaoId);
-
-                if (movimentacaoEntity == null)
+                return Result.Error<DeletarMovimentacaoResponse>(new ExcecaoAplicacao(new ResultadoErro
                 {
-                    return Result.Error<DeletarMovimentacaoResponse>(new ExcecaoAplicacao(new ResultadoErro
-                    {
-                        Titulo = "Movimentação não encontrada",
-                        Descricao = $"A movimentação com o ID {request.MovimentacaoId} não foi encontrada.",
-                        Tipo = ETipoErro.Erro
-                    }));
-                }
-
-                // Realiza a exclusão da movimentação
-                await _movimentacaoRepository.DeletarMovimentacaoAsync(request.MovimentacaoId);
-
-                // Cria uma instância de DeletarMovimentacaoResponse com sucesso e mensagem de confirmação
-                var response = new DeletarMovimentacaoResponse(true, $"Movimentação com ID {request.MovimentacaoId} deletada com sucesso.");
-
-                return Result.Success(response);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Ocorreu um erro durante a execução ao deletar a movimentação.");
-
-                var excecaoAplicacao = new ExcecaoAplicacao(new ResultadoErro
-                {
-                    Titulo = "Erro ao Deletar Movimentação",
-                    Descricao = "Ocorreu um erro ao deletar a movimentação.",
+                    Titulo = "Movimentação não encontrada",
+                    Descricao = $"A movimentação com o ID {request.MovimentacaoId} não foi encontrada.",
                     Tipo = ETipoErro.Erro
-                });
-
-                return Result.Error<DeletarMovimentacaoResponse>(excecaoAplicacao);
+                }));
             }
+
+            // Realiza a exclusão da movimentação
+            await _movimentacaoRepository.DeletarMovimentacaoAsync(request.MovimentacaoId);
+
+            // Cria uma instância de DeletarMovimentacaoResponse com sucesso e mensagem de confirmação
+            var response = new DeletarMovimentacaoResponse(true, $"Movimentação com ID {request.MovimentacaoId} deletada com sucesso.");
+
+            return Result.Success(response);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Ocorreu um erro durante a execução ao deletar a movimentação.");
+
+            var excecaoAplicacao = new ExcecaoAplicacao(new ResultadoErro
+            {
+                Titulo = "Erro ao Deletar Movimentação",
+                Descricao = "Ocorreu um erro ao deletar a movimentação.",
+                Tipo = ETipoErro.Erro
+            });
+
+            return Result.Error<DeletarMovimentacaoResponse>(excecaoAplicacao);
         }
     }
 }
