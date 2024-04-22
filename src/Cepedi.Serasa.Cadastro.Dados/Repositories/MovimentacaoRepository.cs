@@ -36,5 +36,20 @@ namespace Cepedi.Serasa.Cadastro.Data.Repositories
         {
             return await _context.Movimentacoes.ToListAsync();
         }
+
+        public async Task DeletarMovimentacaoAsync(int movimentacaoId)
+        {
+            var movimentacao = await _context.Movimentacoes.FindAsync(movimentacaoId);
+
+            if (movimentacao != null)
+            {
+                _context.Movimentacoes.Remove(movimentacao);
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                throw new InvalidOperationException($"Movimentação com ID {movimentacaoId} não encontrada para exclusão.");
+            }
+        }
     }
 }
