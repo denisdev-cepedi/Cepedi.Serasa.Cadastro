@@ -1,4 +1,3 @@
-using Cepedi.Serasa.Cadastro.Dominio;
 using Cepedi.Serasa.Cadastro.Dominio.Entidades;
 using Cepedi.Serasa.Cadastro.Dominio.Repository;
 using Microsoft.EntityFrameworkCore;
@@ -38,7 +37,7 @@ namespace Cepedi.Serasa.Cadastro.Data.Repositories
             return await _context.Usuario.ToListAsync();
         }
 
-        public async Task<UsuarioEntity> ObterUsuarioAsync(int id)
+        public async Task<UsuarioEntity?> ObterUsuarioAsync(int id)
         {
             return await
                 _context.Usuario.Where(e => e.Id == id).FirstOrDefaultAsync();

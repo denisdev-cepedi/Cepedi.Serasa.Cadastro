@@ -24,7 +24,7 @@ namespace Cepedi.Serasa.Cadastro.IoC
             services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidacaoComportamento<,>));
             ConfigurarFluentValidation(services);
             services.AddScoped<IUsuarioRepository, UsuarioRepository>();
-            //services.AddHttpContextAccessor();
+            services.AddScoped<IMovimentacaoRepository, MovimentacaoRepository>();
 
             services.AddHealthChecks()
                 .AddDbContextCheck<ApplicationDbContext>();

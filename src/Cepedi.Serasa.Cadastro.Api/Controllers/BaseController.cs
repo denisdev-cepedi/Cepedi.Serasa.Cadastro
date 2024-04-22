@@ -1,6 +1,5 @@
 ﻿using Cepedi.Serasa.Cadastro.Compartilhado.Enums;
 using Cepedi.Serasa.Cadastro.Compartilhado.Exececoes;
-using Cepedi.Serasa.Cadastro.Compartilhado.Exececoes;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using OperationResult;
