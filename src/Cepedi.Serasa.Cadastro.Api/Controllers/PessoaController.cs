@@ -11,12 +11,22 @@ namespace Cepedi.Serasa.Cadastro.Api.Controllers;
 public class PessoaController : BaseController
 {
     private readonly IMediator _mediator;
-    private readonly ILogger _logger;
+    private readonly ILogger<PessoaController> _logger;
 
-    public PessoaController(IMediator mediator, ILogger logger) : base(mediator)
+    public PessoaController(IMediator mediator, ILogger<PessoaController> logger) : base(mediator)
     {
         _mediator = mediator;
         _logger = logger;
+    }
+
+    [HttpGet("{id}")]
+    [ProducesResponseType(typeof(ObterPessoaResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<ObterPessoaResponse>> ObterPessoaPorIdAsync(
+        [FromRoute] int id)
+    {
+        var request = new ObterPessoaPorIdRequest { Id = id };
+        return await SendCommand(request);
     }
 
     [HttpPost]

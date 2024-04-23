@@ -27,7 +27,7 @@ public class CadastroErros
     public static ResultadoErro ErroGravacaoPessoa = new()
     {
         Titulo = "Ocorreu um erro na gravação",
-        Descricao = "Ocorreu um erro na gravação de Pessoa. Por favor tente novamente"
+        Descricao = "Ocorreu um erro na gravação de Pessoa. Por favor tente novamente",
         Tipo = ETipoErro.Erro
     };
 
