@@ -19,6 +19,12 @@ public class PessoaController : BaseController
         _logger = logger;
     }
 
+    [HttpGet]
+    [ProducesResponseType(typeof(IEnumerable<ObterPessoaResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<IEnumerable<ObterPessoaResponse>>> ObterTodasPessoasAsync()
+        => await SendCommand(new ObterTodasPessoasRequest());
+
     [HttpGet("{id}")]
     [ProducesResponseType(typeof(ObterPessoaResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status404NotFound)]
