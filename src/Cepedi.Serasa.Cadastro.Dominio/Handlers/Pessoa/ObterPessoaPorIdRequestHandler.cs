@@ -6,7 +6,7 @@ using MediatR;
 using Microsoft.Extensions.Logging;
 using OperationResult;
 
-namespace Cepedi.Serasa.Cadastro.Domain.Handlers;
+namespace Cepedi.Serasa.Cadastro.Domain.Handlers.Pessoa;
 public class ObterPessoaPorIdRequestHandler : IRequestHandler<ObterPessoaPorIdRequest, Result<ObterPessoaResponse>>
 {
     private readonly IPessoaRepository _pessoaRepository;

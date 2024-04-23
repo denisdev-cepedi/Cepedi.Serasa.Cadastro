@@ -6,7 +6,7 @@ using MediatR;
 using Microsoft.Extensions.Logging;
 using OperationResult;
 
-namespace Cepedi.Serasa.Cadastro.Dominio.Handlers;
+namespace Cepedi.Serasa.Cadastro.Domain.Handlers.Pessoa;
 public class AtualizarPessoaRequestHandler
     : IRequestHandler<AtualizarPessoaRequest, Result<AtualizarPessoaResponse>>
 {
@@ -23,7 +23,7 @@ public class AtualizarPessoaRequestHandler
     {
         var pessoa = await _pessoaRepository.ObterPessoaAsync(request.Id);
 
-        if(pessoa == null)
+        if (pessoa == null)
         {
             return Result.Error<AtualizarPessoaResponse>(new SemResultadoExcecao());
         }

@@ -43,4 +43,11 @@ public class PessoaController : BaseController
     public async Task<ActionResult<AtualizarPessoaResponse>> AtualizarPessoaAsync(
         [FromBody] AtualizarPessoaRequest request)
         => await SendCommand(request);
+
+    [HttpDelete]
+    [ProducesResponseType(typeof(ObterPessoaResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<ObterPessoaResponse>> ExcluirPessoaAsync(
+        [FromBody] ExcluirPessoaPorIdRequest request)
+        => await SendCommand(request);
 }

@@ -8,9 +8,9 @@ using MediatR;
 using Microsoft.Extensions.Logging;
 using OperationResult;
 
-namespace Cepedi.Serasa.Cadastro.Domain.Handlers;
+namespace Cepedi.Serasa.Cadastro.Domain.Handlers.Pessoa;
 
-public class CriarPessoaRequestHandler 
+public class CriarPessoaRequestHandler
     : IRequestHandler<CriarPessoaRequest, Result<CriarPessoaResponse>>
 {
     private readonly IPessoaRepository _pessoaRepository;
