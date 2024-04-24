@@ -6,5 +6,9 @@ public class ConsultaEntity{
     public required DateTime Data { get; set; }
     public required bool Status { get; set; }
     public PessoaEntity Pessoa{ get; set; }
-    
+
+    internal void Atualizar(bool status)
+    {
+        Status = status;
+    }
 }
