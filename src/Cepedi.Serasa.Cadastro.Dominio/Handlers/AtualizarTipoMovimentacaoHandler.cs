@@ -18,26 +18,19 @@ public class AtualizarTipoMovimentacaoRequestHandler : IRequestHandler<Atualizar
     }
     public async Task<Result<AtualizarTipoMovimentacaoResponse>> Handle(AtualizarTipoMovimentacaoRequest request, CancellationToken cancellationToken)
     {
-        try
+
+        var tipoMovimentacaoEntity = await _tipoMovimentacaoRepository.ObterTipoMovimentacaoAsync(request.Id);
+
+        if (tipoMovimentacaoEntity == null)
         {
-            var tipoMovimentacaoEntity = await _tipoMovimentacaoRepository.ObterTipoMovimentacaoAsync(request.Id);
-
-            if (tipoMovimentacaoEntity == null)
-            {
-                return Result.Error<AtualizarTipoMovimentacaoResponse>(new Compartilhado.
-                    Exececoes.SemResultadoExcecao());
-            }
-
-            tipoMovimentacaoEntity.Atualizar(request.NomeTipo);
-
-            await _tipoMovimentacaoRepository.AtualizarTipoMovimentacaoAsync(tipoMovimentacaoEntity);
-
-            return Result.Success(new AtualizarTipoMovimentacaoResponse(tipoMovimentacaoEntity.NomeTipo));
+            return Result.Error<AtualizarTipoMovimentacaoResponse>(new Compartilhado.
+                Exececoes.SemResultadoExcecao());
         }
-        catch
-        {
-            _logger.LogError("Ocorreu um erro ao atualizar os usuários");
-            throw;
-        }
+
+        tipoMovimentacaoEntity.Atualizar(request.NomeTipo);
+
+        await _tipoMovimentacaoRepository.AtualizarTipoMovimentacaoAsync(tipoMovimentacaoEntity);
+
+        return Result.Success(new AtualizarTipoMovimentacaoResponse(tipoMovimentacaoEntity.NomeTipo));
     }
 }

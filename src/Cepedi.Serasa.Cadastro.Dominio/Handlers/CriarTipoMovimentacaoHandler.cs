@@ -21,21 +21,14 @@ public class CriarTipoMovimentacaoRequestHandler : IRequestHandler<CriarTipoMovi
     }
     public async Task<Result<CriarTipoMovimentacaoResponse>> Handle(CriarTipoMovimentacaoRequest request, CancellationToken cancellationToken)
     {
-        try
-        {
-            var tipoMovimentacao = new TipoMovimentacaoEntity()
-            {
-                NomeTipo = request.NomeTipo,
-            };
 
-            await _tipoMovimentacaoRepository.CriarTipoMovimentacaoAsync(tipoMovimentacao);
-            return Result.Success(new CriarTipoMovimentacaoResponse(tipoMovimentacao.Id, tipoMovimentacao.NomeTipo));
-        }
-        catch (System.Exception)
+        var tipoMovimentacao = new TipoMovimentacaoEntity()
         {
-            _logger.LogError("Ocorreu um erro durante a execução");
-            return Result.Error<CriarTipoMovimentacaoResponse>(new Compartilhado.Exececoes.ExcecaoAplicacao(
-                (CadastroErros.ErroGravacaoUsuario)));
-        }
+            NomeTipo = request.NomeTipo,
+        };
+
+        await _tipoMovimentacaoRepository.CriarTipoMovimentacaoAsync(tipoMovimentacao);
+        return Result.Success(new CriarTipoMovimentacaoResponse(tipoMovimentacao.Id, tipoMovimentacao.NomeTipo));
+
     }
 }
