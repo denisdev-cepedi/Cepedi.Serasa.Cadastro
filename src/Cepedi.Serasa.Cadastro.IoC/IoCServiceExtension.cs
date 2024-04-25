@@ -31,6 +31,7 @@ namespace Cepedi.Serasa.Cadastro.IoC
             services.AddScoped<IUsuarioRepository, UsuarioRepository>();
             services.AddScoped<IPessoaRepository, PessoaRepository>();
             services.AddScoped<ITipoMovimentacaoRepository, TipoMovimentacaoRepository>();
+            services.AddScoped<IScoreRepository, ScoreRepository>();
             //services.AddHttpContextAccessor();
 
             services.AddHealthChecks()
