@@ -1,9 +1,12 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using Cepedi.Serasa.Cadastro.Dados.Repositories;
 using Cepedi.Serasa.Cadastro.Data;
 using Cepedi.Serasa.Cadastro.Data.Repositories;
 using Cepedi.Serasa.Cadastro.Domain.Pipelines;
 using Cepedi.Serasa.Cadastro.Dominio;
+using Cepedi.Serasa.Cadastro.Dominio.Repositorio;
 using Cepedi.Serasa.Cadastro.Dominio.Repository;
+using Cepedi.Serasa.Cadastro.Dominio.Repositorio;
 using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -18,12 +21,14 @@ namespace Cepedi.Serasa.Cadastro.IoC
         public static void ConfigureAppDependencies(this IServiceCollection services, IConfiguration configuration)
         {
             ConfigureDbContext(services, configuration);
-            services.AddMediatR(cfg => 
+            services.AddMediatR(cfg =>
             cfg.RegisterServicesFromAssemblies(AppDomain.CurrentDomain.GetAssemblies()));
             services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ExcecaoPipeline<,>));
             services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidacaoComportamento<,>));
+            services.AddScoped<IConsultaRepository, ConsultaRepository>();
             ConfigurarFluentValidation(services);
             services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+            services.AddScoped<ITipoMovimentacaoRepository, TipoMovimentacaoRepository>();
             //services.AddHttpContextAccessor();
 
             services.AddHealthChecks()
