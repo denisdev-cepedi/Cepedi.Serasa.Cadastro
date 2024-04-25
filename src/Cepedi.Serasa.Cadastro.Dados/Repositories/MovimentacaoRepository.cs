@@ -39,19 +39,18 @@ public class MovimentacaoRepository : IMovimentacaoRepository
         return movimentacao;
     }
 
-    public async Task DeletarMovimentacaoAsync(int movimentacaoId)
+    public async Task<MovimentacaoEntity?> DeletarMovimentacaoAsync(int movimentacaoId)
     {
         var movimentacao = await _context.Movimentacoes.FindAsync(movimentacaoId);
 
-        if (movimentacao != null)
+        if (movimentacao == null)
         {
-            _context.Movimentacoes.Remove(movimentacao);
-            await _context.SaveChangesAsync();
+            return null;
         }
-        else
-        {
-            throw new InvalidOperationException($"Movimentação com ID {movimentacaoId} não encontrada para exclusão.");
-        }
+        _context.Movimentacoes.Remove(movimentacao);
+        await _context.SaveChangesAsync();
+
+        return movimentacao;
     }
 }
 

@@ -10,6 +10,6 @@ public interface IMovimentacaoRepository
 
     Task<MovimentacaoEntity> AtualizarMovimentacaoAsync(MovimentacaoEntity movimentacao);
 
-    Task DeletarMovimentacaoAsync(int movimentacaoId);
+    Task<MovimentacaoEntity?> DeletarMovimentacaoAsync(int movimentacaoId);
 }
 
