@@ -27,16 +27,16 @@ public class CriarMovimentacaoRequestHandler : IRequestHandler<CriarMovimentacao
     public async Task<Result<CriarMovimentacaoResponse>> Handle(CriarMovimentacaoRequest request, CancellationToken cancellationToken)
     {
         var movimentacao = new MovimentacaoEntity()
-            {
-                PessoaId = request.PessoaId,
-                DataHora = request.DataHora,
-                TipoMovimentacaoId = request.TipoMovimentacaoId,
-                Valor = request.Valor,
-                NomeEstabelecimento = request.NomeEstabelecimento
-            };
+        {
+            PessoaId = request.PessoaId,
+            DataHora = request.DataHora,
+            TipoMovimentacaoId = request.TipoMovimentacaoId,
+            Valor = request.Valor,
+            NomeEstabelecimento = request.NomeEstabelecimento
+        };
 
-            await _movimentacaoRepository.CriarMovimentacaoAsync(movimentacao);
+        await _movimentacaoRepository.CriarMovimentacaoAsync(movimentacao);
 
-            return Result.Success(new CriarMovimentacaoResponse(movimentacao.MovimentacaoId, movimentacao.Valor));
+        return Result.Success(new CriarMovimentacaoResponse(movimentacao.MovimentacaoId, movimentacao.Valor));
     }
 }
