@@ -26,9 +26,7 @@ public class CriarMovimentacaoRequestHandler : IRequestHandler<CriarMovimentacao
 
     public async Task<Result<CriarMovimentacaoResponse>> Handle(CriarMovimentacaoRequest request, CancellationToken cancellationToken)
     {
-        try
-        {
-            var movimentacao = new MovimentacaoEntity()
+        var movimentacao = new MovimentacaoEntity()
             {
                 PessoaId = request.PessoaId,
                 DataHora = request.DataHora,
@@ -40,20 +38,5 @@ public class CriarMovimentacaoRequestHandler : IRequestHandler<CriarMovimentacao
             await _movimentacaoRepository.CriarMovimentacaoAsync(movimentacao);
 
             return Result.Success(new CriarMovimentacaoResponse(movimentacao.MovimentacaoId, movimentacao.Valor));
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError("Ocorreu um erro durante a execução ao criar a movimentação: {Message}", ex.Message);
-
-            // Construir e retornar a exceção aplicação conforme o padrão exigido
-            var excecaoAplicacao = new ExcecaoAplicacao(new ResultadoErro
-            {
-                Titulo = "Erro de Gravação de Movimentação",
-                Descricao = "Ocorreu um erro ao gravar a movimentação.",
-                Tipo = ETipoErro.Erro, // Definir o tipo de erro conforme necessário
-            });
-
-            return Result.Error<CriarMovimentacaoResponse>(excecaoAplicacao);
-        }
     }
 }

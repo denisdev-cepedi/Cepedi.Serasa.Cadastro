@@ -26,9 +26,7 @@ public class ObterMovimentacaoRequestHandler : IRequestHandler<ObterMovimentacao
 
     public async Task<Result<ObterMovimentacaoResponse>> Handle(ObterMovimentacaoRequest request, CancellationToken cancellationToken)
     {
-        try
-        {
-            var movimentacao = await _movimentacaoRepository.ObterMovimentacaoAsync(request.MovimentacaoId);
+        var movimentacao = await _movimentacaoRepository.ObterMovimentacaoAsync(request.MovimentacaoId);
 
             if (movimentacao == null)
             {
@@ -45,20 +43,6 @@ public class ObterMovimentacaoRequestHandler : IRequestHandler<ObterMovimentacao
             // Transformar a entidade em uma resposta adequada
             var movimentacaoResponse = new ObterMovimentacaoResponse(movimentacao.MovimentacaoId, movimentacao.Valor);
             return Result.Success(movimentacaoResponse);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError("Ocorreu um erro ao obter a movimentação: {Message}", ex.Message);
-
-            var excecaoAplicacao = new ExcecaoAplicacao(new ResultadoErro
-            {
-                Titulo = "Erro ao obter a movimentação",
-                Descricao = "Ocorreu um erro ao tentar obter a movimentação.",
-                Tipo = ETipoErro.Erro
-            });
-
-            return Result.Error<ObterMovimentacaoResponse>(excecaoAplicacao);
-        }
     }
 }
 

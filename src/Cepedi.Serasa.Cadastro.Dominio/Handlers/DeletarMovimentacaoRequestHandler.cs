@@ -21,9 +21,7 @@ public class DeletarMovimentacaoRequestHandler : IRequestHandler<DeletarMoviment
 
     public async Task<Result<DeletarMovimentacaoResponse>> Handle(DeletarMovimentacaoRequest request, CancellationToken cancellationToken)
     {
-        try
-        {
-            var movimentacaoEntity = await _movimentacaoRepository.ObterMovimentacaoAsync(request.MovimentacaoId);
+        var movimentacaoEntity = await _movimentacaoRepository.ObterMovimentacaoAsync(request.MovimentacaoId);
 
             if (movimentacaoEntity == null)
             {
@@ -42,19 +40,5 @@ public class DeletarMovimentacaoRequestHandler : IRequestHandler<DeletarMoviment
             var response = new DeletarMovimentacaoResponse(true, $"Movimentação com ID {request.MovimentacaoId} deletada com sucesso.");
 
             return Result.Success(response);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Ocorreu um erro durante a execução ao deletar a movimentação.");
-
-            var excecaoAplicacao = new ExcecaoAplicacao(new ResultadoErro
-            {
-                Titulo = "Erro ao Deletar Movimentação",
-                Descricao = "Ocorreu um erro ao deletar a movimentação.",
-                Tipo = ETipoErro.Erro
-            });
-
-            return Result.Error<DeletarMovimentacaoResponse>(excecaoAplicacao);
-        }
     }
 }

@@ -26,42 +26,26 @@ public class AtualizarMovimentacaoRequestHandler : IRequestHandler<AtualizarMovi
 
     public async Task<Result<AtualizarMovimentacaoResponse>> Handle(AtualizarMovimentacaoRequest request, CancellationToken cancellationToken)
     {
-        try
+        var movimentacaoEntity = await _movimentacaoRepository.ObterMovimentacaoAsync(request.MovimentacaoId);
+
+        if (movimentacaoEntity == null)
         {
-            var movimentacaoEntity = await _movimentacaoRepository.ObterMovimentacaoAsync(request.MovimentacaoId);
-
-            if (movimentacaoEntity == null)
+            return Result.Error<AtualizarMovimentacaoResponse>(new ExcecaoAplicacao(new ResultadoErro
             {
-                return Result.Error<AtualizarMovimentacaoResponse>(new ExcecaoAplicacao(new ResultadoErro
-                {
-                    Titulo = "Movimentação não encontrada",
-                    Descricao = $"A movimentação com o ID {request.MovimentacaoId} não foi encontrada.",
-                    Tipo = ETipoErro.Erro
-                }));
-            }
-
-            // Atualizar propriedades da movimentação com base nos dados da requisição
-            movimentacaoEntity.DataHora = request.DataHora;
-            movimentacaoEntity.TipoMovimentacaoId = request.TipoMovimentacaoId;
-            movimentacaoEntity.Valor = request.Valor;
-            movimentacaoEntity.NomeEstabelecimento = request.NomeEstabelecimento;
-
-            await _movimentacaoRepository.AtualizarMovimentacaoAsync(movimentacaoEntity);
-
-            return Result.Success(new AtualizarMovimentacaoResponse(movimentacaoEntity.MovimentacaoId));
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Ocorreu um erro durante a execução ao atualizar a movimentação.");
-
-            var excecaoAplicacao = new ExcecaoAplicacao(new ResultadoErro
-            {
-                Titulo = "Erro de Atualização de Movimentação",
-                Descricao = "Ocorreu um erro ao atualizar a movimentação.",
+                Titulo = "Movimentação não encontrada",
+                Descricao = $"A movimentação com o ID {request.MovimentacaoId} não foi encontrada.",
                 Tipo = ETipoErro.Erro
-            });
-
-            return Result.Error<AtualizarMovimentacaoResponse>(excecaoAplicacao);
+            }));
         }
+
+        // Atualizar propriedades da movimentação com base nos dados da requisição
+        movimentacaoEntity.DataHora = request.DataHora;
+        movimentacaoEntity.TipoMovimentacaoId = request.TipoMovimentacaoId;
+        movimentacaoEntity.Valor = request.Valor;
+        movimentacaoEntity.NomeEstabelecimento = request.NomeEstabelecimento;
+
+        await _movimentacaoRepository.AtualizarMovimentacaoAsync(movimentacaoEntity);
+
+        return Result.Success(new AtualizarMovimentacaoResponse(movimentacaoEntity.MovimentacaoId));
     }
 }
