@@ -1,8 +1,10 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using Cepedi.Serasa.Cadastro.Dados.Repositories;
 using Cepedi.Serasa.Cadastro.Data;
 using Cepedi.Serasa.Cadastro.Data.Repositories;
 using Cepedi.Serasa.Cadastro.Domain.Pipelines;
 using Cepedi.Serasa.Cadastro.Dominio;
+using Cepedi.Serasa.Cadastro.Dominio.Repositorio;
 using Cepedi.Serasa.Cadastro.Dominio.Repository;
 using FluentValidation;
 using MediatR;
@@ -24,6 +26,7 @@ namespace Cepedi.Serasa.Cadastro.IoC
             services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidacaoComportamento<,>));
             ConfigurarFluentValidation(services);
             services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+            services.AddScoped<ITipoMovimentacaoRepository, TipoMovimentacaoRepository>();
             //services.AddHttpContextAccessor();
 
             services.AddHealthChecks()
