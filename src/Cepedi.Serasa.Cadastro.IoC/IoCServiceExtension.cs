@@ -3,6 +3,7 @@ using Cepedi.Serasa.Cadastro.Dados.Repositories;
 using Cepedi.Serasa.Cadastro.Data;
 using Cepedi.Serasa.Cadastro.Data.Repositories;
 using Cepedi.Serasa.Cadastro.Domain.Pipelines;
+using Cepedi.Serasa.Cadastro.Domain.Repositorio;
 using Cepedi.Serasa.Cadastro.Dominio;
 using Cepedi.Serasa.Cadastro.Dominio.Repositorio;
 using Cepedi.Serasa.Cadastro.Dominio.Repository;
@@ -28,6 +29,7 @@ namespace Cepedi.Serasa.Cadastro.IoC
             services.AddScoped<IConsultaRepository, ConsultaRepository>();
             ConfigurarFluentValidation(services);
             services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+            services.AddScoped<IPessoaRepository, PessoaRepository>();
             services.AddScoped<ITipoMovimentacaoRepository, TipoMovimentacaoRepository>();
             //services.AddHttpContextAccessor();
 
