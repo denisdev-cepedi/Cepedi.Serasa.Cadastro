@@ -28,21 +28,21 @@ public class ObterMovimentacaoRequestHandler : IRequestHandler<ObterMovimentacao
     {
         var movimentacao = await _movimentacaoRepository.ObterMovimentacaoAsync(request.MovimentacaoId);
 
-            if (movimentacao == null)
+        if (movimentacao == null)
+        {
+            var erro = new ResultadoErro
             {
-                var erro = new ResultadoErro
-                {
-                    Titulo = "Movimentação não encontrada",
-                    Descricao = $"Não foi encontrada uma movimentação com o ID {request.MovimentacaoId}.",
-                    Tipo = ETipoErro.Erro
-                };
+                Titulo = "Movimentação não encontrada",
+                Descricao = $"Não foi encontrada uma movimentação com o ID {request.MovimentacaoId}.",
+                Tipo = ETipoErro.Erro
+            };
 
-                return Result.Error<ObterMovimentacaoResponse>(new ExcecaoAplicacao(erro));
-            }
+            return Result.Error<ObterMovimentacaoResponse>(new ExcecaoAplicacao(erro));
+        }
 
-            // Transformar a entidade em uma resposta adequada
-            var movimentacaoResponse = new ObterMovimentacaoResponse(movimentacao.MovimentacaoId, movimentacao.Valor);
-            return Result.Success(movimentacaoResponse);
+        // Transformar a entidade em uma resposta adequada
+        var movimentacaoResponse = new ObterMovimentacaoResponse(movimentacao.MovimentacaoId, movimentacao.Valor);
+        return Result.Success(movimentacaoResponse);
     }
 }
 
