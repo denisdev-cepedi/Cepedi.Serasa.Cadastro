@@ -26,23 +26,10 @@ public class ObterMovimentacaoRequestHandler : IRequestHandler<ObterMovimentacao
 
     public async Task<Result<ObterMovimentacaoResponse>> Handle(ObterMovimentacaoRequest request, CancellationToken cancellationToken)
     {
-        var movimentacao = await _movimentacaoRepository.ObterMovimentacaoAsync(request.MovimentacaoId);
-
-        if (movimentacao == null)
-        {
-            var erro = new ResultadoErro
-            {
-                Titulo = "Movimentação não encontrada",
-                Descricao = $"Não foi encontrada uma movimentação com o ID {request.MovimentacaoId}.",
-                Tipo = ETipoErro.Erro
-            };
-
-            return Result.Error<ObterMovimentacaoResponse>(new ExcecaoAplicacao(erro));
-        }
-
-        // Transformar a entidade em uma resposta adequada
-        var movimentacaoResponse = new ObterMovimentacaoResponse(movimentacao.MovimentacaoId, movimentacao.Valor);
-        return Result.Success(movimentacaoResponse);
+        var movimentacaoEntity = await _movimentacaoRepository.ObterMovimentacaoAsync(request.MovimentacaoId);
+        return movimentacaoEntity == null
+            ? Result.Error<ObterMovimentacaoResponse>(new Compartilhado.Exececoes.SemResultadoExcecao())
+            : Result.Success(new ObterMovimentacaoResponse(movimentacaoEntity.MovimentacaoId, movimentacaoEntity.Valor));
     }
 }
 

@@ -20,5 +20,10 @@ namespace Cepedi.Serasa.Cadastro.Dominio.Entidades
 
         public string? NomeEstabelecimento { get; set; } // Local ou estabelecimento relacionado à movimentação (Supermercado, Lanchonete, etc.)
 
+        internal void Atualizar(decimal valor)
+        {
+            Valor = valor;
+        }
+
     }
 }

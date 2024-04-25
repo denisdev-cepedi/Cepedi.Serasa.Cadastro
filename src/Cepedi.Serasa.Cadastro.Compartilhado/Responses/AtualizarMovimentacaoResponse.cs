@@ -1,3 +1,3 @@
 namespace Cepedi.Serasa.Cadastro.Compartilhado.Responses;
-public record AtualizarMovimentacaoResponse(int movimentacaoId);
+public record AtualizarMovimentacaoResponse(decimal Valor);
 

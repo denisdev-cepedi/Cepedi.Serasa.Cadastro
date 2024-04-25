@@ -30,22 +30,14 @@ public class AtualizarMovimentacaoRequestHandler : IRequestHandler<AtualizarMovi
 
         if (movimentacaoEntity == null)
         {
-            return Result.Error<AtualizarMovimentacaoResponse>(new ExcecaoAplicacao(new ResultadoErro
-            {
-                Titulo = "Movimentação não encontrada",
-                Descricao = $"A movimentação com o ID {request.MovimentacaoId} não foi encontrada.",
-                Tipo = ETipoErro.Erro
-            }));
+            return Result.Error<AtualizarMovimentacaoResponse>(new Compartilhado.
+                Exececoes.SemResultadoExcecao());
         }
 
-        // Atualizar propriedades da movimentação com base nos dados da requisição
-        movimentacaoEntity.DataHora = request.DataHora;
-        movimentacaoEntity.TipoMovimentacaoId = request.TipoMovimentacaoId;
-        movimentacaoEntity.Valor = request.Valor;
-        movimentacaoEntity.NomeEstabelecimento = request.NomeEstabelecimento;
+        movimentacaoEntity.Atualizar(request.Valor);
 
         await _movimentacaoRepository.AtualizarMovimentacaoAsync(movimentacaoEntity);
 
-        return Result.Success(new AtualizarMovimentacaoResponse(movimentacaoEntity.MovimentacaoId));
+        return Result.Success(new AtualizarMovimentacaoResponse(movimentacaoEntity.Valor));
     }
 }
