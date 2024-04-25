@@ -24,6 +24,13 @@ public class CadastroErros
         Tipo = ETipoErro.Erro
     };
 
+    public static ResultadoErro ErroGravacaoPessoa = new()
+    {
+        Titulo = "Ocorreu um erro na gravação",
+        Descricao = "Ocorreu um erro na gravação de Pessoa. Por favor tente novamente",
+        Tipo = ETipoErro.Erro
+    };
+
     public static ResultadoErro DadosInvalidos = new()
     {
         Titulo = "Dados inválidos",
