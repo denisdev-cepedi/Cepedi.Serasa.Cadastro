@@ -17,7 +17,7 @@ namespace Cepedi.Serasa.Cadastro.Data.Repositories
 
         public async Task<UsuarioEntity> AtualizarUsuarioAsync(UsuarioEntity usuario)
         {
-            _context.Usuario.Update(usuario);
+            //_context.Usuario.Update(usuario);
 
             await _context.SaveChangesAsync();
 
@@ -26,7 +26,7 @@ namespace Cepedi.Serasa.Cadastro.Data.Repositories
 
         public async Task<UsuarioEntity> CriarUsuarioAsync(UsuarioEntity usuario)
         {
-            _context.Usuario.Add(usuario);
+            //_context.Usuario.Add(usuario);
             
             await _context.SaveChangesAsync();
 
