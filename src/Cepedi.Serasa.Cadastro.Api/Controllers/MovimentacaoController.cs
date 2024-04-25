@@ -22,25 +22,25 @@ public class Movimentacao : BaseController
     [HttpPost]
     [ProducesResponseType(typeof(CriarMovimentacaoResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<CriarMovimentacaoResponse>> CriarMovimentacaooAsync([FromBody] CriarMovimentacaoRequest request) => await SendCommand(request);
+    public async Task<ActionResult<CriarMovimentacaoResponse>> CriarMovimentacaoAsync([FromBody] CriarMovimentacaoRequest request) => await SendCommand(request);
 
     [HttpPut("{Id}")]
     [ProducesResponseType(typeof(AtualizarMovimentacaoResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status204NoContent)]
-    public async Task<ActionResult<AtualizarMovimentacaoResponse>> AtualizarMovimentacaooAsync(
+    public async Task<ActionResult<AtualizarMovimentacaoResponse>> AtualizarMovimentacaoAsync(
         [FromBody] AtualizarMovimentacaoRequest request) => await SendCommand(request);
 
     [HttpGet("{Id}")]
     [ProducesResponseType(typeof(ObterMovimentacaoResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<ObterMovimentacaoResponse>> ObterMovimentacaooAsync(
+    public async Task<ActionResult<ObterMovimentacaoResponse>> ObterMovimentacaoAsync(
         [FromRoute] ObterMovimentacaoRequest request) => await SendCommand(request);
 
     [HttpDelete("{Id}")]
     [ProducesResponseType(typeof(DeletarMovimentacaoResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status204NoContent)]
-    public async Task<ActionResult<DeletarMovimentacaoResponse>> DeletarMovimentacaooAsync(
+    public async Task<ActionResult<DeletarMovimentacaoResponse>> DeletarMovimentacaoAsync(
         [FromRoute] DeletarMovimentacaoRequest request) => await SendCommand(request);
 }
