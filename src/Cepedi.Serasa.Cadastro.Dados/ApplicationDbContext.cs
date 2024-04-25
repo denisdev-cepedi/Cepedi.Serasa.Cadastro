@@ -7,6 +7,7 @@ namespace Cepedi.Serasa.Cadastro.Data;
 [ExcludeFromCodeCoverage]
 public class ApplicationDbContext : DbContext
 {
+
     public DbSet<UsuarioEntity> Usuario { get; set; } = default!;
     public DbSet<ConsultaEntity> Consulta { get; set; } = default!;
     public DbSet<PessoaEntity> Pessoa { get; set; } = default!;

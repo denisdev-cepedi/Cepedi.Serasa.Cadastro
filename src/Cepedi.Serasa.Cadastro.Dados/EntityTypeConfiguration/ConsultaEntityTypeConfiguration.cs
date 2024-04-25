@@ -4,8 +4,10 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Cepedi.Serasa.Cadastro.Data.EntityTypeConfiguration;
 
-public class ConsultaEntityTypeConfiguration : IEntityTypeConfiguration<ConsultaEntity>{
-    public void Configure(EntityTypeBuilder<ConsultaEntity> builder) {
+public class ConsultaEntityTypeConfiguration : IEntityTypeConfiguration<ConsultaEntity>
+{
+    public void Configure(EntityTypeBuilder<ConsultaEntity> builder)
+    {
         builder.ToTable("Consulta");
         builder.HasKey(consulta => consulta.Id);
 
