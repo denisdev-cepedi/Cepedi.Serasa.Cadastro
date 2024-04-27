@@ -7,7 +7,6 @@ using Cepedi.Serasa.Cadastro.Domain.Repositorio;
 using Cepedi.Serasa.Cadastro.Dominio;
 using Cepedi.Serasa.Cadastro.Dominio.Repositorio;
 using Cepedi.Serasa.Cadastro.Dominio.Repository;
-using Cepedi.Serasa.Cadastro.Dominio.Repositorio;
 using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -21,6 +20,7 @@ namespace Cepedi.Serasa.Cadastro.IoC
     {
         public static void ConfigureAppDependencies(this IServiceCollection services, IConfiguration configuration)
         {
+
             ConfigureDbContext(services, configuration);
             services.AddMediatR(cfg =>
             cfg.RegisterServicesFromAssemblies(AppDomain.CurrentDomain.GetAssemblies()));
@@ -32,6 +32,7 @@ namespace Cepedi.Serasa.Cadastro.IoC
             services.AddScoped<IPessoaRepository, PessoaRepository>();
             services.AddScoped<ITipoMovimentacaoRepository, TipoMovimentacaoRepository>();
             services.AddScoped<IScoreRepository, ScoreRepository>();
+            services.AddScoped<IMovimentacaoRepository, MovimentacaoRepository>();
             //services.AddHttpContextAccessor();
 
             services.AddHealthChecks()

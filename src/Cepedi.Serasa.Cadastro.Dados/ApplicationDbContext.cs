@@ -14,6 +14,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<PessoaEntity> Pessoa { get; set; } = default!;
     public DbSet<TipoMovimentacaoEntity> TipoMovimentacao { get; set; } = default!;
     public DbSet<ScoreEntity> Score { get; set; } = default!;
+    public DbSet<MovimentacaoEntity> Movimentacao { get; set; } = default!;
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
