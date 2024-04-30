@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <RootNamespace>Cepedi.Serasa.Cadastro.Data</RootNamespace>
-    <AssemblyName>Cepedi.Serasa.Cadastro.Data</AssemblyName>
+    <RootNamespace>Cepedi.Serasa.Cadastro.Dados</RootNamespace>
+    <AssemblyName>Cepedi.Serasa.Cadastro.Dados</AssemblyName>
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>

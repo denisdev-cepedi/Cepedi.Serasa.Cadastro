@@ -2,7 +2,7 @@
 using Cepedi.Serasa.Cadastro.Dominio.Entidades;
 using Microsoft.EntityFrameworkCore;
 
-namespace Cepedi.Serasa.Cadastro.Data;
+namespace Cepedi.Serasa.Cadastro.Dados;
 
 [ExcludeFromCodeCoverage]
 public class ApplicationDbContext : DbContext

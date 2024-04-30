@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Cepedi.Serasa.Cadastro.Dados\Cepedi.Serasa.Cadastro.Data.csproj" />
+    <ProjectReference Include="..\Cepedi.Serasa.Cadastro.Dados\Cepedi.Serasa.Cadastro.Dados.csproj" />
     <ProjectReference Include="..\Cepedi.Serasa.Cadastro.Dominio\Cepedi.Serasa.Cadastro.Dominio.csproj" />
     <ProjectReference Include="..\Cepedi.Serasa.Cadastro.Compartilhado\Cepedi.Serasa.Cadastro.Compartilhado.csproj" />
   </ItemGroup>

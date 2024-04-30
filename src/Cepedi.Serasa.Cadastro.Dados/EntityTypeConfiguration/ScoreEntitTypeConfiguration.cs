@@ -3,7 +3,7 @@ using Cepedi.Serasa.Cadastro.Dominio.Entidades;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Cepedi.Serasa.Cadastro.Data;
+namespace Cepedi.Serasa.Cadastro.Dados;
 
 public class ScoreEntitTypeConfiguration : IEntityTypeConfiguration<ScoreEntity>
 {

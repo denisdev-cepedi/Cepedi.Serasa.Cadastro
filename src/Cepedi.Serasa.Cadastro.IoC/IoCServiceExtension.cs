@@ -1,7 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Cepedi.Serasa.Cadastro.Dados.Repositories;
-using Cepedi.Serasa.Cadastro.Data;
-using Cepedi.Serasa.Cadastro.Data.Repositories;
+using Cepedi.Serasa.Cadastro.Dados;
 using Cepedi.Serasa.Cadastro.Domain.Pipelines;
 using Cepedi.Serasa.Cadastro.Domain.Repositorio;
 using Cepedi.Serasa.Cadastro.Dominio;

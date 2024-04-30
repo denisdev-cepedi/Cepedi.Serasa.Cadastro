@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Cepedi.Serasa.Cadastro.Data.EntityTypeConfiguration;
+namespace Cepedi.Serasa.Cadastro.Dados.EntityTypeConfiguration;
 public class TipoMovimentacaoTypeConfiguration : IEntityTypeConfiguration<TipoMovimentacaoEntity>
 {
     public void Configure(EntityTypeBuilder<TipoMovimentacaoEntity> builder)

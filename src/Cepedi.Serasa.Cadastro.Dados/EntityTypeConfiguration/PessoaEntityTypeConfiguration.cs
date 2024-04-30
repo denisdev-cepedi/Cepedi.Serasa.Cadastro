@@ -7,7 +7,7 @@ using Cepedi.Serasa.Cadastro.Dominio.Entidades;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Cepedi.Serasa.Cadastro.Data.EntityTypeConfiguration;
+namespace Cepedi.Serasa.Cadastro.Dados.EntityTypeConfiguration;
 public class PessoaEntityTypeConfiguration : IEntityTypeConfiguration<PessoaEntity>
 {
     public void Configure(EntityTypeBuilder<PessoaEntity> builder)

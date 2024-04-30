@@ -2,7 +2,7 @@
 using Cepedi.Serasa.Cadastro.Dominio.Entidades;
 using Microsoft.EntityFrameworkCore;
 
-namespace Cepedi.Serasa.Cadastro.Data.Repositories;
+namespace Cepedi.Serasa.Cadastro.Dados.Repositories;
 public class PessoaRepository : IPessoaRepository
 {
     private readonly ApplicationDbContext _context;
