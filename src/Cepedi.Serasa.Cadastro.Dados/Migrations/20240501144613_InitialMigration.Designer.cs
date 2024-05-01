@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Cepedi.Serasa.Cadastro.Dados.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240501041908_InitialMigration")]
+    [Migration("20240501144613_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
