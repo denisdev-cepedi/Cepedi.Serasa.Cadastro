@@ -4,7 +4,7 @@ namespace Cepedi.Serasa.Cadastro.Dominio.Entidades
 {
     public class MovimentacaoEntity
     {
-        public int MovimentacaoId { get; set; } 
+        public int Id { get; set; } 
 
         public int PessoaId { get; set; } // ID do Pessoa associado à movimentação
 
@@ -20,8 +20,11 @@ namespace Cepedi.Serasa.Cadastro.Dominio.Entidades
 
         public string? NomeEstabelecimento { get; set; } // Local ou estabelecimento relacionado à movimentação (Supermercado, Lanchonete, etc.)
 
-        internal void Atualizar(decimal valor)
-        {
+        internal void Atualizar(int tipoMovimentacaoId, DateTime dataHora, string? nomeEstabelecimento, decimal valor)
+        {   
+            TipoMovimentacaoId = TipoMovimentacaoId;
+            DataHora = dataHora;
+            NomeEstabelecimento = nomeEstabelecimento;
             Valor = valor;
         }
 

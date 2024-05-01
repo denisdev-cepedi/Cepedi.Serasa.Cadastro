@@ -1,8 +1,8 @@
 using MediatR;
 using OperationResult;
-using Cepedi.Serasa.Cadastro.Compartilhado.Responses;
+using Cepedi.Serasa.Cadastro.Compartilhado.Responses.Movimentacao;
 
-namespace Cepedi.Serasa.Cadastro.Compartilhado.Requests;
+namespace Cepedi.Serasa.Cadastro.Compartilhado.Requests.Movimentacao;
 
 public class CriarMovimentacaoRequest : IRequest<Result<CriarMovimentacaoResponse>>
 {

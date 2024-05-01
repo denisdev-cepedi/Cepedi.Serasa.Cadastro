@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Cepedi.Serasa.Cadastro.Dados.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240430145731_Initial")]
-    partial class Initial
+    [Migration("20240501041908_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -39,7 +39,7 @@ namespace Cepedi.Serasa.Cadastro.Dados.Migrations
                     b.Property<int>("IdPessoa")
                         .HasColumnType("int");
 
-                    b.Property<int>("PessoaId")
+                    b.Property<int?>("PessoaId")
                         .HasColumnType("int");
 
                     b.Property<bool>("Status")
@@ -54,11 +54,11 @@ namespace Cepedi.Serasa.Cadastro.Dados.Migrations
 
             modelBuilder.Entity("Cepedi.Serasa.Cadastro.Dominio.Entidades.MovimentacaoEntity", b =>
                 {
-                    b.Property<int>("MovimentacaoId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MovimentacaoId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("DataHora")
                         .HasColumnType("datetime2");
@@ -76,7 +76,7 @@ namespace Cepedi.Serasa.Cadastro.Dados.Migrations
                     b.Property<decimal>("Valor")
                         .HasColumnType("decimal(18,2)");
 
-                    b.HasKey("MovimentacaoId");
+                    b.HasKey("Id");
 
                     b.HasIndex("PessoaId");
 
@@ -119,7 +119,7 @@ namespace Cepedi.Serasa.Cadastro.Dados.Migrations
                     b.Property<int>("IdPessoa")
                         .HasColumnType("int");
 
-                    b.Property<int>("PessoaId")
+                    b.Property<int?>("PessoaId")
                         .HasColumnType("int");
 
                     b.Property<double>("Score")
@@ -193,9 +193,7 @@ namespace Cepedi.Serasa.Cadastro.Dados.Migrations
                 {
                     b.HasOne("Cepedi.Serasa.Cadastro.Dominio.Entidades.PessoaEntity", "Pessoa")
                         .WithMany()
-                        .HasForeignKey("PessoaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PessoaId");
 
                     b.Navigation("Pessoa");
                 });
@@ -223,9 +221,7 @@ namespace Cepedi.Serasa.Cadastro.Dados.Migrations
                 {
                     b.HasOne("Cepedi.Serasa.Cadastro.Dominio.Entidades.PessoaEntity", "Pessoa")
                         .WithMany()
-                        .HasForeignKey("PessoaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PessoaId");
 
                     b.Navigation("Pessoa");
                 });

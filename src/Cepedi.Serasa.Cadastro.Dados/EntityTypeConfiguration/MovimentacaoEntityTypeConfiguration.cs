@@ -9,7 +9,7 @@ namespace Cepedi.Serasa.Cadastro.Dados.EntityTypeConfiguration
         public void Configure(EntityTypeBuilder<MovimentacaoEntity> builder)
         {
             builder.ToTable("Movimentacao");
-            builder.HasKey(c => c.MovimentacaoId);
+            builder.HasKey(c => c.Id);
 
             builder.Property(c => c.PessoaId).IsRequired();
             builder.Property(c => c.DataHora).IsRequired(); // Renomeada para DataHora

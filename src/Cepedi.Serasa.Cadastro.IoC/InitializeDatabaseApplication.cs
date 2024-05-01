@@ -41,7 +41,7 @@ public class ApplicationDbContextInitialiser
             throw;
         }
     }
-
+    
     public async Task TrySeedAsync()
     {
         // Default roles

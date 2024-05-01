@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Cepedi.Serasa.Cadastro.Dados.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class InitialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -65,7 +65,7 @@ namespace Cepedi.Serasa.Cadastro.Dados.Migrations
                     IdPessoa = table.Column<int>(type: "int", nullable: false),
                     Data = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Status = table.Column<bool>(type: "bit", nullable: false),
-                    PessoaId = table.Column<int>(type: "int", nullable: false)
+                    PessoaId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -74,8 +74,7 @@ namespace Cepedi.Serasa.Cadastro.Dados.Migrations
                         name: "FK_Consulta_Pessoa_PessoaId",
                         column: x => x.PessoaId,
                         principalTable: "Pessoa",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -84,7 +83,7 @@ namespace Cepedi.Serasa.Cadastro.Dados.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    PessoaId = table.Column<int>(type: "int", nullable: false),
+                    PessoaId = table.Column<int>(type: "int", nullable: true),
                     IdPessoa = table.Column<int>(type: "int", nullable: false),
                     Score = table.Column<double>(type: "float", nullable: false)
                 },
@@ -95,15 +94,14 @@ namespace Cepedi.Serasa.Cadastro.Dados.Migrations
                         name: "FK_Score_Pessoa_PessoaId",
                         column: x => x.PessoaId,
                         principalTable: "Pessoa",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
                 name: "Movimentacao",
                 columns: table => new
                 {
-                    MovimentacaoId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     PessoaId = table.Column<int>(type: "int", nullable: false),
                     DataHora = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -113,7 +111,7 @@ namespace Cepedi.Serasa.Cadastro.Dados.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Movimentacao", x => x.MovimentacaoId);
+                    table.PrimaryKey("PK_Movimentacao", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Movimentacao_Pessoa_PessoaId",
                         column: x => x.PessoaId,

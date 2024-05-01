@@ -1,9 +1,6 @@
+using Cepedi.Serasa.Cadastro.Domain.Repositorio;
 using Cepedi.Serasa.Cadastro.Dominio.Entidades;
-using Cepedi.Serasa.Cadastro.Dominio.Repository;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Cepedi.Serasa.Cadastro.Dados.Repositories;
 public class MovimentacaoRepository : IMovimentacaoRepository
@@ -15,20 +12,17 @@ public class MovimentacaoRepository : IMovimentacaoRepository
         _context = context;
     }
 
-    public async Task<MovimentacaoEntity?> ObterMovimentacaoAsync(int id)
-    {
-        return await _context.Movimentacao.FindAsync(id);
-    }
+    public async Task<MovimentacaoEntity> ObterMovimentacaoAsync(int id)
+        => await _context.Movimentacao.Where(movimentacao => movimentacao.Id == id).FirstOrDefaultAsync();
 
-    public async Task<List<MovimentacaoEntity>> ListarMovimentacoesAsync()
-    {
-        return await _context.Movimentacao.ToListAsync();
-    }
+    public async Task<List<MovimentacaoEntity>> ObterMovimentacoesAsync()
+        => await _context.Movimentacao.ToListAsync();
 
     public async Task<MovimentacaoEntity> CriarMovimentacaoAsync(MovimentacaoEntity movimentacao)
     {
-        _context.Movimentacao.Add(movimentacao);
+        await _context.Movimentacao.AddAsync(movimentacao);
         await _context.SaveChangesAsync();
+
         return movimentacao;
     }
 
@@ -36,21 +30,14 @@ public class MovimentacaoRepository : IMovimentacaoRepository
     {
         _context.Movimentacao.Update(movimentacao);
         await _context.SaveChangesAsync();
+
         return movimentacao;
     }
 
-    public async Task<MovimentacaoEntity?> DeletarMovimentacaoAsync(int movimentacaoId)
+    public async Task DeletarMovimentacaoAsync(MovimentacaoEntity movimentacao)
     {
-        var movimentacao = await _context.Movimentacao.FindAsync(movimentacaoId);
-
-        if (movimentacao == null)
-        {
-            return null;
-        }
         _context.Movimentacao.Remove(movimentacao);
         await _context.SaveChangesAsync();
-
-        return movimentacao;
     }
-}
 
+}
