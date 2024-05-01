@@ -1,12 +1,12 @@
 ﻿using Cepedi.Serasa.Cadastro.Compartilhado.Exececoes;
 using Cepedi.Serasa.Cadastro.Compartilhado.Requests.Movimentacao;
 using Cepedi.Serasa.Cadastro.Compartilhado.Responses.Movimentacao;
-using Cepedi.Serasa.Cadastro.Domain.Repositorio;
+using Cepedi.Serasa.Cadastro.Dominio.Repositorio;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using OperationResult;
 
-namespace Cepedi.Serasa.Cadastro.Domain.Handlers.Movimentacao;
+namespace Cepedi.Serasa.Cadastro.Dominio.Handlers.Movimentacao;
 public class AtualizarMovimentacaoRequestHandler
     : IRequestHandler<AtualizarMovimentacaoRequest, Result<AtualizarMovimentacaoResponse>>
 {

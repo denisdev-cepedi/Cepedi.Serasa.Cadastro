@@ -1,6 +1,6 @@
 using Cepedi.Serasa.Cadastro.Compartilhado.Exececoes;
-using Cepedi.Serasa.Cadastro.Compartilhado.Requests;
-using Cepedi.Serasa.Cadastro.Compartilhado.Responses;
+using Cepedi.Serasa.Cadastro.Compartilhado.Requests.Consulta;
+using Cepedi.Serasa.Cadastro.Compartilhado.Responses.Consulta;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

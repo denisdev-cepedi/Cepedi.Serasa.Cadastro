@@ -1,14 +1,14 @@
 ﻿using Cepedi.Serasa.Cadastro.Compartilhado.Enums;
 using Cepedi.Serasa.Cadastro.Compartilhado.Exececoes;
-using Cepedi.Serasa.Cadastro.Compartilhado.Requests;
-using Cepedi.Serasa.Cadastro.Compartilhado.Responses;
-using Cepedi.Serasa.Cadastro.Domain.Repositorio;
+using Cepedi.Serasa.Cadastro.Compartilhado.Requests.Pessoa;
+using Cepedi.Serasa.Cadastro.Compartilhado.Responses.Pessoa;
+using Cepedi.Serasa.Cadastro.Dominio.Repositorio;
 using Cepedi.Serasa.Cadastro.Dominio.Entidades;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using OperationResult;
 
-namespace Cepedi.Serasa.Cadastro.Domain.Handlers.Pessoa;
+namespace Cepedi.Serasa.Cadastro.Dominio.Handlers.Pessoa;
 
 public class CriarPessoaRequestHandler
     : IRequestHandler<CriarPessoaRequest, Result<CriarPessoaResponse>>

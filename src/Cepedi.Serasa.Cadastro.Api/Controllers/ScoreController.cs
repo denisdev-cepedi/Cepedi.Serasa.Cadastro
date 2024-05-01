@@ -1,6 +1,6 @@
 ﻿using Cepedi.Serasa.Cadastro.Compartilhado.Exececoes;
-using Cepedi.Serasa.Cadastro.Compartilhado.Requests;
-using Cepedi.Serasa.Cadastro.Compartilhado.Responses;
+using Cepedi.Serasa.Cadastro.Compartilhado.Requests.Score;
+using Cepedi.Serasa.Cadastro.Compartilhado.Responses.Score;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

@@ -4,7 +4,7 @@ using MediatR;
 using Microsoft.Extensions.Logging;
 using OperationResult;
 
-namespace Cepedi.Serasa.Cadastro.Domain.Pipelines
+namespace Cepedi.Serasa.Cadastro.Dominio.Pipelines
 {
     public sealed class ExcecaoPipeline<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
         where TRequest : notnull

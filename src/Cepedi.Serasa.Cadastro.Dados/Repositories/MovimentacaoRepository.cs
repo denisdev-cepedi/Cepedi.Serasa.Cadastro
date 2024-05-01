@@ -1,4 +1,4 @@
-using Cepedi.Serasa.Cadastro.Domain.Repositorio;
+using Cepedi.Serasa.Cadastro.Dominio.Repositorio;
 using Cepedi.Serasa.Cadastro.Dominio.Entidades;
 using Microsoft.EntityFrameworkCore;
 

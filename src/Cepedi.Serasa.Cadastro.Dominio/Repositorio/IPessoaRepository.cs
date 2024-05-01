@@ -1,6 +1,6 @@
 ﻿using Cepedi.Serasa.Cadastro.Dominio.Entidades;
 
-namespace Cepedi.Serasa.Cadastro.Domain.Repositorio;
+namespace Cepedi.Serasa.Cadastro.Dominio.Repositorio;
 
 public interface IPessoaRepository
 {

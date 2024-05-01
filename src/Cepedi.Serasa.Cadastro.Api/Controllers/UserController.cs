@@ -1,6 +1,4 @@
-﻿using Cepedi.Serasa.Cadastro.Dominio;
-using Cepedi.Serasa.Cadastro.Dominio.Repository;
-using Cepedi.Serasa.Cadastro.Compartilhado.Exececoes;
+﻿using Cepedi.Serasa.Cadastro.Compartilhado.Exececoes;
 using Cepedi.Serasa.Cadastro.Compartilhado.Requests;
 using Cepedi.Serasa.Cadastro.Compartilhado.Responses;
 using MediatR;

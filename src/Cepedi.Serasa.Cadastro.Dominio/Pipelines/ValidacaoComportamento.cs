@@ -3,7 +3,7 @@ using Cepedi.Serasa.Cadastro.Compartilhado.Excecoes;
 using FluentValidation;
 using MediatR;
 
-namespace Cepedi.Serasa.Cadastro.Domain.Pipelines;
+namespace Cepedi.Serasa.Cadastro.Dominio.Pipelines;
 public sealed class ValidacaoComportamento<TRequest, TResponse>
     : IPipelineBehavior<TRequest, TResponse>
     where TRequest : notnull, IValida
