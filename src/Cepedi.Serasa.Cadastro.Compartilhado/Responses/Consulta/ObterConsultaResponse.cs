@@ -1,3 +1,3 @@
 ﻿namespace Cepedi.Serasa.Cadastro.Compartilhado.Responses.Consulta;
 
-public record ObterConsultaResponse(bool status, DateTime data);
+public record ObterConsultaResponse(int id, bool status, DateTime data);

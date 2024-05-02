@@ -31,13 +31,13 @@ public class ConsultaController : BaseController
     public async Task<ActionResult<AtualizarConsultaResponse>> AtualizarConsultaAsync(
         [FromBody] AtualizarConsultaRequest request) => await SendCommand(request);
 
-    [HttpGet("{id}")]
+    [HttpGet("{Id}")]
     [ProducesResponseType(typeof(ObterConsultaResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<ObterConsultaResponse>> ObterConsultaAsync(
-         [FromRoute] ObterConsultaRequest request) => await SendCommand(request);
+        [FromRoute] ObterConsultaRequest request) => await SendCommand(request);
 
-    [HttpDelete("{id}")]
+    [HttpDelete("{Id}")]
     [ProducesResponseType(typeof(DeletarConsultaResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status204NoContent)]

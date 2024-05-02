@@ -14,7 +14,7 @@ public class PessoaRepository : IPessoaRepository
 
     public async Task<PessoaEntity> AtualizarPessoaAsync(PessoaEntity pessoa)
     {
-        _context.Pessoas.Update(pessoa);
+        _context.Pessoa.Update(pessoa);
         await _context.SaveChangesAsync();
 
         return pessoa;
@@ -22,7 +22,7 @@ public class PessoaRepository : IPessoaRepository
 
     public async Task<PessoaEntity> CriarPessoaAsync(PessoaEntity pessoa)
     {
-        await _context.Pessoas.AddAsync(pessoa);
+        await _context.Pessoa.AddAsync(pessoa);
         await _context.SaveChangesAsync();
 
         return pessoa;
@@ -30,13 +30,13 @@ public class PessoaRepository : IPessoaRepository
 
     public async Task ExcluirPessoaAsync(PessoaEntity pessoa)
     {
-        _context.Pessoas.Remove(pessoa);
+        _context.Pessoa.Remove(pessoa);
         await _context.SaveChangesAsync();
     }
 
     public async Task<PessoaEntity> ObterPessoaAsync(int id)
-        => await _context.Pessoas.Where(pessoa => pessoa.Id == id).FirstOrDefaultAsync();
+        => await _context.Pessoa.Where(pessoa => pessoa.Id == id).FirstOrDefaultAsync();
 
     public async Task<List<PessoaEntity>> ObterPessoasAsync()
-        => await _context.Pessoas.ToListAsync();
+        => await _context.Pessoa.ToListAsync();
 }
