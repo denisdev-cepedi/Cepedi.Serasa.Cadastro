@@ -50,10 +50,10 @@ public class PessoaController : BaseController
         [FromBody] AtualizarPessoaRequest request)
         => await SendCommand(request);
 
-    [HttpDelete]
-    [ProducesResponseType(typeof(ObterPessoaResponse), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<ObterPessoaResponse>> ExcluirPessoaAsync(
-        [FromBody] ExcluirPessoaPorIdRequest request)
-        => await SendCommand(request);
+    [HttpDelete("{Id}")]
+    [ProducesResponseType(typeof(ExcluirPessoaPorIdResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status204NoContent)]
+    public async Task<ActionResult<ExcluirPessoaPorIdResponse>> DeletarPessoaAsync(
+        [FromRoute] ExcluirPessoaPorIdRequest request) => await SendCommand(request);
 }

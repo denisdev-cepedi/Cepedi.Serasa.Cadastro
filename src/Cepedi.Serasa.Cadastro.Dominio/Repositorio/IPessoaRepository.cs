@@ -8,5 +8,5 @@ public interface IPessoaRepository
     Task<List<PessoaEntity>> ObterPessoasAsync();
     Task<PessoaEntity> CriarPessoaAsync(PessoaEntity pessoa);
     Task<PessoaEntity> AtualizarPessoaAsync(PessoaEntity pessoa);
-    Task ExcluirPessoaAsync(PessoaEntity pessoa);
+    Task<PessoaEntity> ExcluirPessoaAsync(int id);
 }

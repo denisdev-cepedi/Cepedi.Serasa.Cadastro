@@ -28,10 +28,14 @@ public class PessoaRepository : IPessoaRepository
         return pessoa;
     }
 
-    public async Task ExcluirPessoaAsync(PessoaEntity pessoa)
+    public async Task<PessoaEntity?> ExcluirPessoaAsync(int id)
     {
-        _context.Pessoa.Remove(pessoa);
+        var PessoaEntity = await ObterPessoaAsync(id);
+        if (PessoaEntity == null) return null;
+
+        _context.Pessoa.Remove(PessoaEntity);
         await _context.SaveChangesAsync();
+        return PessoaEntity;
     }
 
     public async Task<PessoaEntity> ObterPessoaAsync(int id)
@@ -39,4 +43,5 @@ public class PessoaRepository : IPessoaRepository
 
     public async Task<List<PessoaEntity>> ObterPessoasAsync()
         => await _context.Pessoa.ToListAsync();
+
 }
