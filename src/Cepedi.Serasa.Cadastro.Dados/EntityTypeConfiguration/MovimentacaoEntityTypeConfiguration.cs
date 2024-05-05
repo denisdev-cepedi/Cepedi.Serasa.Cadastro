@@ -18,9 +18,17 @@ namespace Cepedi.Serasa.Cadastro.Dados.EntityTypeConfiguration
 
             builder.Property(c => c.NomeEstabelecimento).HasMaxLength(255); // Renomeada para NomeEstabelecimento
 
+            // Configurando o relacionamento com PessoaEntity
+            builder.HasOne(c => c.Pessoa)
+                   .WithMany()  // Uma pessoa pode ter várias movimentações
+                   .HasForeignKey(c => c.IdPessoa)  // Chave estrangeira
+                   .IsRequired();  // É obrigatório ter uma pessoa associada a uma movimentação
+
+            // Configurando o relacionamento com TipoMovimentacaoEntity
             builder.HasOne(c => c.TipoMovimentacao)
-                   .WithMany()
-                   .HasForeignKey(c => c.IdTipoMovimentacao);
+                   .WithMany()  // Um tipo de movimentação pode estar associado a várias movimentações
+                   .HasForeignKey(c => c.IdTipoMovimentacao)  // Chave estrangeira
+                   .IsRequired();  // É obrigatório ter um tipo de movimentação associado a uma movimentação
         }
     }
 }
