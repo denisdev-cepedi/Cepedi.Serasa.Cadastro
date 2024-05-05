@@ -41,20 +41,6 @@ namespace Cepedi.Serasa.Cadastro.Dados.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Score",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    IdPessoa = table.Column<int>(type: "int", nullable: false),
-                    Score = table.Column<double>(type: "float", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Score", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "TipoMovimentacao",
                 columns: table => new
                 {
@@ -86,12 +72,33 @@ namespace Cepedi.Serasa.Cadastro.Dados.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Score",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    IdPessoa = table.Column<int>(type: "int", nullable: false),
+                    PessoaId = table.Column<int>(type: "int", nullable: true),
+                    Score = table.Column<double>(type: "float", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Score", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Score_Pessoa_PessoaId",
+                        column: x => x.PessoaId,
+                        principalTable: "Pessoa",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Movimentacao",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     IdPessoa = table.Column<int>(type: "int", nullable: false),
+                    PessoaId = table.Column<int>(type: "int", nullable: true),
                     DataHora = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IdTipoMovimentacao = table.Column<int>(type: "int", nullable: false),
                     Valor = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
@@ -100,6 +107,11 @@ namespace Cepedi.Serasa.Cadastro.Dados.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Movimentacao", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Movimentacao_Pessoa_PessoaId",
+                        column: x => x.PessoaId,
+                        principalTable: "Pessoa",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Movimentacao_TipoMovimentacao_IdTipoMovimentacao",
                         column: x => x.IdTipoMovimentacao,
@@ -112,6 +124,16 @@ namespace Cepedi.Serasa.Cadastro.Dados.Migrations
                 name: "IX_Movimentacao_IdTipoMovimentacao",
                 table: "Movimentacao",
                 column: "IdTipoMovimentacao");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Movimentacao_PessoaId",
+                table: "Movimentacao",
+                column: "PessoaId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Score_PessoaId",
+                table: "Score",
+                column: "PessoaId");
         }
 
         /// <inheritdoc />
@@ -124,9 +146,6 @@ namespace Cepedi.Serasa.Cadastro.Dados.Migrations
                 name: "Movimentacao");
 
             migrationBuilder.DropTable(
-                name: "Pessoa");
-
-            migrationBuilder.DropTable(
                 name: "Score");
 
             migrationBuilder.DropTable(
@@ -134,6 +153,9 @@ namespace Cepedi.Serasa.Cadastro.Dados.Migrations
 
             migrationBuilder.DropTable(
                 name: "TipoMovimentacao");
+
+            migrationBuilder.DropTable(
+                name: "Pessoa");
         }
     }
 }

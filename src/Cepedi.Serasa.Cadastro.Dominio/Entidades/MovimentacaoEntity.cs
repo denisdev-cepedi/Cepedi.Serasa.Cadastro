@@ -1,6 +1,3 @@
-using System;
-using System.ComponentModel.DataAnnotations.Schema;
-
 namespace Cepedi.Serasa.Cadastro.Dominio.Entidades
 {
     public class MovimentacaoEntity
@@ -9,7 +6,7 @@ namespace Cepedi.Serasa.Cadastro.Dominio.Entidades
 
         public int IdPessoa { get; set; } // ID do Pessoa associado à movimentação
 
-        [ForeignKey("IdPessoa")]
+        public PessoaEntity? Pessoa { get; set; }
 
         public DateTime DataHora { get; set; } 
 
