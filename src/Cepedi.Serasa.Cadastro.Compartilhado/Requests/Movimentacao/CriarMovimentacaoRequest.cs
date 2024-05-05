@@ -6,11 +6,9 @@ namespace Cepedi.Serasa.Cadastro.Compartilhado.Requests.Movimentacao;
 
 public class CriarMovimentacaoRequest : IRequest<Result<CriarMovimentacaoResponse>>
 {
-    public int PessoaId { get; set; }
-
     public DateTime DataHora { get; set; }
 
-    public int TipoMovimentacaoId { get; set; }
+    public int IdTipoMovimentacao { get; set; }
 
     public decimal Valor { get; set; }
 

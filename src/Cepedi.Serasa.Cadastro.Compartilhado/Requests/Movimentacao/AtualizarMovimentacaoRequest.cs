@@ -8,7 +8,7 @@ public class AtualizarMovimentacaoRequest : IRequest<Result<AtualizarMovimentaca
 {
     public int Id { get; set; }
     public DateTime DataHora { get; set; }
-    public int TipoMovimentacaoId { get; set; }
+    public int IdTipoMovimentacao { get; set; }
     public string NomeEstabelecimento { get; set; } = string.Empty;
     public decimal Valor { get; set; }
 }

@@ -21,7 +21,7 @@ public class CriarMovimentacaoRequestHandler : IRequestHandler<CriarMovimentacao
     {
         var movimentacao = new MovimentacaoEntity()
         {
-            TipoMovimentacaoId = request.TipoMovimentacaoId,
+            IdTipoMovimentacao = request.IdTipoMovimentacao,
             Valor = request.Valor,
             DataHora = DateTime.UtcNow,
             NomeEstabelecimento = request.NomeEstabelecimento
@@ -32,7 +32,7 @@ public class CriarMovimentacaoRequestHandler : IRequestHandler<CriarMovimentacao
 
         var response = new CriarMovimentacaoResponse(
             movimentacao.Id,
-            movimentacao.TipoMovimentacaoId,
+            movimentacao.IdTipoMovimentacao,
             movimentacao.Valor,
             movimentacao.DataHora,
             movimentacao.NomeEstabelecimento

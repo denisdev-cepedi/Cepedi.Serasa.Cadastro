@@ -20,6 +20,6 @@ public class ObterMovimentacaoRequestHandler : IRequestHandler<ObterMovimentacao
         
         return movimentacaoEntity == null
             ? Result.Error<ObterMovimentacaoResponse>(new Compartilhado.Exececoes.SemResultadoExcecao())
-            : Result.Success(new ObterMovimentacaoResponse(movimentacaoEntity.Id, movimentacaoEntity.TipoMovimentacaoId, movimentacaoEntity.DataHora, movimentacaoEntity.NomeEstabelecimento, movimentacaoEntity.Valor));
+            : Result.Success(new ObterMovimentacaoResponse(movimentacaoEntity.Id, movimentacaoEntity.IdTipoMovimentacao, movimentacaoEntity.DataHora, movimentacaoEntity.NomeEstabelecimento, movimentacaoEntity.Valor));
     }
 }

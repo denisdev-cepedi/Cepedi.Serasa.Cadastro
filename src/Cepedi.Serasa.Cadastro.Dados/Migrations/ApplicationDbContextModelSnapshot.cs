@@ -36,15 +36,10 @@ namespace Cepedi.Serasa.Cadastro.Dados.Migrations
                     b.Property<int>("IdPessoa")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PessoaId")
-                        .HasColumnType("int");
-
                     b.Property<bool>("Status")
                         .HasColumnType("bit");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("PessoaId");
 
                     b.ToTable("Consulta", (string)null);
                 });
@@ -60,24 +55,22 @@ namespace Cepedi.Serasa.Cadastro.Dados.Migrations
                     b.Property<DateTime>("DataHora")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("IdPessoa")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdTipoMovimentacao")
+                        .HasColumnType("int");
+
                     b.Property<string>("NomeEstabelecimento")
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
-
-                    b.Property<int>("PessoaId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TipoMovimentacaoId")
-                        .HasColumnType("int");
 
                     b.Property<decimal>("Valor")
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PessoaId");
-
-                    b.HasIndex("TipoMovimentacaoId");
+                    b.HasIndex("IdTipoMovimentacao");
 
                     b.ToTable("Movimentacao", (string)null);
                 });
@@ -116,15 +109,10 @@ namespace Cepedi.Serasa.Cadastro.Dados.Migrations
                     b.Property<int>("IdPessoa")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PessoaId")
-                        .HasColumnType("int");
-
                     b.Property<double>("Score")
                         .HasColumnType("float");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("PessoaId");
 
                     b.ToTable("Score", (string)null);
                 });
@@ -186,41 +174,15 @@ namespace Cepedi.Serasa.Cadastro.Dados.Migrations
                     b.ToTable("Usuario", (string)null);
                 });
 
-            modelBuilder.Entity("Cepedi.Serasa.Cadastro.Dominio.Entidades.ConsultaEntity", b =>
-                {
-                    b.HasOne("Cepedi.Serasa.Cadastro.Dominio.Entidades.PessoaEntity", "Pessoa")
-                        .WithMany()
-                        .HasForeignKey("PessoaId");
-
-                    b.Navigation("Pessoa");
-                });
-
             modelBuilder.Entity("Cepedi.Serasa.Cadastro.Dominio.Entidades.MovimentacaoEntity", b =>
                 {
-                    b.HasOne("Cepedi.Serasa.Cadastro.Dominio.Entidades.PessoaEntity", "Pessoa")
-                        .WithMany()
-                        .HasForeignKey("PessoaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Cepedi.Serasa.Cadastro.Dominio.Entidades.TipoMovimentacaoEntity", "TipoMovimentacao")
                         .WithMany()
-                        .HasForeignKey("TipoMovimentacaoId")
+                        .HasForeignKey("IdTipoMovimentacao")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Pessoa");
-
                     b.Navigation("TipoMovimentacao");
-                });
-
-            modelBuilder.Entity("Cepedi.Serasa.Cadastro.Dominio.Entidades.ScoreEntity", b =>
-                {
-                    b.HasOne("Cepedi.Serasa.Cadastro.Dominio.Entidades.PessoaEntity", "Pessoa")
-                        .WithMany()
-                        .HasForeignKey("PessoaId");
-
-                    b.Navigation("Pessoa");
                 });
 #pragma warning restore 612, 618
         }

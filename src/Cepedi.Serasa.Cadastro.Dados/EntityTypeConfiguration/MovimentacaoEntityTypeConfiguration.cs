@@ -11,16 +11,16 @@ namespace Cepedi.Serasa.Cadastro.Dados.EntityTypeConfiguration
             builder.ToTable("Movimentacao");
             builder.HasKey(c => c.Id);
 
-            builder.Property(c => c.PessoaId).IsRequired();
+            builder.Property(c => c.IdPessoa).IsRequired();
             builder.Property(c => c.DataHora).IsRequired(); // Renomeada para DataHora
-            builder.Property(c => c.TipoMovimentacaoId).IsRequired();
+            builder.Property(c => c.IdTipoMovimentacao).IsRequired();
             builder.Property(c => c.Valor).IsRequired();
 
             builder.Property(c => c.NomeEstabelecimento).HasMaxLength(255); // Renomeada para NomeEstabelecimento
 
             builder.HasOne(c => c.TipoMovimentacao)
                    .WithMany()
-                   .HasForeignKey(c => c.TipoMovimentacaoId);
+                   .HasForeignKey(c => c.IdTipoMovimentacao);
         }
     }
 }

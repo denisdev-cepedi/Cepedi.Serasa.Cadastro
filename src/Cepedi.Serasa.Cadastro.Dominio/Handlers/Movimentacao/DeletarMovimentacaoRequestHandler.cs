@@ -24,6 +24,6 @@ public class DeletarMovimentacaoRequestHandler : IRequestHandler<DeletarMoviment
         
         await _movimentacaoRepository.DeletarMovimentacaoAsync(movimentacaoEntity.Id);
         
-        return Result.Success(new DeletarMovimentacaoResponse(movimentacaoEntity.Id, movimentacaoEntity.TipoMovimentacaoId, movimentacaoEntity.DataHora, movimentacaoEntity.NomeEstabelecimento, movimentacaoEntity.Valor));
+        return Result.Success(new DeletarMovimentacaoResponse(movimentacaoEntity.Id, movimentacaoEntity.IdTipoMovimentacao, movimentacaoEntity.DataHora, movimentacaoEntity.NomeEstabelecimento, movimentacaoEntity.Valor));
     }
 }
