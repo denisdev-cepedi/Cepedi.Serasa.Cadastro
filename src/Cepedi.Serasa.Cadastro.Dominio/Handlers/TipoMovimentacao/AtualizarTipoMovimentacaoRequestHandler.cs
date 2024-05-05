@@ -31,6 +31,6 @@ public class AtualizarTipoMovimentacaoRequestHandler : IRequestHandler<Atualizar
 
         await _tipoMovimentacaoRepository.AtualizarTipoMovimentacaoAsync(tipoMovimentacaoEntity);
 
-        return Result.Success(new AtualizarTipoMovimentacaoResponse(tipoMovimentacaoEntity.NomeTipo));
+        return Result.Success(new AtualizarTipoMovimentacaoResponse(tipoMovimentacaoEntity.Id, tipoMovimentacaoEntity.NomeTipo));
     }
 }

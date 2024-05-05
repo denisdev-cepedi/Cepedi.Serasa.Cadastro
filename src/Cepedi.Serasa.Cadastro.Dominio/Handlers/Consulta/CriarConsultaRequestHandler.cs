@@ -32,6 +32,6 @@ public class CriarConsultaRequestHandler
 
         await _consultaRepository.CriarConsultaAsync(consulta);
 
-        return Result.Success(new CriarConsultaResponse(consulta.Id, consulta.Status));
+        return Result.Success(new CriarConsultaResponse(consulta.Id, consulta.IdPessoa, consulta.Status, consulta.Data));
     }
 }

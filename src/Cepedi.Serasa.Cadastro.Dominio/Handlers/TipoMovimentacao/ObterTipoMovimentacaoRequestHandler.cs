@@ -19,6 +19,6 @@ public class ObterTipoMovimentacaoRequestHandler : IRequestHandler<ObterTipoMovi
         var tipoMovimentacaoEntity = await _tipoMovimentacaoRepository.ObterTipoMovimentacaoAsync(request.Id);
         return tipoMovimentacaoEntity == null
             ? Result.Error<ObterTipoMovimentacaoResponse>(new Compartilhado.Exececoes.SemResultadoExcecao())
-            : Result.Success(new ObterTipoMovimentacaoResponse(tipoMovimentacaoEntity.NomeTipo));
+            : Result.Success(new ObterTipoMovimentacaoResponse(tipoMovimentacaoEntity.Id, tipoMovimentacaoEntity.NomeTipo));
     }
 }

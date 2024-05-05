@@ -30,6 +30,6 @@ public class DeletarScoreRequestHandler :
 
         await _scoreRepository.DeletarScoreAsync(scoreEntity.Id);
 
-        return Result.Success(new DeletarScoreResponse(scoreEntity.Id));
+        return Result.Success(new DeletarScoreResponse(scoreEntity.Id, scoreEntity.IdPessoa, scoreEntity.Score));
     }
 }

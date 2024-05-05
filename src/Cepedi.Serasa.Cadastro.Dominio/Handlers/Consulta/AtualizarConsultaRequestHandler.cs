@@ -31,6 +31,6 @@ public class AtualizarConsultaRequestHandler : IRequestHandler<AtualizarConsulta
 
         await _consultaRepository.AtualizarConsultaAsync(consultaEntity);
 
-        return Result.Success(new AtualizarConsultaResponse(consultaEntity.Status));
+        return Result.Success(new AtualizarConsultaResponse(consultaEntity.Id, consultaEntity.IdPessoa, consultaEntity.Status, consultaEntity.Data));
     }
 }

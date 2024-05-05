@@ -19,6 +19,12 @@ public class TipoMovimentacao : BaseController
         _mediator = mediator;
     }
 
+    [HttpGet]
+    [ProducesResponseType(typeof(List<ObterTodosTiposMovimentacaoResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<List<ObterTodosTiposMovimentacaoResponse>>> ObterTodosTiposMovimentacaoAsync()
+        => await SendCommand(new ObterTodosTiposMovimentacaoRequest());
+
     [HttpPost]
     [ProducesResponseType(typeof(CriarTipoMovimentacaoResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status400BadRequest)]

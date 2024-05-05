@@ -8,52 +8,45 @@ namespace Cepedi.Serasa.Cadastro.Api.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class MovimentacaoController : BaseController
-{
-    private readonly IMediator _mediator;
-    private readonly ILogger<MovimentacaoController> _logger;
 
-    public MovimentacaoController(IMediator mediator, ILogger<MovimentacaoController> logger) : base(mediator)
+public class Movimentacao : BaseController
+{
+    private readonly ILogger<Movimentacao> _logger;
+    private readonly IMediator _mediator;
+    public Movimentacao(ILogger<Movimentacao> logger, IMediator mediator) : base(mediator)
     {
-        _mediator = mediator;
         _logger = logger;
+        _mediator = mediator;
     }
 
     [HttpGet]
-    [ProducesResponseType(typeof(IEnumerable<ObterMovimentacaoResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(List<ObterTodasMovimentacoesResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<IEnumerable<ObterMovimentacaoResponse>>> ObterTodasMovimentacoesAsync()
+    public async Task<ActionResult<List<ObterTodasMovimentacoesResponse>>> ObterTodasMovimentacoesAsync()
         => await SendCommand(new ObterTodasMovimentacoesRequest());
 
-    [HttpGet("{id}")]
+    [HttpGet("{Id}")]
     [ProducesResponseType(typeof(ObterMovimentacaoResponse), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<ObterMovimentacaoResponse>> ObterMovimentacaoAsync(
-        [FromRoute] int id)
-    {
-        var request = new ObterMovimentacaoRequest { Id = id };
-        return await SendCommand(request);
-    }
+    [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<ObterMovimentacaoResponse>> ObterPessoaAsync(
+        [FromRoute] ObterMovimentacaoRequest request) => await SendCommand(request);
 
     [HttpPost]
     [ProducesResponseType(typeof(CriarMovimentacaoResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<CriarMovimentacaoResponse>> CriarMovimentacaoAsync(
-        [FromBody] CriarMovimentacaoRequest request)
-        => await SendCommand(request);
+    public async Task<ActionResult<CriarMovimentacaoResponse>> CriarPessoaAsync([FromBody] CriarMovimentacaoRequest request) => await SendCommand(request);
 
     [HttpPut]
     [ProducesResponseType(typeof(AtualizarMovimentacaoResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status204NoContent)]
-    public async Task<ActionResult<AtualizarMovimentacaoResponse>> AtualizarMovimentacaoAsync(
-        [FromBody] AtualizarMovimentacaoRequest request)
-        => await SendCommand(request);
+    public async Task<ActionResult<AtualizarMovimentacaoResponse>> AtualizarPessoaAsync(
+        [FromBody] AtualizarMovimentacaoRequest request) => await SendCommand(request);
 
-    [HttpDelete]
-    [ProducesResponseType(typeof(ObterMovimentacaoResponse), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<ObterMovimentacaoResponse>> DeletarMovimentacao(
-        [FromBody] DeletarMovimentacaoRequest request)
-        => await SendCommand(request);
+    [HttpDelete("{Id}")]
+    [ProducesResponseType(typeof(DeletarMovimentacaoResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status204NoContent)]
+    public async Task<ActionResult<DeletarMovimentacaoResponse>> DeletarPessoaAsync(
+        [FromRoute] DeletarMovimentacaoRequest request) => await SendCommand(request);
 }

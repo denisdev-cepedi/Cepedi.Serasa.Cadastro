@@ -32,6 +32,6 @@ public class CriarScoreRequestHandler
 
         await _scoreRepository.CriarScoreAsync(score);
 
-        return Result.Success(new CriarScoreResponse(score.Id, score.Score));
+        return Result.Success(new CriarScoreResponse(score.Id, score.IdPessoa, score.Score));
     }
 }

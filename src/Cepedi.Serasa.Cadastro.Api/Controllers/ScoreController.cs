@@ -21,6 +21,12 @@ public class ScoreController : BaseController
         _mediator = mediator;
     }
 
+    [HttpGet]
+    [ProducesResponseType(typeof(List<ObterTodosScoresResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<List<ObterTodosScoresResponse>>> ObterTodosScoresAsync()
+        => await SendCommand(new ObterTodosScoresRequest());
+
     [HttpPost]
     [ProducesResponseType(typeof(CriarScoreResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status400BadRequest)]

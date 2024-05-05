@@ -28,7 +28,7 @@ public class ObterConsultaRequestHandler :
                 Exececoes.SemResultadoExcecao());
         }
 
-        return Result.Success(new ObterConsultaResponse(consultaEntity.Id, consultaEntity.Status, consultaEntity.Data));
+        return Result.Success(new ObterConsultaResponse(consultaEntity.Id, consultaEntity.IdPessoa, consultaEntity.Status, consultaEntity.Data));
 
     }
 }

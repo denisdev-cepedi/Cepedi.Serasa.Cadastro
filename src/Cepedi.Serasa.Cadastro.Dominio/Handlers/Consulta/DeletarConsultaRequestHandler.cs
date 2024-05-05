@@ -30,6 +30,6 @@ public class DeletarConsultaRequestHandler :
 
         await _consultaRepository.DeletarConsultaAsync(consultaEntity.Id);
 
-        return Result.Success(new DeletarConsultaResponse(consultaEntity.Id));
+        return Result.Success(new DeletarConsultaResponse(consultaEntity.Id, consultaEntity.IdPessoa, consultaEntity.Status, consultaEntity.Data));
     }
 }

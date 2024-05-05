@@ -28,7 +28,7 @@ public class ObterScoreRequestHandler :
                 Exececoes.SemResultadoExcecao());
         }
 
-        return Result.Success(new ObterScoreResponse(scoreEntity.Score));
+        return Result.Success(new ObterScoreResponse(scoreEntity.Id, scoreEntity.IdPessoa, scoreEntity.Score));
 
     }
 }

@@ -7,5 +7,4 @@ public class AtualizarScoreRequest : IRequest<Result<AtualizarScoreResponse>>
 {
     public int Id { get; set; }
     public double Score { get; set; }
-    public int IdPessoa { get; set; }
 }

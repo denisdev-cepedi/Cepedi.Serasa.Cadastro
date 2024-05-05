@@ -1,5 +1,4 @@
-﻿using Cepedi.Serasa.Cadastro.Compartilhado.Exececoes;
-using Cepedi.Serasa.Cadastro.Compartilhado.Requests.Movimentacao;
+﻿using Cepedi.Serasa.Cadastro.Compartilhado.Requests.Movimentacao;
 using Cepedi.Serasa.Cadastro.Compartilhado.Responses.Movimentacao;
 using Cepedi.Serasa.Cadastro.Dominio.Repositorio;
 using MediatR;
@@ -9,21 +8,18 @@ using OperationResult;
 namespace Cepedi.Serasa.Cadastro.Dominio.Handlers.Movimentacao;
 public class ObterMovimentacaoRequestHandler : IRequestHandler<ObterMovimentacaoRequest, Result<ObterMovimentacaoResponse>>
 {
-    private readonly IMovimentacaoRepository _movimentacaoRepository;
     private readonly ILogger<ObterMovimentacaoRequestHandler> _logger;
-
-    public ObterMovimentacaoRequestHandler(IMovimentacaoRepository movimentacaoRepository, ILogger<ObterMovimentacaoRequestHandler> logger)
-    {
-        _movimentacaoRepository = movimentacaoRepository;
+    private readonly IMovimentacaoRepository _movimentacaoRepository;
+    public ObterMovimentacaoRequestHandler(ILogger<ObterMovimentacaoRequestHandler> logger, IMovimentacaoRepository MovimentacaoRepository){
         _logger = logger;
+        _movimentacaoRepository = MovimentacaoRepository;
     }
-
     public async Task<Result<ObterMovimentacaoResponse>> Handle(ObterMovimentacaoRequest request, CancellationToken cancellationToken)
     {
-        var movimentacao = await _movimentacaoRepository.ObterMovimentacaoAsync(request.Id);
-
-        return movimentacao == null
-            ? Result.Error<ObterMovimentacaoResponse>(new SemResultadoExcecao())
-            : Result.Success(new ObterMovimentacaoResponse(movimentacao.Id, movimentacao.TipoMovimentacaoId, movimentacao.DataHora, movimentacao.NomeEstabelecimento, movimentacao.Valor));
+        var movimentacaoEntity = await _movimentacaoRepository.ObterMovimentacaoAsync(request.Id);
+        
+        return movimentacaoEntity == null
+            ? Result.Error<ObterMovimentacaoResponse>(new Compartilhado.Exececoes.SemResultadoExcecao())
+            : Result.Success(new ObterMovimentacaoResponse(movimentacaoEntity.Id, movimentacaoEntity.TipoMovimentacaoId, movimentacaoEntity.DataHora, movimentacaoEntity.NomeEstabelecimento, movimentacaoEntity.Valor));
     }
 }

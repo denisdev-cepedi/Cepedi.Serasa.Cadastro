@@ -18,6 +18,12 @@ public class ConsultaController : BaseController
         _mediator = mediator;
     }
 
+    [HttpGet]
+    [ProducesResponseType(typeof(List<ObterTodasConsultasResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<List<ObterTodasConsultasResponse>>> ObterTodasConsultasAsync()
+        => await SendCommand(new ObterTodasConsultasRequest());
+
     [HttpPost]
     [ProducesResponseType(typeof(CriarConsultaResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status400BadRequest)]

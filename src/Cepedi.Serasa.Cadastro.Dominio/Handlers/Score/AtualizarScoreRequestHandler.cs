@@ -32,6 +32,6 @@ public class AtualizarScoreRequestHandler :
 
         await _scoreRepository.AtualizarScoreAsync(scoreEntity);
 
-        return Result.Success(new AtualizarScoreResponse(scoreEntity.Score));
+        return Result.Success(new AtualizarScoreResponse(scoreEntity.Id, scoreEntity.Score));
     }
 }

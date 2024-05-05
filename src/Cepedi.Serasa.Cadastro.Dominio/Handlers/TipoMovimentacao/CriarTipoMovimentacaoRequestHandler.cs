@@ -21,6 +21,6 @@ public class DeletarTipoMovimentacaoRequestHandler : IRequestHandler<DeletarTipo
         var tipoMovimentacaoEntity = await _tipoMovimentacaoRepository.ObterTipoMovimentacaoAsync(request.Id);
         if (tipoMovimentacaoEntity == null) return Result.Error<DeletarTipoMovimentacaoResponse>(new Compartilhado.Exececoes.SemResultadoExcecao());
         await _tipoMovimentacaoRepository.DeletarTipoMovimentacaoAsync(tipoMovimentacaoEntity.Id);
-        return Result.Success(new DeletarTipoMovimentacaoResponse(tipoMovimentacaoEntity.Id));
+        return Result.Success(new DeletarTipoMovimentacaoResponse(tipoMovimentacaoEntity.Id, tipoMovimentacaoEntity.NomeTipo));
     }
 }

@@ -39,9 +39,14 @@ public class TipoMovimentacaoRepository : ITipoMovimentacaoRepository
         return tipoMovimentacaoEntity;
     }
 
-    public async Task<List<TipoMovimentacaoEntity>> GetTipoMovimentacaosAsync()
+    public async Task<List<TipoMovimentacaoEntity>> GetTipoMovimentacaoAsync()
     {
         return await _context.TipoMovimentacao.ToListAsync();
+    }
+
+    public async Task<List<TipoMovimentacaoEntity>> ObterTodosTiposMovimentacaoAsync()
+    {
+        return await _context.Set<TipoMovimentacaoEntity>().ToListAsync();
     }
 
     public async Task<TipoMovimentacaoEntity> ObterTipoMovimentacaoAsync(int id)

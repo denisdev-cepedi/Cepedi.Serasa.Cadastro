@@ -1,2 +1,2 @@
 ﻿namespace Cepedi.Serasa.Cadastro.Compartilhado.Responses.Score;
-public record ObterScoreResponse(double score);
+public record ObterScoreResponse(int id, int idPessoa, double score);
