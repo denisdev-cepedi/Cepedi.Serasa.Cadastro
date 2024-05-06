@@ -1,15 +1,12 @@
-using System.Threading.Tasks;
 using Cepedi.Serasa.Cadastro.Dominio.Entidades;
 
-namespace Cepedi.Serasa.Cadastro.Dominio.Repository;
+namespace Cepedi.Serasa.Cadastro.Dominio.Repositorio;
+
 public interface IMovimentacaoRepository
-{
-    Task<MovimentacaoEntity?> ObterMovimentacaoAsync(int movimentacaoId);
-
+{   
+    Task<List<MovimentacaoEntity>> ObterTodasMovimentacoesAsync();
+    Task<MovimentacaoEntity> ObterMovimentacaoAsync(int id);
     Task<MovimentacaoEntity> CriarMovimentacaoAsync(MovimentacaoEntity movimentacao);
-
     Task<MovimentacaoEntity> AtualizarMovimentacaoAsync(MovimentacaoEntity movimentacao);
-
-    Task<MovimentacaoEntity?> DeletarMovimentacaoAsync(int movimentacaoId);
+    Task<MovimentacaoEntity> DeletarMovimentacaoAsync(int id);
 }
-

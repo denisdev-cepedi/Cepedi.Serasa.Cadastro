@@ -30,7 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Cepedi.Serasa.Cadastro.Dados\Cepedi.Serasa.Cadastro.Data.csproj" />
+    <ProjectReference Include="..\..\src\Cepedi.Serasa.Cadastro.Dados\Cepedi.Serasa.Cadastro.Dados.csproj" />
     <ProjectReference Include="..\..\src\Cepedi.Serasa.Cadastro.Dominio\Cepedi.Serasa.Cadastro.Dominio.csproj" />
   </ItemGroup>
 

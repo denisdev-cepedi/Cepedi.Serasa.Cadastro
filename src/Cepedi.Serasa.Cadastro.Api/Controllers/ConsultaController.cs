@@ -1,6 +1,6 @@
 using Cepedi.Serasa.Cadastro.Compartilhado.Exececoes;
-using Cepedi.Serasa.Cadastro.Compartilhado.Requests;
-using Cepedi.Serasa.Cadastro.Compartilhado.Responses;
+using Cepedi.Serasa.Cadastro.Compartilhado.Requests.Consulta;
+using Cepedi.Serasa.Cadastro.Compartilhado.Responses.Consulta;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,6 +18,12 @@ public class ConsultaController : BaseController
         _mediator = mediator;
     }
 
+    [HttpGet]
+    [ProducesResponseType(typeof(List<ObterTodasConsultasResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<List<ObterTodasConsultasResponse>>> ObterTodasConsultasAsync()
+        => await SendCommand(new ObterTodasConsultasRequest());
+
     [HttpPost]
     [ProducesResponseType(typeof(CriarConsultaResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status400BadRequest)]
@@ -31,13 +37,13 @@ public class ConsultaController : BaseController
     public async Task<ActionResult<AtualizarConsultaResponse>> AtualizarConsultaAsync(
         [FromBody] AtualizarConsultaRequest request) => await SendCommand(request);
 
-    [HttpGet("{id}")]
+    [HttpGet("{Id}")]
     [ProducesResponseType(typeof(ObterConsultaResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<ObterConsultaResponse>> ObterConsultaAsync(
-         [FromRoute] ObterConsultaRequest request) => await SendCommand(request);
+        [FromRoute] ObterConsultaRequest request) => await SendCommand(request);
 
-    [HttpDelete("{id}")]
+    [HttpDelete("{Id}")]
     [ProducesResponseType(typeof(DeletarConsultaResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status204NoContent)]

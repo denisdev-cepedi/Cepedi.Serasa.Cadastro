@@ -1,34 +1,26 @@
-﻿using Cepedi.Serasa.Cadastro.Compartilhado.Exececoes;
-using Cepedi.Serasa.Cadastro.Compartilhado.Requests;
-using Cepedi.Serasa.Cadastro.Compartilhado.Responses;
-using Cepedi.Serasa.Cadastro.Domain.Repositorio;
+﻿using Cepedi.Serasa.Cadastro.Compartilhado.Requests.Pessoa;
+using Cepedi.Serasa.Cadastro.Compartilhado.Responses.Pessoa;
+using Cepedi.Serasa.Cadastro.Dominio.Repositorio;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using OperationResult;
 
-namespace Cepedi.Serasa.Cadastro.Domain.Handlers.Pessoa;
-internal class ExcluirPessoaPorIdRequestHandler : IRequestHandler<ExcluirPessoaPorIdRequest, Result<ObterPessoaResponse>>
+namespace Cepedi.Serasa.Cadastro.Dominio.Handlers.Pessoa;
+
+public class ExcluirPessoaPorIdRequestHandler : IRequestHandler<ExcluirPessoaPorIdRequest, Result<ExcluirPessoaPorIdResponse>>
 {
     private readonly IPessoaRepository _pessoaRepository;
     private readonly ILogger<ExcluirPessoaPorIdRequestHandler> _logger;
-
-    public ExcluirPessoaPorIdRequestHandler(IPessoaRepository pessoaRepository, ILogger<ExcluirPessoaPorIdRequestHandler> logger)
+    public ExcluirPessoaPorIdRequestHandler(ILogger<ExcluirPessoaPorIdRequestHandler> logger, IPessoaRepository pessoaRepository)
     {
-        _pessoaRepository = pessoaRepository;
         _logger = logger;
+        _pessoaRepository = pessoaRepository;
     }
-
-    public async Task<Result<ObterPessoaResponse>> Handle(ExcluirPessoaPorIdRequest request, CancellationToken cancellationToken)
+    public async Task<Result<ExcluirPessoaPorIdResponse>> Handle(ExcluirPessoaPorIdRequest request, CancellationToken cancellationToken)
     {
-        var pessoa = await _pessoaRepository.ObterPessoaAsync(request.Id);
-
-        if (pessoa == null)
-        {
-            return Result.Error<ObterPessoaResponse>(new SemResultadoExcecao());
-        }
-
-        await _pessoaRepository.ExcluirPessoaAsync(pessoa);
-
-        return Result.Success(new ObterPessoaResponse(pessoa.Id, pessoa.Nome, pessoa.CPF));
+        var pessoaEntity = await _pessoaRepository.ObterPessoaAsync(request.Id);
+        if (pessoaEntity == null) return Result.Error<ExcluirPessoaPorIdResponse>(new Compartilhado.Exececoes.SemResultadoExcecao());
+        await _pessoaRepository.ExcluirPessoaAsync(pessoaEntity.Id);
+        return Result.Success(new ExcluirPessoaPorIdResponse(pessoaEntity.Id, pessoaEntity.Nome, pessoaEntity.CPF));
     }
 }

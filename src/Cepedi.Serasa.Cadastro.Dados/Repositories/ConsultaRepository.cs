@@ -1,4 +1,3 @@
-using Cepedi.Serasa.Cadastro.Data;
 using Cepedi.Serasa.Cadastro.Dominio.Entidades;
 using Cepedi.Serasa.Cadastro.Dominio.Repositorio;
 using Microsoft.EntityFrameworkCore;
@@ -30,15 +29,15 @@ public class ConsultaRepository : IConsultaRepository
         return status;
     }
 
-    public async Task<List<ConsultaEntity>> GetConsultasAsync()
-    {
-        return await _context.Consulta.ToListAsync();
-    }
-
     public async Task<ConsultaEntity> ObterConsultaAsync(int id)
     {
         return await
             _context.Consulta.Where(e => e.Id == id).FirstOrDefaultAsync();
+    }
+
+    public async Task<List<ConsultaEntity>> ObterTodasConsultasAsync()
+    {
+        return await _context.Set<ConsultaEntity>().ToListAsync();
     }
 
     public async Task<PessoaEntity> ObterPessoaConsultaAsync(int id)
@@ -62,4 +61,5 @@ public class ConsultaRepository : IConsultaRepository
 
         return consultaEntity;
     }
+
 }

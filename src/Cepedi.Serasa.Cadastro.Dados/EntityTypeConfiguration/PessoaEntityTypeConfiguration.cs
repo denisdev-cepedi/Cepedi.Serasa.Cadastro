@@ -1,21 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Cepedi.Serasa.Cadastro.Dominio.Entidades;
+﻿using Cepedi.Serasa.Cadastro.Dominio.Entidades;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Cepedi.Serasa.Cadastro.Data.EntityTypeConfiguration;
-public class PessoaEntityTypeConfiguration : IEntityTypeConfiguration<PessoaEntity>
+namespace Cepedi.Serasa.Cadastro.Dados.EntityTypeConfiguration
 {
-    public void Configure(EntityTypeBuilder<PessoaEntity> builder)
+    public class PessoaEntityTypeConfiguration : IEntityTypeConfiguration<PessoaEntity>
     {
-        builder.ToTable("Pessoa");
-        builder.HasKey(pessoa => pessoa.Id);
+        public void Configure(EntityTypeBuilder<PessoaEntity> builder)
+        {
+            builder.ToTable("Pessoa");
+            builder.HasKey(pessoa => pessoa.Id);
 
-        builder.Property(pessoa => pessoa.Nome).IsRequired().HasMaxLength(100);
-        builder.Property(pessoa => pessoa.CPF).IsRequired().HasMaxLength(11);
+            builder.Property(pessoa => pessoa.Nome).IsRequired().HasMaxLength(100);
+            builder.Property(pessoa => pessoa.CPF).IsRequired().HasMaxLength(11);
+
+            // Se necessário, adicione outras configurações da entidade PessoaEntity aqui
+        }
     }
 }

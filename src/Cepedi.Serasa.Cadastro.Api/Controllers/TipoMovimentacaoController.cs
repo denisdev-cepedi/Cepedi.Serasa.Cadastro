@@ -1,6 +1,6 @@
 ﻿using Cepedi.Serasa.Cadastro.Compartilhado.Exececoes;
-using Cepedi.Serasa.Cadastro.Compartilhado.Requests;
-using Cepedi.Serasa.Cadastro.Compartilhado.Responses;
+using Cepedi.Serasa.Cadastro.Compartilhado.Requests.TipoMovimentacao;
+using Cepedi.Serasa.Cadastro.Compartilhado.Responses.TipoMovimentacao;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,6 +18,12 @@ public class TipoMovimentacao : BaseController
         _logger = logger;
         _mediator = mediator;
     }
+
+    [HttpGet]
+    [ProducesResponseType(typeof(List<ObterTodosTiposMovimentacaoResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<List<ObterTodosTiposMovimentacaoResponse>>> ObterTodosTiposMovimentacaoAsync()
+        => await SendCommand(new ObterTodosTiposMovimentacaoRequest());
 
     [HttpPost]
     [ProducesResponseType(typeof(CriarTipoMovimentacaoResponse), StatusCodes.Status200OK)]

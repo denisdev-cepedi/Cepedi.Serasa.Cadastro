@@ -1,5 +1,4 @@
-﻿using Cepedi.Serasa.Cadastro.Data;
-using Cepedi.Serasa.Cadastro.Dominio.Entidades;
+﻿using Cepedi.Serasa.Cadastro.Dominio.Entidades;
 using Cepedi.Serasa.Cadastro.Dominio.Repositorio;
 using Microsoft.EntityFrameworkCore;
 
@@ -42,6 +41,11 @@ namespace Cepedi.Serasa.Cadastro.Dados.Repositories
         {
             return await
                 _context.Score.Where(e => e.Id == id).FirstOrDefaultAsync();
+        }
+
+        public async Task<List<ScoreEntity>> ObterTodosScoresAsync()
+        {
+            return await _context.Set<ScoreEntity>().ToListAsync();
         }
 
         public async Task<PessoaEntity> ObterPessoaScoreAsync(int id)
