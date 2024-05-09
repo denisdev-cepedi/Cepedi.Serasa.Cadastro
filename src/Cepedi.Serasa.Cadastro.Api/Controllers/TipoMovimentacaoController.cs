@@ -28,25 +28,26 @@ public class TipoMovimentacao : BaseController
     [HttpPost]
     [ProducesResponseType(typeof(CriarTipoMovimentacaoResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<CriarTipoMovimentacaoResponse>> CriarPessoaAsync([FromBody] CriarTipoMovimentacaoRequest request) => await SendCommand(request);
+    public async Task<ActionResult<CriarTipoMovimentacaoResponse>> CriarTipoMovimentacaoAsync(
+        [FromBody] CriarTipoMovimentacaoRequest request) => await SendCommand(request);
 
     [HttpPut]
     [ProducesResponseType(typeof(AtualizarTipoMovimentacaoResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status204NoContent)]
-    public async Task<ActionResult<AtualizarTipoMovimentacaoResponse>> AtualizarPessoaAsync(
+    public async Task<ActionResult<AtualizarTipoMovimentacaoResponse>> AtualizarTipoMovimentacaoAsync(
         [FromBody] AtualizarTipoMovimentacaoRequest request) => await SendCommand(request);
 
     [HttpGet("{Id}")]
     [ProducesResponseType(typeof(ObterTipoMovimentacaoResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<ObterTipoMovimentacaoResponse>> ObterPessoaAsync(
+    public async Task<ActionResult<ObterTipoMovimentacaoResponse>> ObterTipoMovimentacaoAsync(
         [FromRoute] ObterTipoMovimentacaoRequest request) => await SendCommand(request);
 
     [HttpDelete("{Id}")]
     [ProducesResponseType(typeof(DeletarTipoMovimentacaoResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status204NoContent)]
-    public async Task<ActionResult<DeletarTipoMovimentacaoResponse>> DeletarPessoaAsync(
+    public async Task<ActionResult<DeletarTipoMovimentacaoResponse>> DeletarTipoMovimentacaoAsync(
         [FromRoute] DeletarTipoMovimentacaoRequest request) => await SendCommand(request);
 }

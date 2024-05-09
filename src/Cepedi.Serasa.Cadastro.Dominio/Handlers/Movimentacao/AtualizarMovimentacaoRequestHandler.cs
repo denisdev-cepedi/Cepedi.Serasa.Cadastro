@@ -38,6 +38,7 @@ public class AtualizarMovimentacaoRequestHandler : IRequestHandler<AtualizarMovi
         var response = new AtualizarMovimentacaoResponse(
             movimentacaoEntity.Id,
             movimentacaoEntity.IdTipoMovimentacao,
+            movimentacaoEntity.IdPessoa,
             movimentacaoEntity.DataHora,
             movimentacaoEntity.NomeEstabelecimento,
             movimentacaoEntity.Valor
