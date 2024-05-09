@@ -10,6 +10,10 @@ namespace Cepedi.Serasa.Cadastro.Compartilhado.Requests.Movimentacao.Validators
         {
             _validacao = validacao;
 
+            RuleFor(movimentacao => movimentacao.IdTipoMovimentacao)
+                .NotEmpty().WithMessage("O ID do tipo de movimentação deve ser informado")
+                .GreaterThan(0).WithMessage("ID do tipo de movimentação inválido");
+
             RuleFor(movimentacao => movimentacao.DataHora)
                 .NotEmpty().WithMessage("A data e hora devem ser informadas")
                 .MustAsync(async (dataHora, cancellationToken) => await _validacao.BeValidDateTimeAsync(dataHora))
