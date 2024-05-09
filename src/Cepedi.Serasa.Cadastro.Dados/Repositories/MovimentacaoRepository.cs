@@ -13,21 +13,22 @@ public class MovimentacaoRepository : IMovimentacaoRepository
         _context = context;
     }
 
-    public async Task<List<MovimentacaoEntity>> ObterTodasMovimentacoesAsync()
-    {
-        return await _context.Set<MovimentacaoEntity>().ToListAsync();
-    }
-
-    public async Task<MovimentacaoEntity> ObterMovimentacaoAsync(int id)
-    {
-        return await _context.Movimentacao.Where(e => e.Id == id).FirstOrDefaultAsync();
-    }
-
     public async Task<MovimentacaoEntity> CriarMovimentacaoAsync(MovimentacaoEntity movimentacao)
     {
         _context.Movimentacao.Add(movimentacao);
         await _context.SaveChangesAsync();
         return movimentacao;
+    }
+
+    public async Task<MovimentacaoEntity> ObterMovimentacaoAsync(int id)
+    {
+        return await
+                _context.Movimentacao.Where(e => e.Id == id).FirstOrDefaultAsync();
+    }
+
+    public async Task<List<MovimentacaoEntity>> ObterTodasMovimentacoesAsync()
+    {
+        return await _context.Set<MovimentacaoEntity>().ToListAsync();
     }
 
     public async Task<MovimentacaoEntity> AtualizarMovimentacaoAsync(MovimentacaoEntity movimentacao)
@@ -38,7 +39,7 @@ public class MovimentacaoRepository : IMovimentacaoRepository
 
         return movimentacao;
     }
-
+    
     public async Task<MovimentacaoEntity?> DeletarMovimentacaoAsync(int id)
     {
         var movimentacaoEntity = await ObterMovimentacaoAsync(id);
@@ -49,5 +50,4 @@ public class MovimentacaoRepository : IMovimentacaoRepository
         return movimentacaoEntity;
     }
 
-    
 }

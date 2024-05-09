@@ -6,39 +6,44 @@ using MediatR;
 using Microsoft.Extensions.Logging;
 using OperationResult;
 
-namespace Cepedi.Serasa.Cadastro.Dominio.Handlers.Movimentacao;
-public class CriarMovimentacaoRequestHandler : IRequestHandler<CriarMovimentacaoRequest, Result<CriarMovimentacaoResponse>>
+namespace Cepedi.Serasa.Cadastro.Dominio.Handlers.Movimentacao
 {
-    private readonly ILogger<CriarMovimentacaoRequestHandler> _logger;
-    private readonly IMovimentacaoRepository _movimentacaoRepository;
+    public class CriarMovimentacaoRequestHandler : IRequestHandler<CriarMovimentacaoRequest, Result<CriarMovimentacaoResponse>>
+    {
+        private readonly ILogger<CriarMovimentacaoRequestHandler> _logger;
+        private readonly IMovimentacaoRepository _movimentacaoRepository;
 
-    public CriarMovimentacaoRequestHandler(ILogger<CriarMovimentacaoRequestHandler> logger, IMovimentacaoRepository movimentacaoRepository)
-    {
-        _logger = logger;
-        _movimentacaoRepository = movimentacaoRepository;
-    }
-    public async Task<Result<CriarMovimentacaoResponse>> Handle(CriarMovimentacaoRequest request, CancellationToken cancellationToken)
-    {
-        var movimentacao = new MovimentacaoEntity()
+        public CriarMovimentacaoRequestHandler(ILogger<CriarMovimentacaoRequestHandler> logger, IMovimentacaoRepository movimentacaoRepository)
         {
-            IdTipoMovimentacao = request.IdTipoMovimentacao,
-            Valor = request.Valor,
-            DataHora = DateTime.UtcNow,
-            NomeEstabelecimento = request.NomeEstabelecimento
-        };
+            _logger = logger;
+            _movimentacaoRepository = movimentacaoRepository;
+        }
 
+        public async Task<Result<CriarMovimentacaoResponse>> Handle(CriarMovimentacaoRequest request, CancellationToken cancellationToken)
+        {
 
-        await _movimentacaoRepository.CriarMovimentacaoAsync(movimentacao);
+            var movimentacao = new MovimentacaoEntity()
+            {
+                IdTipoMovimentacao = request.IdTipoMovimentacao,
+                IdPessoa = request.IdPessoa,
+                DataHora = DateTime.UtcNow,
+                NomeEstabelecimento = request.NomeEstabelecimento,
+                Valor = request.Valor,
+                
+            };
 
-        var response = new CriarMovimentacaoResponse(
-            movimentacao.Id,
-            movimentacao.IdTipoMovimentacao,
-            movimentacao.Valor,
-            movimentacao.DataHora,
-            movimentacao.NomeEstabelecimento
-        );
+            await _movimentacaoRepository.CriarMovimentacaoAsync(movimentacao);
+            var response = new CriarMovimentacaoResponse(
+                movimentacao.Id,
+                movimentacao.IdTipoMovimentacao,
+                movimentacao.IdPessoa,
+                movimentacao.DataHora,
+                movimentacao.NomeEstabelecimento,
+                movimentacao.Valor
+                
+            );
 
-        return Result.Success(response);
-
+            return Result.Success(response);
+        }
     }
 }

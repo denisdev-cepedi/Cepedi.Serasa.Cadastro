@@ -43,14 +43,14 @@ public class ScoreController : BaseController
     [HttpGet("{Id}")]
     [ProducesResponseType(typeof(ObterScoreResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<ObterScoreResponse>> ObterPessoaAsync(
+    public async Task<ActionResult<ObterScoreResponse>> ObterScoreAsync(
         [FromRoute] ObterScoreRequest request) => await SendCommand(request);
 
     [HttpDelete("{Id}")]
     [ProducesResponseType(typeof(DeletarScoreResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status204NoContent)]
-    public async Task<ActionResult<DeletarScoreResponse>> DeletarPessoaAsync(
+    public async Task<ActionResult<DeletarScoreResponse>> DeletarScoreAsync(
         [FromRoute] DeletarScoreRequest request) => await SendCommand(request);
 
 }

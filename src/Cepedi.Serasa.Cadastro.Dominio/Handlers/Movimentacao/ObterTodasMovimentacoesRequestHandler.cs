@@ -25,11 +25,18 @@ public class ObterTodasMovimentacoesRequestHandler : IRequestHandler<ObterTodasM
         {
             return Result.Error<List<ObterTodasMovimentacoesResponse>>(new Compartilhado.Exececoes.SemResultadoExcecao());
         }
+        
 
         var response = new List<ObterTodasMovimentacoesResponse>();
         foreach (var movimentacao in movimentacoes)
         {
-            response.Add(new ObterTodasMovimentacoesResponse(movimentacao.Id, movimentacao.IdTipoMovimentacao, movimentacao.DataHora, movimentacao.NomeEstabelecimento, movimentacao.Valor));
+            response.Add(new ObterTodasMovimentacoesResponse(
+                movimentacao.Id, 
+                movimentacao.IdTipoMovimentacao, 
+                movimentacao.IdPessoa, 
+                movimentacao.DataHora, 
+                movimentacao.NomeEstabelecimento, 
+                movimentacao.Valor));
         }
 
         return Result.Success(response);
