@@ -18,8 +18,18 @@ public class ObterMovimentacaoRequestHandler : IRequestHandler<ObterMovimentacao
     {
         var movimentacaoEntity = await _movimentacaoRepository.ObterMovimentacaoAsync(request.Id);
         
+        var response = new ObterMovimentacaoResponse(
+            movimentacaoEntity.Id,
+            movimentacaoEntity.IdTipoMovimentacao,
+            movimentacaoEntity.IdPessoa,
+            movimentacaoEntity.DataHora,
+            movimentacaoEntity.NomeEstabelecimento,
+            movimentacaoEntity.Valor
+                
+        );
+
         return movimentacaoEntity == null
             ? Result.Error<ObterMovimentacaoResponse>(new Compartilhado.Exececoes.SemResultadoExcecao())
-            : Result.Success(new ObterMovimentacaoResponse(movimentacaoEntity.Id, movimentacaoEntity.IdTipoMovimentacao, movimentacaoEntity.DataHora, movimentacaoEntity.NomeEstabelecimento, movimentacaoEntity.Valor));
+            : Result.Success(response);
     }
 }
