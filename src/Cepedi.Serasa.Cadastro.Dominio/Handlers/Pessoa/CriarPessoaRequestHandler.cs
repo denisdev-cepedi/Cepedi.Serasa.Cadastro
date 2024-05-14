@@ -7,6 +7,7 @@ using Cepedi.Serasa.Cadastro.Dominio.Entidades;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using OperationResult;
+using FluentValidation;
 
 namespace Cepedi.Serasa.Cadastro.Dominio.Handlers.Pessoa;
 
@@ -15,11 +16,13 @@ public class CriarPessoaRequestHandler
 {
     private readonly IPessoaRepository _pessoaRepository;
     private readonly ILogger<CriarPessoaRequestHandler> _logger;
+    private readonly AbstractValidator<CriarPessoaRequest> _validator;
 
-    public CriarPessoaRequestHandler(IPessoaRepository pessoaRepository, ILogger<CriarPessoaRequestHandler> logger)
+    public CriarPessoaRequestHandler(IPessoaRepository pessoaRepository, ILogger<CriarPessoaRequestHandler> logger, AbstractValidator<CriarPessoaRequest> validator)
     {
         _pessoaRepository = pessoaRepository;
         _logger = logger;
+        _validator = validator;
     }
 
     public async Task<Result<CriarPessoaResponse>> Handle(CriarPessoaRequest request, CancellationToken cancellationToken)
