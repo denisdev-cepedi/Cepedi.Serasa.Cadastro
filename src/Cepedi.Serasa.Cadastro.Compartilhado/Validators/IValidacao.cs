@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Cepedi.Serasa.Cadastro.Compartilhado.Requests.Movimentacao.Validators
+namespace Cepedi.Serasa.Cadastro.Compartilhado.Requests.Validators
 {
     public interface IValidacao
     {
