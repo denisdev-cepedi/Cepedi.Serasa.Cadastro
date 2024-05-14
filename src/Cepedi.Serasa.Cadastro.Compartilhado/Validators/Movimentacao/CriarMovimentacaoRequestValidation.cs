@@ -8,8 +8,12 @@ namespace Cepedi.Serasa.Cadastro.Compartilhado.Requests.Movimentacao.Validators
         public CriarMovimentacaoRequestValidation()
         {
             RuleFor(movimentacao => movimentacao.IdTipoMovimentacao)
-                .NotEmpty().WithMessage("O ID do tipo de movimentação deve ser informado")
+                .NotNull().WithMessage("O ID do tipo de movimentação deve ser informado")
                 .GreaterThan(0).WithMessage("ID do tipo de movimentação inválido");
+
+            RuleFor(movimentacao => movimentacao.IdPessoa)
+                .NotNull().WithMessage("O ID da pessoa deve ser informado")
+                .GreaterThan(0).WithMessage("ID da pessoa inválido");
 
             RuleFor(movimentacao => movimentacao.DataHora)
                 .NotEmpty().WithMessage("A data e hora devem ser informadas")
@@ -22,7 +26,7 @@ namespace Cepedi.Serasa.Cadastro.Compartilhado.Requests.Movimentacao.Validators
 
             RuleFor(movimentacao => movimentacao.Valor)
                 .NotEmpty().WithMessage("O valor deve ser informado")
-                .Must(ValidacaoUtils.ValidarValorTransacao).WithMessage("O valor de movimentação é inválido ou não foi especificado corretamente");
+                .Must(ValidacaoUtils.ValidarValorTransacao).WithMessage("O valor de movimentação é inválido");
         }
     }
 }

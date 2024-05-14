@@ -11,7 +11,7 @@ namespace Cepedi.Serasa.Cadastro.Compartilhado.Requests.Movimentacao.Validators
 
         public static bool ValidarValorTransacao(decimal value)
         {
-            return value > 0;
+            return value >= 0;
         }
     }
 }

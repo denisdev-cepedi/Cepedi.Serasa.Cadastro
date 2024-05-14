@@ -40,7 +40,7 @@ public class BaseController : ControllerBase
     {
         if (errors != null)
         {
-            responseErro.Descricao = $"{responseErro.Descricao} : {string.Join("; ", errors!)}";
+            responseErro.Descricao = $"{responseErro.Descricao}: {string.Join("; ", errors!)}";
         }
 
         return responseErro;
