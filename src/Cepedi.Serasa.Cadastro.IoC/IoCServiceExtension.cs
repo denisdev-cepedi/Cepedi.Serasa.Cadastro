@@ -10,6 +10,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Cepedi.Serasa.Cadastro.Compartilhado;
 
 namespace Cepedi.Serasa.Cadastro.IoC
 {
@@ -40,7 +41,7 @@ namespace Cepedi.Serasa.Cadastro.IoC
         private static void ConfigurarFluentValidation(IServiceCollection services)
         {
             var abstractValidator = typeof(AbstractValidator<>);
-            var validadores = typeof(QualquerCoisa)
+            var validadores = typeof(IValida)
                 .Assembly
                 .DefinedTypes
                 .Where(type => type.BaseType?.IsGenericType is true &&
