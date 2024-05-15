@@ -25,7 +25,7 @@ namespace Cepedi.Serasa.Cadastro.Dominio.Pipelines
                     _logger.LogInformation("Request handler {dados}", request);
                 }
 
-                var response = await next();
+                var response = await next.Invoke();
 
                 return response;
             }
@@ -35,8 +35,8 @@ namespace Cepedi.Serasa.Cadastro.Dominio.Pipelines
 
                 var erro = Result.Error<TResponse>(e);
 
-                var retorno = AlterarPropriedadeComReflection<TResponse>(erro, e);
-                return retorno != null ? (TResponse)retorno : default!;
+                var retorno = AlterarPropriedadeComReflection<TResponse>(erro.Value, e);
+                return (TResponse)(object)retorno;
             }
         }
 
@@ -50,7 +50,7 @@ namespace Cepedi.Serasa.Cadastro.Dominio.Pipelines
                 if (value != null)
                 {
                     Type valueType = value.GetType();
-                    var exceptionField = valueType.GetField("_exception", BindingFlags.Instance | BindingFlags.NonPublic);
+                    var exceptionField = valueType.GetField("<Exception>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic);
 
                     if (exceptionField != null)
                     {

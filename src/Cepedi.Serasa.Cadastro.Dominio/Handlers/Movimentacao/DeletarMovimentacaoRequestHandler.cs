@@ -23,7 +23,16 @@ public class DeletarMovimentacaoRequestHandler : IRequestHandler<DeletarMoviment
         if (movimentacaoEntity == null) return Result.Error<DeletarMovimentacaoResponse>(new Compartilhado.Exececoes.SemResultadoExcecao());
         
         await _movimentacaoRepository.DeletarMovimentacaoAsync(movimentacaoEntity.Id);
+
+        var response = new DeletarMovimentacaoResponse(
+            movimentacaoEntity.Id,
+            movimentacaoEntity.IdTipoMovimentacao,
+            movimentacaoEntity.IdPessoa,
+            movimentacaoEntity.DataHora,
+            movimentacaoEntity.NomeEstabelecimento,
+            movimentacaoEntity.Valor
+        );
         
-        return Result.Success(new DeletarMovimentacaoResponse(movimentacaoEntity.Id, movimentacaoEntity.IdTipoMovimentacao, movimentacaoEntity.DataHora, movimentacaoEntity.NomeEstabelecimento, movimentacaoEntity.Valor));
+        return Result.Success(response);
     }
 }
