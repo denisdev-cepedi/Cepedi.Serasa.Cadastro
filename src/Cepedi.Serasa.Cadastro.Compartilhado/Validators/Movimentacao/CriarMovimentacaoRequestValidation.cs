@@ -17,16 +17,16 @@ namespace Cepedi.Serasa.Cadastro.Compartilhado.Requests.Movimentacao.Validators
 
             RuleFor(movimentacao => movimentacao.DataHora)
                 .NotEmpty().WithMessage("A data e hora devem ser informadas")
-                .Must(ValidacaoUtils.BeValidDateTime).WithMessage("Data e hora informadas são inválidas");
+                .Must(dataHora => dataHora != default(DateTime)).WithMessage("Data e hora devem ser válidas");
 
             RuleFor(movimentacao => movimentacao.NomeEstabelecimento)
                 .NotEmpty().WithMessage("O nome do estabelecimento deve ser informado")
-                .MinimumLength(3).WithMessage("Nome do estabelecimento muito curto")
-                .MaximumLength(100).WithMessage("Nome do estabelecimento muito longo");
+                .MinimumLength(3).WithMessage("Nome do estabelecimento deve ter no mínimo 3 caracteres")
+                .MaximumLength(100).WithMessage("Nome do estabelecimento deve ter no máximo 100 caracteres");
 
             RuleFor(movimentacao => movimentacao.Valor)
-                .NotEmpty().WithMessage("O valor deve ser informado")
-                .Must(ValidacaoUtils.ValidarValorTransacao).WithMessage("O valor de movimentação é inválido");
+                .NotNull().WithMessage("O valor deve ser informado")
+                .GreaterThanOrEqualTo(0).WithMessage("O valor de movimentação é inválido");
         }
     }
 }

@@ -9,9 +9,5 @@ namespace Cepedi.Serasa.Cadastro.Compartilhado.Requests.Movimentacao.Validators
             return dateTime > DateTime.MinValue && dateTime < DateTime.MaxValue;
         }
 
-        public static bool ValidarValorTransacao(decimal value)
-        {
-            return value >= 0;
-        }
     }
 }
