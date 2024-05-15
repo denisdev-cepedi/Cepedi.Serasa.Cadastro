@@ -1,3 +1,6 @@
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 using Cepedi.Serasa.Cadastro.Compartilhado.Requests.Movimentacao;
 using Cepedi.Serasa.Cadastro.Compartilhado.Responses.Movimentacao;
 using Cepedi.Serasa.Cadastro.Dominio.Entidades;
@@ -13,13 +16,15 @@ namespace Cepedi.Serasa.Cadastro.Dominio.Tests.Handlers.Movimentacao
 {
     public class AtualizarMovimentacaoRequestHandlerTests
     {
-        private readonly IMovimentacaoRepository _movimentacaoRepository = Substitute.For<IMovimentacaoRepository>();
-        private readonly ILogger<AtualizarMovimentacaoRequestHandler> _logger = Substitute.For<ILogger<AtualizarMovimentacaoRequestHandler>>();
+        private readonly IMovimentacaoRepository _movimentacaoRepository;
+        private readonly ILogger<AtualizarMovimentacaoRequestHandler> _logger;
         private readonly AtualizarMovimentacaoRequestHandler _sut;
 
         public AtualizarMovimentacaoRequestHandlerTests()
         {
-            _sut = new AtualizarMovimentacaoRequestHandler(_logger, _movimentacaoRepository);
+            _movimentacaoRepository = Substitute.For<IMovimentacaoRepository>();
+            _logger = Substitute.For<ILogger<AtualizarMovimentacaoRequestHandler>>();
+            _sut = new AtualizarMovimentacaoRequestHandler(_movimentacaoRepository, _logger);
         }
 
         [Fact]
@@ -28,18 +33,17 @@ namespace Cepedi.Serasa.Cadastro.Dominio.Tests.Handlers.Movimentacao
             // Arrange
             var request = new AtualizarMovimentacaoRequest
             {
-                IdMovimentacao = 1,
+                Id = 1,
                 IdTipoMovimentacao = 2,
-                IdPessoa = 1,
+                DataHora = DateTime.Parse("2024-05-15T15:45:39.053Z"),
                 NomeEstabelecimento = "Nova Loja",
                 Valor = 200.0m
             };
 
             var movimentacaoExistente = new MovimentacaoEntity
             {
-                Id = request.IdMovimentacao,
+                Id = request.Id,
                 IdTipoMovimentacao = 1,
-                IdPessoa = request.IdPessoa,
                 DataHora = DateTime.UtcNow.AddDays(-1),
                 NomeEstabelecimento = "Exemplo Loja",
                 Valor = 100.0m
@@ -47,15 +51,14 @@ namespace Cepedi.Serasa.Cadastro.Dominio.Tests.Handlers.Movimentacao
 
             var movimentacaoAtualizada = new MovimentacaoEntity
             {
-                Id = request.IdMovimentacao,
+                Id = request.Id,
                 IdTipoMovimentacao = request.IdTipoMovimentacao,
-                IdPessoa = request.IdPessoa,
-                DataHora = DateTime.UtcNow,
+                DataHora = request.DataHora,
                 NomeEstabelecimento = request.NomeEstabelecimento,
                 Valor = request.Valor
             };
 
-            _movimentacaoRepository.ObterMovimentacaoAsync(request.IdMovimentacao)
+            _movimentacaoRepository.ObterMovimentacaoAsync(request.Id)
                                     .Returns(Task.FromResult(movimentacaoExistente));
 
             _movimentacaoRepository.AtualizarMovimentacaoAsync(Arg.Any<MovimentacaoEntity>())
@@ -69,15 +72,19 @@ namespace Cepedi.Serasa.Cadastro.Dominio.Tests.Handlers.Movimentacao
                   .Which.IsSuccess.Should().BeTrue();
 
             result.Value.Should().NotBeNull();
-            result.Value.Id.Should().Be(request.IdMovimentacao);
+            result.Value.Id.Should().Be(request.Id);
             result.Value.IdTipoMovimentacao.Should().Be(request.IdTipoMovimentacao);
-            result.Value.IdPessoa.Should().Be(request.IdPessoa);
             result.Value.NomeEstabelecimento.Should().Be(request.NomeEstabelecimento);
             result.Value.Valor.Should().Be(request.Valor);
 
             // Verificar se os métodos no repositório foram chamados corretamente
-            await _movimentacaoRepository.Received(1).ObterMovimentacaoAsync(request.IdMovimentacao);
-            await _movimentacaoRepository.Received(1).AtualizarMovimentacaoAsync(Arg.Any<MovimentacaoEntity>());
+            await _movimentacaoRepository.Received(1).ObterMovimentacaoAsync(request.Id);
+            await _movimentacaoRepository.Received(1).AtualizarMovimentacaoAsync(Arg.Is<MovimentacaoEntity>(
+                m => m.Id == request.Id &&
+                     m.IdTipoMovimentacao == request.IdTipoMovimentacao &&
+                     m.NomeEstabelecimento == request.NomeEstabelecimento &&
+                     m.Valor == request.Valor
+            ));
         }
     }
 }

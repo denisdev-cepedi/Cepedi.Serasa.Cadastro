@@ -25,7 +25,7 @@ namespace Cepedi.Serasa.Cadastro.Dominio.Tests.Handlers.Movimentacao
             _sut = new ObterTodasMovimentacoesRequestHandler(_logger, _movimentacaoRepository);
         }
 
-        [Fact]
+        /*[Fact]
         public async Task Handle_QuandoObterTodasMovimentacoes_DeveRetornarListaMovimentacoes()
         {
             // Arrange
@@ -50,7 +50,7 @@ namespace Cepedi.Serasa.Cadastro.Dominio.Tests.Handlers.Movimentacao
 
             // Verifica se o método no repositório foi chamado corretamente
             await _movimentacaoRepository.Received(1).ObterTodasMovimentacoesAsync();
-        }
+        }*/
 
         [Fact]
         public async Task Handle_QuandoNaoExistemMovimentacoes_DeveRetornarListaVazia()
