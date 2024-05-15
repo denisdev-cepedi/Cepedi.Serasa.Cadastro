@@ -46,7 +46,20 @@ namespace Cepedi.Serasa.Cadastro.Dominio.Tests.Handlers.Movimentacao
             // Assert
             result.Should().NotBeNull();
             result.Value.Should().NotBeNull();
-            result.Value.Should().BeEquivalentTo(movimentacoes); // Verifica se as listas são equivalentes
+
+            // Verifica se as listas têm o mesmo número de elementos
+            result.Value.Should().HaveCount(movimentacoes.Count);
+
+            // Verifica se cada elemento na lista resultante corresponde ao elemento correspondente na lista original
+            for (int i = 0; i < movimentacoes.Count; i++)
+            {
+                result.Value[i].Id.Should().Be(movimentacoes[i].Id);
+                result.Value[i].IdTipoMovimentacao.Should().Be(movimentacoes[i].IdTipoMovimentacao);
+                result.Value[i].IdPessoa.Should().Be(movimentacoes[i].IdPessoa);
+                result.Value[i].DataHora.Should().Be(movimentacoes[i].DataHora);
+                result.Value[i].NomeEstabelecimento.Should().Be(movimentacoes[i].NomeEstabelecimento);
+                result.Value[i].Valor.Should().Be(movimentacoes[i].Valor);
+            }
 
             // Verifica se o método no repositório foi chamado corretamente
             await _movimentacaoRepository.Received(1).ObterTodasMovimentacoesAsync();

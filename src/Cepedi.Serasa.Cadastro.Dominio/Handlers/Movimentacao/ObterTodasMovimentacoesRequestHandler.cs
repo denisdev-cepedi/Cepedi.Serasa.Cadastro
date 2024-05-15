@@ -25,7 +25,6 @@ public class ObterTodasMovimentacoesRequestHandler : IRequestHandler<ObterTodasM
         {
             return Result.Error<List<ObterTodasMovimentacoesResponse>>(new Compartilhado.Exececoes.SemResultadoExcecao());
         }
-        
 
         var response = new List<ObterTodasMovimentacoesResponse>();
         foreach (var movimentacao in movimentacoes)
