@@ -50,7 +50,7 @@ namespace Cepedi.Serasa.Cadastro.Dominio.Pipelines
                 if (value != null)
                 {
                     Type valueType = value.GetType();
-                    var exceptionField = valueType.GetField("<Exception>k___BackingField", BindingFlags.Instance | BindingFlags.NonPublic);
+                    var exceptionField = valueType.GetField("<Exception>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic);
 
                     if (exceptionField != null)
                     {
