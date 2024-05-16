@@ -1,4 +1,5 @@
-﻿using Cepedi.Serasa.Cadastro.Compartilhado.Requests.Pessoa;
+﻿using Cepedi.Serasa.Cadastro.Compartilhado.Exececoes;
+using Cepedi.Serasa.Cadastro.Compartilhado.Requests.Pessoa;
 using Cepedi.Serasa.Cadastro.Compartilhado.Responses.Pessoa;
 using Cepedi.Serasa.Cadastro.Dominio.Entidades;
 using Cepedi.Serasa.Cadastro.Dominio.Handlers.Pessoa;
@@ -38,7 +39,6 @@ public class CriarPessoaRequestHandlerTests
             CPF = pessoaRequest.CPF
         };
 
-        //_pessoaRepository.CriarPessoaAsync(Arg.Any<PessoaEntity>()).Returns(pessoa);
         _pessoaRepository.CriarPessoaAsync(Arg.Is<PessoaEntity>(pessoa => pessoa.Nome == pessoaRequest.Nome
         && pessoa.CPF == pessoaRequest.CPF)).Returns(pessoa);
 
@@ -51,6 +51,36 @@ public class CriarPessoaRequestHandlerTests
 
         result.Should().BeOfType<Result<CriarPessoaResponse>>()
             .Which.Value.CPF.Should().Be(pessoaRequest.CPF);
+
+        await _pessoaRepository.Received(1)
+            .CriarPessoaAsync(Arg.Is<PessoaEntity>(pessoa => pessoa.Nome == pessoaRequest.Nome && pessoa.CPF == pessoaRequest.CPF));
+    }
+
+    [Fact]
+    public async Task QuandoCriarPessoaComDadosInvalidosDeveRetornarErro()
+    {
+        //Arrange
+        var pessoaRequest = new CriarPessoaRequest
+        {
+            Nome = "Ze",
+            CPF = "123"
+        };
+
+        var pessoaEntity = new PessoaEntity
+        {
+            Nome = pessoaRequest.Nome,
+            CPF = pessoaRequest.CPF
+        };
+
+        _pessoaRepository
+            .CriarPessoaAsync(Arg.Is<PessoaEntity>(pessoa => pessoa.Nome == pessoaRequest.Nome && pessoa.CPF == pessoaRequest.CPF))
+            .Returns(pessoaEntity);
+
+        //Act
+        var result = await _sut.Handle(pessoaRequest, CancellationToken.None);
+
+        //Assert
+        result.Should().BeOfType<ResultadoErro>();
 
         await _pessoaRepository.Received(1)
             .CriarPessoaAsync(Arg.Is<PessoaEntity>(pessoa => pessoa.Nome == pessoaRequest.Nome && pessoa.CPF == pessoaRequest.CPF));
