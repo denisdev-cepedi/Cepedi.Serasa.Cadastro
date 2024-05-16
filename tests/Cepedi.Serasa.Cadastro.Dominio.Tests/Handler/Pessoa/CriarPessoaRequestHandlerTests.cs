@@ -51,5 +51,8 @@ public class CriarPessoaRequestHandlerTests
 
         result.Should().BeOfType<Result<CriarPessoaResponse>>()
             .Which.Value.CPF.Should().Be(pessoaRequest.CPF);
+
+        await _pessoaRepository.Received(1)
+            .CriarPessoaAsync(Arg.Is<PessoaEntity>(pessoa => pessoa.Nome == pessoaRequest.Nome && pessoa.CPF == pessoaRequest.CPF));
     }
 }
