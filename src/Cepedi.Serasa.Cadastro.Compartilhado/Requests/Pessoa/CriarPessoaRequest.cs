@@ -3,7 +3,7 @@ using MediatR;
 using OperationResult;
 
 namespace Cepedi.Serasa.Cadastro.Compartilhado.Requests.Pessoa;
-public class CriarPessoaRequest : IRequest<Result<CriarPessoaResponse>>
+public class CriarPessoaRequest : IRequest<Result<CriarPessoaResponse>>, IValida
 {
     public required string Nome { get; set; }
     public required string CPF { get; set; }
