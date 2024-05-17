@@ -17,14 +17,16 @@ namespace Cepedi.Serasa.Cadastro.Dominio.Tests.Handlers.Movimentacao
     public class AtualizarMovimentacaoRequestHandlerTests
     {
         private readonly IMovimentacaoRepository _movimentacaoRepository;
+        private readonly ITipoMovimentacaoRepository _tipoMovimentacaoRepository;
         private readonly ILogger<AtualizarMovimentacaoRequestHandler> _logger;
         private readonly AtualizarMovimentacaoRequestHandler _sut;
 
         public AtualizarMovimentacaoRequestHandlerTests()
         {
             _movimentacaoRepository = Substitute.For<IMovimentacaoRepository>();
+            _tipoMovimentacaoRepository = Substitute.For<ITipoMovimentacaoRepository>();
             _logger = Substitute.For<ILogger<AtualizarMovimentacaoRequestHandler>>();
-            _sut = new AtualizarMovimentacaoRequestHandler(_movimentacaoRepository, _logger);
+            _sut = new AtualizarMovimentacaoRequestHandler(_tipoMovimentacaoRepository, _movimentacaoRepository, _logger);
         }
 
         [Fact]
@@ -35,7 +37,7 @@ namespace Cepedi.Serasa.Cadastro.Dominio.Tests.Handlers.Movimentacao
             {
                 Id = 1,
                 IdTipoMovimentacao = 2,
-                DataHora = DateTime.Parse("2024-05-15T15:45:39.053Z"),
+                DataHora = DateTime.Parse("2024-05-17T16:58:27.845Z"),
                 NomeEstabelecimento = "Nova Loja",
                 Valor = 200.0m
             };
@@ -82,6 +84,7 @@ namespace Cepedi.Serasa.Cadastro.Dominio.Tests.Handlers.Movimentacao
             await _movimentacaoRepository.Received(1).AtualizarMovimentacaoAsync(Arg.Is<MovimentacaoEntity>(
                 m => m.Id == request.Id &&
                      m.IdTipoMovimentacao == request.IdTipoMovimentacao &&
+                     m.DataHora == request.DataHora &&
                      m.NomeEstabelecimento == request.NomeEstabelecimento &&
                      m.Valor == request.Valor
             ));
