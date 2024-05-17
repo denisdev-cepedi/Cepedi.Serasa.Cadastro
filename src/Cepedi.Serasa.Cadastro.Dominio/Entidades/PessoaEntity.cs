@@ -8,12 +8,9 @@ public class PessoaEntity
     // Propriedade de navegação para o Score associado à pessoa
     public ScoreEntity? Score { get; set; }
 
-    internal void Atualizar(string? nome, string? cpf)
+    internal void Atualizar(string nome, string cpf)
     {
-        if(nome is not null)
-            Nome = nome;
-
-        if(cpf is not null)
-            CPF = cpf;
+        Nome = nome;
+        CPF = cpf;
     }
 }
