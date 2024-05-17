@@ -11,8 +11,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Cepedi.Serasa.Cadastro.Compartilhado;
-using Cepedi.Serasa.Cadastro.Compartilhado.Validators;
-using Cepedi.Serasa.Cadastro.Compartilhado.Requests.Movimentacao.Validators;
 
 namespace Cepedi.Serasa.Cadastro.IoC
 {
