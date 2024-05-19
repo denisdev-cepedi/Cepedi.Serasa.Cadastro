@@ -1,6 +1,9 @@
-﻿using Cepedi.Serasa.Cadastro.Compartilhado.Exececoes;
+﻿using Cepedi.Serasa.Cadastro.Compartilhado.Enums;
+using Cepedi.Serasa.Cadastro.Compartilhado.Excecoes;
+using Cepedi.Serasa.Cadastro.Compartilhado.Exececoes;
 using Cepedi.Serasa.Cadastro.Compartilhado.Requests.Pessoa;
 using Cepedi.Serasa.Cadastro.Compartilhado.Responses.Pessoa;
+using Cepedi.Serasa.Cadastro.Compartilhado.Validators.Pessoa;
 using Cepedi.Serasa.Cadastro.Dominio.Entidades;
 using Cepedi.Serasa.Cadastro.Dominio.Handlers.Pessoa;
 using Cepedi.Serasa.Cadastro.Dominio.Repositorio;
@@ -66,23 +69,18 @@ public class CriarPessoaRequestHandlerTests
             CPF = "123"
         };
 
-        var pessoaEntity = new PessoaEntity
-        {
-            Nome = pessoaRequest.Nome,
-            CPF = pessoaRequest.CPF
-        };
-
-        _pessoaRepository
-            .CriarPessoaAsync(Arg.Is<PessoaEntity>(pessoa => pessoa.Nome == pessoaRequest.Nome && pessoa.CPF == pessoaRequest.CPF))
-            .Returns(pessoaEntity);
+        var validator = new CriarPessoaRequestValidator();
 
         //Act
+        var validationResult = validator.Validate(pessoaRequest);
         var result = await _sut.Handle(pessoaRequest, CancellationToken.None);
 
         //Assert
-        result.Should().BeOfType<ResultadoErro>();
-
         await _pessoaRepository.Received(1)
             .CriarPessoaAsync(Arg.Is<PessoaEntity>(pessoa => pessoa.Nome == pessoaRequest.Nome && pessoa.CPF == pessoaRequest.CPF));
+
+        validationResult.IsValid.Should().BeFalse();
+        result.Should().BeOfType<Result<CriarPessoaResponse>>();
+        result.IsSuccess.Should().BeTrue();
     }
 }
