@@ -1,6 +1,7 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Cepedi.Serasa.Cadastro.Compartilhado.Exececoes;
 using Cepedi.Serasa.Cadastro.Compartilhado.Requests.Movimentacao;
 using Cepedi.Serasa.Cadastro.Compartilhado.Responses.Movimentacao;
 using Cepedi.Serasa.Cadastro.Dominio.Entidades;
@@ -83,5 +84,81 @@ namespace Cepedi.Serasa.Cadastro.Dominio.Tests.Handlers.Movimentacao
             await _tipoMovimentacaoRepository.Received(1).ObterTipoMovimentacaoAsync(request.IdTipoMovimentacao);
             await _movimentacaoRepository.Received(1).CriarMovimentacaoAsync(Arg.Any<MovimentacaoEntity>());
         }
+
+        [Fact]
+    public async Task Handle_QuandoTipoMovimentacaoNaoExistir_DeveRetornarErro()
+    {
+        // Arrange
+        var tipoMovimentacaoId = 999; // ID inválido que não existe no repositório
+        var pessoa = new PessoaEntity
+        {
+            Id = 1,
+            Nome = "João",
+            CPF = "12345678901"
+        };
+
+        var request = new CriarMovimentacaoRequest
+        {
+            IdTipoMovimentacao = tipoMovimentacaoId,
+            IdPessoa = pessoa.Id,
+            NomeEstabelecimento = "Exemplo Loja",
+            Valor = 100.0m
+        };
+
+        _pessoaRepository.ObterPessoaAsync(request.IdPessoa).Returns(Task.FromResult(pessoa));
+        _tipoMovimentacaoRepository.ObterTipoMovimentacaoAsync(request.IdTipoMovimentacao).Returns(Task.FromResult<TipoMovimentacaoEntity>(null));
+
+        // Act
+        var result = await _sut.Handle(request, CancellationToken.None);
+
+        // Assert
+        result.Should().BeOfType<Result<CriarMovimentacaoResponse>>()
+            .Which.IsSuccess.Should().BeFalse();
+
+        result.Exception.Should().BeOfType<ExcecaoAplicacao>()
+            .Which.ResultadoErro.Descricao.Should().Be("Tipo de movimentação inválido.");
+
+        await _pessoaRepository.Received(1).ObterPessoaAsync(request.IdPessoa);
+        await _tipoMovimentacaoRepository.Received(1).ObterTipoMovimentacaoAsync(request.IdTipoMovimentacao);
+        await _movimentacaoRepository.DidNotReceiveWithAnyArgs().CriarMovimentacaoAsync(Arg.Any<MovimentacaoEntity>());
+    }
+
+    [Fact]
+    public async Task Handle_QuandoPessoaNaoExistir_DeveRetornarErro()
+    {
+        // Arrange
+        var tipoMovimentacao = new TipoMovimentacaoEntity
+        {
+            Id = 1,
+            NomeTipo = "Compra"
+        };
+
+        var pessoaId = 999; // ID inválido que não existe no repositório
+        var request = new CriarMovimentacaoRequest
+        {
+            IdTipoMovimentacao = tipoMovimentacao.Id,
+            IdPessoa = pessoaId,
+            NomeEstabelecimento = "Exemplo Loja",
+            Valor = 100.0m
+        };
+
+        _pessoaRepository.ObterPessoaAsync(request.IdPessoa).Returns(Task.FromResult<PessoaEntity>(null));
+        _tipoMovimentacaoRepository.ObterTipoMovimentacaoAsync(request.IdTipoMovimentacao).Returns(Task.FromResult(tipoMovimentacao));
+
+        // Act
+        var result = await _sut.Handle(request, CancellationToken.None);
+
+        // Assert
+        result.Should().BeOfType<Result<CriarMovimentacaoResponse>>()
+            .Which.IsSuccess.Should().BeFalse();
+
+        result.Exception.Should().BeOfType<ExcecaoAplicacao>()
+            .Which.ResultadoErro.Descricao.Should().Be("Pessoa inválida.");
+
+        await _pessoaRepository.Received(1).ObterPessoaAsync(request.IdPessoa);
+        await _tipoMovimentacaoRepository.Received(1).ObterTipoMovimentacaoAsync(request.IdTipoMovimentacao);
+        await _movimentacaoRepository.DidNotReceiveWithAnyArgs().CriarMovimentacaoAsync(Arg.Any<MovimentacaoEntity>());
+    }
+
     }
 }
