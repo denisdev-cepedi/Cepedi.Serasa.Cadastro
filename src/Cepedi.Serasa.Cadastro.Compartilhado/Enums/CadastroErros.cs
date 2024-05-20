@@ -45,6 +45,13 @@ public class CadastroErros
         Tipo = ETipoErro.Alerta
     };
 
+    public static ResultadoErro ErroGravacaoConsulta = new()
+    {
+        Titulo = "Ocorreu um erro na gravação",
+        Descricao = "Ocorreu um erro na gravação de Consulta. Por favor tente novamente",
+        Tipo = ETipoErro.Erro
+    };
+
     public static ResultadoErro IdMovimentacaoInvalido = new()
     {
         Titulo = "ID de movimentação inválido",
@@ -66,10 +73,24 @@ public class CadastroErros
         Tipo = ETipoErro.Alerta
     };
 
+    public static ResultadoErro IdConsultaInvalido = new()
+    {
+        Titulo = "ID de consulta inválido",
+        Descricao = "O ID da consulta especificada não é válido",
+        Tipo = ETipoErro.Alerta
+    };
+
     public static ResultadoErro ListaMovimentacoesVazia = new()
     {
         Titulo = "Lista de movimentações vazia",
         Descricao = "A lista de movimentações retornada está vazia",
+        Tipo = ETipoErro.Alerta
+    };
+
+    public static ResultadoErro ListaConsultasVazia = new()
+    {
+        Titulo = "Lista de consultas vazia",
+        Descricao = "A lista de consultas retornada está vazia",
         Tipo = ETipoErro.Alerta
     };
 }
