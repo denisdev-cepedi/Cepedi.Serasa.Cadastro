@@ -479,3 +479,4 @@ $RECYCLE.BIN/
 *.swp
 
 appsettings.json
+.mono/registry/CurrentUser/software/microsoft/csdevkit/telemetry/persistentpropertybag/microsoft.visualstudio.code.servicehost/values.xml

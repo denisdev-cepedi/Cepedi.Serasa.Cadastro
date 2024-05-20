@@ -1,6 +1,7 @@
 using Cepedi.Serasa.Cadastro.Dominio.Repositorio;
 using Cepedi.Serasa.Cadastro.Compartilhado.Requests.Consulta;
 using Cepedi.Serasa.Cadastro.Compartilhado.Responses.Consulta;
+using Cepedi.Serasa.Cadastro.Compartilhado.Enums;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using OperationResult;
@@ -20,15 +21,20 @@ public class ObterConsultaRequestHandler :
 
     public async Task<Result<ObterConsultaResponse>> Handle(ObterConsultaRequest request, CancellationToken cancellationToken)
     {
-        var consultaEntity = await _consultaRepository.ObterConsultaAsync(request.Id);
+        var consulta = await _consultaRepository.ObterConsultaAsync(request.Id);
 
-        if (consultaEntity == null)
+        if (consulta == null)
         {
-            return Result.Error<ObterConsultaResponse>(new Compartilhado.
-                Exececoes.SemResultadoExcecao());
+            return Result.Error<ObterConsultaResponse>(new Compartilhado
+            .Exececoes.ExcecaoAplicacao(CadastroErros.IdConsultaInvalido));
         }
 
-        return Result.Success(new ObterConsultaResponse(consultaEntity.Id, consultaEntity.IdPessoa, consultaEntity.Status, consultaEntity.Data));
+        var response = new ObterConsultaResponse(consulta.Id,
+                                                consulta.IdPessoa,
+                                                consulta.Status,
+                                                consulta.Data);
+
+        return Result.Success(response);
 
     }
 }
