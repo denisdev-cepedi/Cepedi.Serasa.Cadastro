@@ -1,6 +1,7 @@
 using Cepedi.Serasa.Cadastro.Dominio.Repositorio;
 using Cepedi.Serasa.Cadastro.Compartilhado.Requests.Consulta;
 using Cepedi.Serasa.Cadastro.Compartilhado.Responses.Consulta;
+using Cepedi.Serasa.Cadastro.Compartilhado.Enums;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using OperationResult;
@@ -20,16 +21,21 @@ public class DeletarConsultaRequestHandler :
 
     public async Task<Result<DeletarConsultaResponse>> Handle(DeletarConsultaRequest request, CancellationToken cancellationToken)
     {
-        var consultaEntity = await _consultaRepository.ObterConsultaAsync(request.Id);
+        var consulta = await _consultaRepository.ObterConsultaAsync(request.Id);
 
-        if (consultaEntity == null)
+        if (consulta == null)
         {
             return Result.Error<DeletarConsultaResponse>(new Compartilhado.
-                Exececoes.SemResultadoExcecao());
+                Exececoes.ExcecaoAplicacao(CadastroErros.IdConsultaInvalido));
         }
 
-        await _consultaRepository.DeletarConsultaAsync(consultaEntity.Id);
+        await _consultaRepository.DeletarConsultaAsync(consulta.Id);
 
-        return Result.Success(new DeletarConsultaResponse(consultaEntity.Id, consultaEntity.IdPessoa, consultaEntity.Status, consultaEntity.Data));
+        var response = new DeletarConsultaResponse(consulta.Id,
+                                                    consulta.IdPessoa,
+                                                    consulta.Status,
+                                                    consulta.Data);
+
+        return Result.Success(response);
     }
 }

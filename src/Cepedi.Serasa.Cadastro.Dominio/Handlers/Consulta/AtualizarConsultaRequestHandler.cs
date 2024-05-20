@@ -1,6 +1,7 @@
 using Cepedi.Serasa.Cadastro.Dominio.Repositorio;
 using Cepedi.Serasa.Cadastro.Compartilhado.Requests.Consulta;
 using Cepedi.Serasa.Cadastro.Compartilhado.Responses.Consulta;
+using Cepedi.Serasa.Cadastro.Compartilhado.Enums;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using OperationResult;
@@ -19,18 +20,23 @@ public class AtualizarConsultaRequestHandler : IRequestHandler<AtualizarConsulta
 
     public async Task<Result<AtualizarConsultaResponse>> Handle(AtualizarConsultaRequest request, CancellationToken cancellationToken)
     {
-        var consultaEntity = await _consultaRepository.ObterConsultaAsync(request.Id);
+        var consulta = await _consultaRepository.ObterConsultaAsync(request.Id);
 
-        if (consultaEntity == null)
+        if (consulta == null)
         {
             return Result.Error<AtualizarConsultaResponse>(new Compartilhado.
-                Exececoes.SemResultadoExcecao());
+                Exececoes.ExcecaoAplicacao(CadastroErros.IdConsultaInvalido));
         }
 
-        consultaEntity.Atualizar(request.Status);
+        consulta.Atualizar(request.Status);
 
-        await _consultaRepository.AtualizarConsultaAsync(consultaEntity);
+        await _consultaRepository.AtualizarConsultaAsync(consulta);
+        
+        var response = new AtualizarConsultaResponse(consulta.Id, 
+                                                    consulta.IdPessoa, 
+                                                    consulta.Status, 
+                                                    consulta.Data);
 
-        return Result.Success(new AtualizarConsultaResponse(consultaEntity.Id, consultaEntity.IdPessoa, consultaEntity.Status, consultaEntity.Data));
+        return Result.Success(response);
     }
 }

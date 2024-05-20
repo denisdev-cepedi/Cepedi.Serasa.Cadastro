@@ -1,5 +1,6 @@
 using Cepedi.Serasa.Cadastro.Compartilhado.Requests.Consulta;
 using Cepedi.Serasa.Cadastro.Compartilhado.Responses.Consulta;
+using Cepedi.Serasa.Cadastro.Compartilhado.Enums;
 using Cepedi.Serasa.Cadastro.Dominio.Repositorio;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -23,13 +24,16 @@ public class ObterTodasConsultasRequestHandler : IRequestHandler<ObterTodasConsu
 
         if (consultas == null)
         {
-            return Result.Error<List<ObterTodasConsultasResponse>>(new Compartilhado.Exececoes.SemResultadoExcecao());
+            return Result.Error<List<ObterTodasConsultasResponse>>(new Compartilhado.Exececoes.ExcecaoAplicacao(CadastroErros.ListaConsultasVazia));
         }
 
         var response = new List<ObterTodasConsultasResponse>();
         foreach (var consulta in consultas)
         {
-            response.Add(new ObterTodasConsultasResponse(consulta.Id, consulta.IdPessoa, consulta.Status, consulta.Data));
+            response.Add(new ObterTodasConsultasResponse(consulta.Id,
+                                                        consulta.IdPessoa,
+                                                        consulta.Status,
+                                                        consulta.Data));
         }
 
         return Result.Success(response);
