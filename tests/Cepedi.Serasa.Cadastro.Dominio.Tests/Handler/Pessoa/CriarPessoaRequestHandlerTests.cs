@@ -1,7 +1,4 @@
-﻿using Cepedi.Serasa.Cadastro.Compartilhado.Enums;
-using Cepedi.Serasa.Cadastro.Compartilhado.Excecoes;
-using Cepedi.Serasa.Cadastro.Compartilhado.Exececoes;
-using Cepedi.Serasa.Cadastro.Compartilhado.Requests.Pessoa;
+﻿using Cepedi.Serasa.Cadastro.Compartilhado.Requests.Pessoa;
 using Cepedi.Serasa.Cadastro.Compartilhado.Responses.Pessoa;
 using Cepedi.Serasa.Cadastro.Compartilhado.Validators.Pessoa;
 using Cepedi.Serasa.Cadastro.Dominio.Entidades;
@@ -9,7 +6,6 @@ using Cepedi.Serasa.Cadastro.Dominio.Handlers.Pessoa;
 using Cepedi.Serasa.Cadastro.Dominio.Repositorio;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
-using Moq;
 using NSubstitute;
 using OperationResult;
 
@@ -17,12 +13,14 @@ namespace Cepedi.Serasa.Cadastro.Domain.Tests.Handler.Pessoa;
 
 public class CriarPessoaRequestHandlerTests
 {
-    private readonly IPessoaRepository _pessoaRepository = Substitute.For<IPessoaRepository>();
-    private readonly ILogger<CriarPessoaRequestHandler> _logger = Substitute.For<ILogger<CriarPessoaRequestHandler>>();
+    private readonly IPessoaRepository _pessoaRepository;
+    private readonly ILogger<CriarPessoaRequestHandler> _logger;
     private readonly CriarPessoaRequestHandler _sut;
 
     public CriarPessoaRequestHandlerTests()
     {
+        _pessoaRepository = Substitute.For<IPessoaRepository>();
+        _logger = Substitute.For<ILogger<CriarPessoaRequestHandler>>();
         _sut = new CriarPessoaRequestHandler(_pessoaRepository, _logger);
     }
 
