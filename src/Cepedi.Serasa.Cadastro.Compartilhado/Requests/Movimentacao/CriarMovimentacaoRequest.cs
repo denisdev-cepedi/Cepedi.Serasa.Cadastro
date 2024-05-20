@@ -4,7 +4,7 @@ using Cepedi.Serasa.Cadastro.Compartilhado.Responses.Movimentacao;
 
 namespace Cepedi.Serasa.Cadastro.Compartilhado.Requests.Movimentacao;
 
-public class CriarMovimentacaoRequest : IRequest<Result<CriarMovimentacaoResponse>>
+public class CriarMovimentacaoRequest : IRequest<Result<CriarMovimentacaoResponse>>, IValida
 {
     public int IdTipoMovimentacao { get; set; }
     public int IdPessoa { get; set; }

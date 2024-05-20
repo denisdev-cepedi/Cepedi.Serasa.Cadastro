@@ -11,11 +11,14 @@ public class AtualizarPessoaRequestValidator : AbstractValidator<AtualizarPessoa
             .NotNull()
             .WithMessage("O Id é obrigatório.");
 
-        When(pessoa => pessoa.CPF is not null, () =>
-        {
-            RuleFor(pessoa => pessoa.CPF)
+        RuleFor(pessoa => pessoa.Nome)
+            .NotEmpty()
+            .WithMessage("O nome é obrigatório.")
+            .MinimumLength(3)
+            .WithMessage("O nome deve ter pelo menos 3 caracteres.");
+
+        RuleFor(pessoa => pessoa.CPF)
             .Matches("^[0-9]{11}$")
             .WithMessage("O CPF deve conter 11 digitos de 0 a 9.");
-        });
     }
 }
