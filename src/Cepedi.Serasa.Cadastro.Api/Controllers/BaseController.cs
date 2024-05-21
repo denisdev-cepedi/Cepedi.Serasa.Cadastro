@@ -35,6 +35,7 @@ public class BaseController : ControllerBase
     {
         SemResultadoExcecao e => NoContent(),
         RequestInvalidaExcecao e => BadRequest(FormatErrorMessage(e.ResultadoErro, e.Erros)),
+        ExcecaoAplicacao e => BadRequest(FormatErrorMessage(e.ResultadoErro)),
         _ => BadRequest(FormatErrorMessage(CadastroErros.Generico))
     };
 
