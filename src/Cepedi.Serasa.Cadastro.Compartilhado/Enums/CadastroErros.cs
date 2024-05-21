@@ -87,6 +87,13 @@ public class CadastroErros
         Tipo = ETipoErro.Alerta
     };
 
+    public static ResultadoErro ScoreJaExistente = new()
+    {
+        Titulo = "Dado inválido",
+        Descricao = "Essa pessoa já tem um score associado",
+        Tipo = ETipoErro.Alerta
+    };
+
     public static ResultadoErro ListaMovimentacoesVazia = new()
     {
         Titulo = "Lista vazia",

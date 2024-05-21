@@ -31,6 +31,15 @@ public class CriarScoreRequestHandler
                 new Compartilhado.Exececoes.ExcecaoAplicacao(CadastroErros.IdPessoaInvalido));
         }
 
+        // Verifica se a pessoa já possui um score
+        var scoreExistente = await _scoreRepository.ObterPessoaScoreAsync(request.IdPessoa);
+        if (scoreExistente != null)
+        {
+            // Se já existe um score para essa pessoa, retorna um erro ou uma mensagem indicando isso
+            return Result.Error<CriarScoreResponse>(
+                new Compartilhado.Exececoes.ExcecaoAplicacao(CadastroErros.ScoreJaExistente));
+        }
+
         var credorEntity = await _scoreRepository.ObterPessoaScoreAsync(request.IdPessoa);
 
         var score = new ScoreEntity()
