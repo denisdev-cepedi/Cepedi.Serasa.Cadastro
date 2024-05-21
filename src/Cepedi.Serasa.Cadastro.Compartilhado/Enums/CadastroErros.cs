@@ -54,42 +54,42 @@ public class CadastroErros
 
     public static ResultadoErro IdMovimentacaoInvalido = new()
     {
-        Titulo = "ID de movimentação inválido",
+        Titulo = "Dado inválido",
         Descricao = "O ID da movimentação especificada não é válido",
         Tipo = ETipoErro.Alerta
     };
 
     public static ResultadoErro IdTipoMovimentacaoInvalido = new()
     {
-        Titulo = "ID de tipo de movimentação inválido",
+        Titulo = "Dado inválido",
         Descricao = "O ID do tipo de movimentação especificado não é válido",
         Tipo = ETipoErro.Alerta
     };
 
     public static ResultadoErro IdPessoaInvalido = new()
     {
-        Titulo = "ID de pessoa inválido",
+        Titulo = "Dado inválido",
         Descricao = "O ID da pessoa especificada não é válido",
         Tipo = ETipoErro.Alerta
     };
 
     public static ResultadoErro IdConsultaInvalido = new()
     {
-        Titulo = "ID de consulta inválido",
+        Titulo = "Dado inválido",
         Descricao = "O ID da consulta especificada não é válido",
         Tipo = ETipoErro.Alerta
     };
 
     public static ResultadoErro ListaMovimentacoesVazia = new()
     {
-        Titulo = "Lista de movimentações vazia",
+        Titulo = "Lista vazia",
         Descricao = "A lista de movimentações retornada está vazia",
         Tipo = ETipoErro.Alerta
     };
 
     public static ResultadoErro ListaConsultasVazia = new()
     {
-        Titulo = "Lista de consultas vazia",
+        Titulo = "Lista vazia",
         Descricao = "A lista de consultas retornada está vazia",
         Tipo = ETipoErro.Alerta
     };
