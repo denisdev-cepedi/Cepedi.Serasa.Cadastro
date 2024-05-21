@@ -1,4 +1,5 @@
-﻿using Cepedi.Serasa.Cadastro.Compartilhado.Exececoes;
+﻿using Cepedi.Serasa.Cadastro.Compartilhado.Enums;
+using Cepedi.Serasa.Cadastro.Compartilhado.Exececoes;
 using Cepedi.Serasa.Cadastro.Compartilhado.Requests.Pessoa;
 using Cepedi.Serasa.Cadastro.Compartilhado.Responses.Pessoa;
 using Cepedi.Serasa.Cadastro.Dominio.Repositorio;
@@ -23,7 +24,7 @@ public class ObterTodasPessoasRequestHandler : IRequestHandler<ObterTodasPessoas
         var pessoas = await _pessoasRepository.ObterPessoasAsync();
 
         return !pessoas.Any()
-            ? Result.Error<IEnumerable<ObterPessoaResponse>>(new SemResultadoExcecao())
+            ? Result.Error<IEnumerable<ObterPessoaResponse>>(new Compartilhado.Exececoes.ExcecaoAplicacao(CadastroErros.IdPessoaInvalido))
             : Result.Success(pessoas.Select(pessoa => new ObterPessoaResponse(pessoa.Id, pessoa.Nome, pessoa.CPF)));
     }
 }

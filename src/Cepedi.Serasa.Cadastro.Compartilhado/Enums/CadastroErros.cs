@@ -80,10 +80,31 @@ public class CadastroErros
         Tipo = ETipoErro.Alerta
     };
 
+    public static ResultadoErro IdScoreInvalido = new()
+    {
+        Titulo = "Dado inválido",
+        Descricao = "O ID do score especificado não é válido",
+        Tipo = ETipoErro.Alerta
+    };
+
     public static ResultadoErro ListaMovimentacoesVazia = new()
     {
         Titulo = "Lista vazia",
         Descricao = "A lista de movimentações retornada está vazia",
+        Tipo = ETipoErro.Alerta
+    };
+
+    public static ResultadoErro ListaScoresVazia = new()
+    {
+        Titulo = "Lista vazia",
+        Descricao = "A lista de scores retornada está vazia",
+        Tipo = ETipoErro.Alerta
+    };
+
+    public static ResultadoErro ListaTiposMovimentacaoVazia = new()
+    {
+        Titulo = "Lista vazia",
+        Descricao = "A lista de tipos de movitação retornada está vazia",
         Tipo = ETipoErro.Alerta
     };
 

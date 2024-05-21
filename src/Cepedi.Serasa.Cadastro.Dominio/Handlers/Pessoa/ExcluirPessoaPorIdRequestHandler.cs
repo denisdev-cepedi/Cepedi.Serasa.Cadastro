@@ -1,4 +1,5 @@
-﻿using Cepedi.Serasa.Cadastro.Compartilhado.Requests.Pessoa;
+﻿using Cepedi.Serasa.Cadastro.Compartilhado.Enums;
+using Cepedi.Serasa.Cadastro.Compartilhado.Requests.Pessoa;
 using Cepedi.Serasa.Cadastro.Compartilhado.Responses.Pessoa;
 using Cepedi.Serasa.Cadastro.Dominio.Repositorio;
 using MediatR;
@@ -19,7 +20,7 @@ public class ExcluirPessoaPorIdRequestHandler : IRequestHandler<ExcluirPessoaPor
     public async Task<Result<ExcluirPessoaPorIdResponse>> Handle(ExcluirPessoaPorIdRequest request, CancellationToken cancellationToken)
     {
         var pessoaEntity = await _pessoaRepository.ObterPessoaAsync(request.Id);
-        if (pessoaEntity == null) return Result.Error<ExcluirPessoaPorIdResponse>(new Compartilhado.Exececoes.SemResultadoExcecao());
+        if (pessoaEntity == null) return Result.Error<ExcluirPessoaPorIdResponse>(new Compartilhado.Exececoes.ExcecaoAplicacao(CadastroErros.IdPessoaInvalido));
         await _pessoaRepository.ExcluirPessoaAsync(pessoaEntity.Id);
         return Result.Success(new ExcluirPessoaPorIdResponse(pessoaEntity.Id, pessoaEntity.Nome, pessoaEntity.CPF));
     }
