@@ -1,4 +1,5 @@
-﻿﻿using Cepedi.Serasa.Cadastro.Compartilhado.Requests.TipoMovimentacao;
+﻿﻿using Cepedi.Serasa.Cadastro.Compartilhado.Enums;
+using Cepedi.Serasa.Cadastro.Compartilhado.Requests.TipoMovimentacao;
 using Cepedi.Serasa.Cadastro.Compartilhado.Responses.TipoMovimentacao;
 using Cepedi.Serasa.Cadastro.Dominio.Repositorio;
 using MediatR;
@@ -23,8 +24,8 @@ public class AtualizarTipoMovimentacaoRequestHandler : IRequestHandler<Atualizar
 
         if (tipoMovimentacaoEntity == null)
         {
-            return Result.Error<AtualizarTipoMovimentacaoResponse>(new Compartilhado.
-                Exececoes.SemResultadoExcecao());
+            return Result.Error<AtualizarTipoMovimentacaoResponse>(
+                new Compartilhado.Exececoes.ExcecaoAplicacao(CadastroErros.IdTipoMovimentacaoInvalido));
         }
 
         tipoMovimentacaoEntity.Atualizar(request.NomeTipo);

@@ -4,6 +4,7 @@ using Cepedi.Serasa.Cadastro.Compartilhado.Responses.Score;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using OperationResult;
+using Cepedi.Serasa.Cadastro.Compartilhado.Enums;
 
 namespace Cepedi.Serasa.Cadastro.Dominio.Handlers.Score;
 public class AtualizarScoreRequestHandler :
@@ -24,8 +25,7 @@ public class AtualizarScoreRequestHandler :
 
         if (scoreEntity == null)
         {
-            return Result.Error<AtualizarScoreResponse>(new Compartilhado.
-                Exececoes.SemResultadoExcecao());
+            return Result.Error<AtualizarScoreResponse>(new Compartilhado.Exececoes.ExcecaoAplicacao(CadastroErros.IdScoreInvalido));
         }
 
         scoreEntity.Atualizar(request.Score);

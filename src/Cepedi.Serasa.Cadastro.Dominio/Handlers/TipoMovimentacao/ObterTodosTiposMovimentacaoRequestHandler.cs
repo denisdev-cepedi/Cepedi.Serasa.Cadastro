@@ -1,3 +1,4 @@
+using Cepedi.Serasa.Cadastro.Compartilhado.Enums;
 using Cepedi.Serasa.Cadastro.Compartilhado.Requests.TipoMovimentacao;
 using Cepedi.Serasa.Cadastro.Compartilhado.Responses.TipoMovimentacao;
 using Cepedi.Serasa.Cadastro.Dominio.Repositorio;
@@ -23,7 +24,7 @@ public class ObterTodosTiposMovimentacaoRequestHandler : IRequestHandler<ObterTo
 
         if (tiposMovimentacao == null)
         {
-            return Result.Error<List<ObterTodosTiposMovimentacaoResponse>>(new Compartilhado.Exececoes.SemResultadoExcecao());
+            return Result.Error<List<ObterTodosTiposMovimentacaoResponse>>(new Compartilhado.Exececoes.ExcecaoAplicacao(CadastroErros.ListaTiposMovimentacaoVazia));
         }
 
         var response = new List<ObterTodosTiposMovimentacaoResponse>();

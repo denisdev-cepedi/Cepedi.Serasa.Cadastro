@@ -1,3 +1,4 @@
+using Cepedi.Serasa.Cadastro.Compartilhado.Enums;
 using Cepedi.Serasa.Cadastro.Compartilhado.Requests.Score;
 using Cepedi.Serasa.Cadastro.Compartilhado.Responses.Score;
 using Cepedi.Serasa.Cadastro.Dominio.Repositorio;
@@ -23,7 +24,7 @@ public class ObterTodosScoresRequestHandler : IRequestHandler<ObterTodosScoresRe
 
         if (scores == null)
         {
-            return Result.Error<List<ObterTodosScoresResponse>>(new Compartilhado.Exececoes.SemResultadoExcecao());
+            return Result.Error<List<ObterTodosScoresResponse>>(new Compartilhado.Exececoes.ExcecaoAplicacao(CadastroErros.ListaScoresVazia));
         }
 
         var response = new List<ObterTodosScoresResponse>();

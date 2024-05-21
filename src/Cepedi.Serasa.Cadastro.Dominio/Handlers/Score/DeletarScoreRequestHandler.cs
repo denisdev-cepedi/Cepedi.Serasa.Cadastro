@@ -4,6 +4,7 @@ using Cepedi.Serasa.Cadastro.Compartilhado.Responses.Score;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using OperationResult;
+using Cepedi.Serasa.Cadastro.Compartilhado.Enums;
 
 namespace Cepedi.Serasa.Cadastro.Dominio.Handlers.Score;
 public class DeletarScoreRequestHandler :
@@ -24,8 +25,7 @@ public class DeletarScoreRequestHandler :
 
         if (scoreEntity == null)
         {
-            return Result.Error<DeletarScoreResponse>(new Compartilhado.
-                Exececoes.SemResultadoExcecao());
+            return Result.Error<DeletarScoreResponse>(new Compartilhado.Exececoes.ExcecaoAplicacao(CadastroErros.IdScoreInvalido));
         }
 
         await _scoreRepository.DeletarScoreAsync(scoreEntity.Id);

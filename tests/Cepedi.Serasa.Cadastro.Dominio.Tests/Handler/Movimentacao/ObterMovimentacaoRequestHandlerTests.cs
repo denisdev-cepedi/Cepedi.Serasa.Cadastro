@@ -1,88 +1,81 @@
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 using Cepedi.Serasa.Cadastro.Compartilhado.Requests.Movimentacao;
-using Cepedi.Serasa.Cadastro.Compartilhado.Responses.Movimentacao;
 using Cepedi.Serasa.Cadastro.Dominio.Entidades;
 using Cepedi.Serasa.Cadastro.Dominio.Handlers.Movimentacao;
 using Cepedi.Serasa.Cadastro.Dominio.Repositorio;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
-using Xunit;
 
-namespace Cepedi.Serasa.Cadastro.Dominio.Tests.Handlers.Movimentacao
+namespace Cepedi.Serasa.Cadastro.Dominio.Tests.Handlers.Movimentacao;
+public class ObterMovimentacaoRequestHandlerTests
 {
-    public class ObterMovimentacaoRequestHandlerTests
+    private readonly IMovimentacaoRepository _movimentacaoRepository = Substitute.For<IMovimentacaoRepository>();
+    private readonly ILogger<ObterMovimentacaoRequestHandler> _logger = Substitute.For<ILogger<ObterMovimentacaoRequestHandler>>();
+    private readonly ObterMovimentacaoRequestHandler _sut;
+
+    public ObterMovimentacaoRequestHandlerTests()
     {
-        private readonly IMovimentacaoRepository _movimentacaoRepository = Substitute.For<IMovimentacaoRepository>();
-        private readonly ILogger<ObterMovimentacaoRequestHandler> _logger = Substitute.For<ILogger<ObterMovimentacaoRequestHandler>>();
-        private readonly ObterMovimentacaoRequestHandler _sut;
+        _sut = new ObterMovimentacaoRequestHandler(_logger, _movimentacaoRepository);
+    }
 
-        public ObterMovimentacaoRequestHandlerTests()
+    [Fact]
+    public async Task Handle_QuandoObterMovimentacaoExistente_DeveRetornarMovimentacao()
+    {
+        // Arrange
+        var idMovimentacao = 1;
+
+        var movimentacaoExistente = new MovimentacaoEntity
         {
-            _sut = new ObterMovimentacaoRequestHandler(_logger, _movimentacaoRepository);
-        }
+            Id = idMovimentacao,
+            IdTipoMovimentacao = 1,
+            IdPessoa = 1,
+            DataHora = DateTime.UtcNow.AddDays(-1),
+            NomeEstabelecimento = "Exemplo Loja",
+            Valor = 100.0m
+        };
 
-        [Fact]
-        public async Task Handle_QuandoObterMovimentacaoExistente_DeveRetornarMovimentacao()
-        {
-            // Arrange
-            var idMovimentacao = 1;
+        _movimentacaoRepository.ObterMovimentacaoAsync(idMovimentacao)
+                                .Returns(Task.FromResult(movimentacaoExistente));
 
-            var movimentacaoExistente = new MovimentacaoEntity
-            {
-                Id = idMovimentacao,
-                IdTipoMovimentacao = 1,
-                IdPessoa = 1,
-                DataHora = DateTime.UtcNow.AddDays(-1),
-                NomeEstabelecimento = "Exemplo Loja",
-                Valor = 100.0m
-            };
+        var request = new ObterMovimentacaoRequest { Id = idMovimentacao };
 
-            _movimentacaoRepository.ObterMovimentacaoAsync(idMovimentacao)
-                                    .Returns(Task.FromResult(movimentacaoExistente));
+        // Act
+        var result = await _sut.Handle(request, CancellationToken.None);
 
-            var request = new ObterMovimentacaoRequest { Id = idMovimentacao };
+        // Assert
+        result.Should().NotBeNull();
+        result.Value.Should().NotBeNull();
 
-            // Act
-            var result = await _sut.Handle(request, CancellationToken.None);
+        result.Value.Id.Should().Be(movimentacaoExistente.Id);
+        result.Value.IdTipoMovimentacao.Should().Be(movimentacaoExistente.IdTipoMovimentacao);
+        result.Value.IdPessoa.Should().Be(movimentacaoExistente.IdPessoa);
+        result.Value.DataHora.Should().BeCloseTo(movimentacaoExistente.DataHora, precision: TimeSpan.FromSeconds(1));
+        result.Value.NomeEstabelecimento.Should().Be(movimentacaoExistente.NomeEstabelecimento);
+        result.Value.Valor.Should().Be(movimentacaoExistente.Valor);
 
-            // Assert
-            result.Should().NotBeNull();
-            result.Value.Should().NotBeNull();
+        // Verifica se o método no repositório foi chamado corretamente
+        await _movimentacaoRepository.Received(1).ObterMovimentacaoAsync(idMovimentacao);
+    }
 
-            result.Value.Id.Should().Be(movimentacaoExistente.Id);
-            result.Value.IdTipoMovimentacao.Should().Be(movimentacaoExistente.IdTipoMovimentacao);
-            result.Value.IdPessoa.Should().Be(movimentacaoExistente.IdPessoa);
-            result.Value.DataHora.Should().BeCloseTo(movimentacaoExistente.DataHora, precision: TimeSpan.FromSeconds(1));
-            result.Value.NomeEstabelecimento.Should().Be(movimentacaoExistente.NomeEstabelecimento);
-            result.Value.Valor.Should().Be(movimentacaoExistente.Valor);
+    [Fact]
+    public async Task Handle_QuandoObterMovimentacaoInexistente_DeveRetornarNulo()
+    {
+        // Arrange
+        var idMovimentacaoInexistente = 99;
 
-            // Verifica se o método no repositório foi chamado corretamente
-            await _movimentacaoRepository.Received(1).ObterMovimentacaoAsync(idMovimentacao);
-        }
+        _movimentacaoRepository.ObterMovimentacaoAsync(idMovimentacaoInexistente)
+                                .Returns(Task.FromResult<MovimentacaoEntity>(null));
 
-        [Fact]
-        public async Task Handle_QuandoObterMovimentacaoInexistente_DeveRetornarNulo()
-        {
-            // Arrange
-            var idMovimentacaoInexistente = 99;
+        var request = new ObterMovimentacaoRequest { Id = idMovimentacaoInexistente };
 
-            _movimentacaoRepository.ObterMovimentacaoAsync(idMovimentacaoInexistente)
-                                    .Returns(Task.FromResult<MovimentacaoEntity>(null));
+        // Act
+        var result = await _sut.Handle(request, CancellationToken.None);
 
-            var request = new ObterMovimentacaoRequest { Id = idMovimentacaoInexistente };
+        // Assert
+        result.Should().NotBeNull();
+        result.Value.Should().BeNull();
 
-            // Act
-            var result = await _sut.Handle(request, CancellationToken.None);
-
-            // Assert
-            result.Should().NotBeNull();
-            result.Value.Should().BeNull();
-
-            // Verifica se o método no repositório foi chamado corretamente
-            await _movimentacaoRepository.Received(1).ObterMovimentacaoAsync(idMovimentacaoInexistente);
-        }
+        // Verifica se o método no repositório foi chamado corretamente
+        await _movimentacaoRepository.Received(1).ObterMovimentacaoAsync(idMovimentacaoInexistente);
     }
 }

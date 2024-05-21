@@ -1,3 +1,4 @@
+using Cepedi.Serasa.Cadastro.Compartilhado.Enums;
 using Cepedi.Serasa.Cadastro.Compartilhado.Requests.Consulta;
 using Cepedi.Serasa.Cadastro.Compartilhado.Responses.Consulta;
 using Cepedi.Serasa.Cadastro.Dominio.Entidades;
@@ -7,9 +8,9 @@ using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
 using OperationResult;
+using Cepedi.Serasa.Cadastro.Compartilhado.Exececoes;
 
 namespace Cepedi.Serasa.Cadastro.Dominio.Tests.Handlers.Consulta;
-
 public class CriarConsultaRequestHandlerTests
 {
     private readonly IConsultaRepository _consultaRepository = Substitute.For<IConsultaRepository>();
@@ -19,13 +20,13 @@ public class CriarConsultaRequestHandlerTests
 
     public CriarConsultaRequestHandlerTests()
     {
-        _sut = new CriarConsultaRequestHandler(_consultaRepository, _logger);
+        _sut = new CriarConsultaRequestHandler(_consultaRepository, _pessoaRepository, _logger);
     }
 
     [Fact]
     public async Task Handle_QuandoCriarConsulta_DeveRetornarSucesso()
     {
-        //Arrange
+        // Arrange
         var pessoa = new PessoaEntity
         {
             Id = 1,
@@ -48,23 +49,50 @@ public class CriarConsultaRequestHandlerTests
             IdPessoa = pessoa.Id
         };
 
-        _pessoaRepository.ObterPessoaAsync(request.IdPessoa).Returns(Task.FromResult(pessoa));
+        _consultaRepository.ObterPessoaConsultaAsync(request.IdPessoa).Returns(Task.FromResult(pessoa));
 
-        //Act
+        // Act
         var result = await _sut.Handle(request, CancellationToken.None);
 
-        //Assert
-
+        // Assert
         result.Should().BeOfType<Result<CriarConsultaResponse>>()
-                  .Which.IsSuccess.Should().BeTrue();
-        result.Value.Should().NotBeNull();
-        result.Value.idPessoa.Should().Be(request.IdPessoa);
-        result.Value.id.Should().Be(consultaCriada.Id);
-        result.Value.status.Should().Be(request.Status);
-        result.Value.data.Should().Be(request.Data);
+                    .Which.IsSuccess.Should().BeTrue();
 
-        await _pessoaRepository.Received(1).ObterPessoaAsync(request.IdPessoa);
-        await _consultaRepository.Received(1).ObterConsultaAsync(consultaCriada.Id);
+        result.Value.Should().NotBeNull();
+        result.Value.IdPessoa.Should().Be(request.IdPessoa);
+        result.Value.Status.Should().Be(request.Status);
+        result.Value.Data.Should().Be(request.Data);
+
+        await _consultaRepository.Received(1).ObterPessoaConsultaAsync(request.IdPessoa);
         await _consultaRepository.Received(1).CriarConsultaAsync(Arg.Any<ConsultaEntity>());
     }
+
+    [Fact]
+    public async Task Handle_QuandoPessoaNaoExistir_DeveRetornarErro()
+    {
+        // Arrange
+        var pessoaId = 999; // ID inválido que não existe no repositório
+        var request = new CriarConsultaRequest
+        {
+            Status = true,
+            Data = DateTime.Now,
+            IdPessoa = pessoaId
+        };
+
+        _consultaRepository.ObterPessoaConsultaAsync(request.IdPessoa).Returns(Task.FromResult<PessoaEntity>(null));
+
+        // Act
+        var result = await _sut.Handle(request, CancellationToken.None);
+
+        // Assert
+        result.Should().BeOfType<Result<CriarConsultaResponse>>()
+            .Which.IsSuccess.Should().BeFalse();
+
+        result.Exception.Should().BeOfType<ExcecaoAplicacao>()
+            .Which.ResultadoErro.Should().Be(CadastroErros.IdPessoaInvalido);
+
+        await _consultaRepository.Received(1).ObterPessoaConsultaAsync(request.IdPessoa);
+        await _consultaRepository.DidNotReceive().CriarConsultaAsync(Arg.Any<ConsultaEntity>());
+    }
 }
+

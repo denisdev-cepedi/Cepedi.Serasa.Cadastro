@@ -1,6 +1,3 @@
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 using Cepedi.Serasa.Cadastro.Compartilhado.Requests.Movimentacao;
 using Cepedi.Serasa.Cadastro.Compartilhado.Responses.Movimentacao;
 using Cepedi.Serasa.Cadastro.Dominio.Entidades;
@@ -10,67 +7,65 @@ using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
 using OperationResult;
-using Xunit;
 
-namespace Cepedi.Serasa.Cadastro.Dominio.Tests.Handlers.Movimentacao
+namespace Cepedi.Serasa.Cadastro.Dominio.Tests.Handlers.Movimentacao;
+public class DeletarMovimentacaoRequestHandlerTests
 {
-    public class DeletarMovimentacaoRequestHandlerTests
+    private readonly IMovimentacaoRepository _movimentacaoRepository = Substitute.For<IMovimentacaoRepository>();
+    private readonly ILogger<DeletarMovimentacaoRequestHandler> _logger = Substitute.For<ILogger<DeletarMovimentacaoRequestHandler>>();
+    private readonly DeletarMovimentacaoRequestHandler _sut;
+
+    public DeletarMovimentacaoRequestHandlerTests()
     {
-        private readonly IMovimentacaoRepository _movimentacaoRepository = Substitute.For<IMovimentacaoRepository>();
-        private readonly ILogger<DeletarMovimentacaoRequestHandler> _logger = Substitute.For<ILogger<DeletarMovimentacaoRequestHandler>>();
-        private readonly DeletarMovimentacaoRequestHandler _sut;
+        _sut = new DeletarMovimentacaoRequestHandler(_logger, _movimentacaoRepository);
+    }
 
-        public DeletarMovimentacaoRequestHandlerTests()
+    [Fact]
+    public async Task Handle_QuandoDeletarMovimentacao_DeveRetornarSucesso()
+    {
+        // Arrange
+        var idMovimentacao = 1;
+
+        var movimentacaoExistente = new MovimentacaoEntity
         {
-            _sut = new DeletarMovimentacaoRequestHandler(_logger, _movimentacaoRepository);
-        }
+            Id = idMovimentacao,
+            IdTipoMovimentacao = 1,
+            IdPessoa = 1,
+            DataHora = DateTime.UtcNow.AddDays(-1),
+            NomeEstabelecimento = "Exemplo Loja",
+            Valor = 100.0m
+        };
 
-        [Fact]
-        public async Task Handle_QuandoDeletarMovimentacao_DeveRetornarSucesso()
-        {
-            // Arrange
-            var idMovimentacao = 1;
+        _movimentacaoRepository.ObterMovimentacaoAsync(idMovimentacao)
+                                .Returns(Task.FromResult(movimentacaoExistente));
 
-            var movimentacaoExistente = new MovimentacaoEntity
-            {
-                Id = idMovimentacao,
-                IdTipoMovimentacao = 1,
-                IdPessoa = 1,
-                DataHora = DateTime.UtcNow.AddDays(-1),
-                NomeEstabelecimento = "Exemplo Loja",
-                Valor = 100.0m
-            };
+        // Act
+        var result = await _sut.Handle(new DeletarMovimentacaoRequest { Id = idMovimentacao }, CancellationToken.None);
 
-            _movimentacaoRepository.ObterMovimentacaoAsync(idMovimentacao)
-                                    .Returns(Task.FromResult(movimentacaoExistente));
+        // Assert
+        result.Should().BeOfType<Result<DeletarMovimentacaoResponse>>()
+                .Which.IsSuccess.Should().BeTrue();
 
-            // Act
-            var result = await _sut.Handle(new DeletarMovimentacaoRequest { Id = idMovimentacao }, CancellationToken.None);
+        // Verificar se o método no repositório foi chamado corretamente
+        await _movimentacaoRepository.Received(1).ObterMovimentacaoAsync(idMovimentacao);
+        await _movimentacaoRepository.Received(1).DeletarMovimentacaoAsync(idMovimentacao);
+    }
 
-            // Assert
-            result.Should().BeOfType<Result<DeletarMovimentacaoResponse>>()
-                  .Which.IsSuccess.Should().BeTrue();
+    [Fact]
+    public async Task Handle_QuandoDeletarMovimentacaoInexistente_DeveRetornarFalha()
+    {
+        // Arrange
+        var idMovimentacaoInexistente = 99;
 
-            // Verificar se o método no repositório foi chamado corretamente
-            await _movimentacaoRepository.Received(1).ObterMovimentacaoAsync(idMovimentacao);
-            await _movimentacaoRepository.Received(1).DeletarMovimentacaoAsync(idMovimentacao);
-        }
+        _movimentacaoRepository.ObterMovimentacaoAsync(idMovimentacaoInexistente)
+                                .Returns(Task.FromResult<MovimentacaoEntity>(null));
 
-        [Fact]
-        public async Task Handle_QuandoDeletarMovimentacaoInexistente_DeveRetornarFalha()
-        {
-            // Arrange
-            var idMovimentacaoInexistente = 99;
+        // Act
+        var result = await _sut.Handle(new DeletarMovimentacaoRequest { Id = idMovimentacaoInexistente }, CancellationToken.None);
 
-            _movimentacaoRepository.ObterMovimentacaoAsync(idMovimentacaoInexistente)
-                                    .Returns(Task.FromResult<MovimentacaoEntity>(null));
-
-            // Act
-            var result = await _sut.Handle(new DeletarMovimentacaoRequest { Id = idMovimentacaoInexistente }, CancellationToken.None);
-
-            // Assert
-            result.Should().NotBeNull(); // Verifica se o resultado não é nulo
-            result.IsSuccess.Should().BeFalse(); // Verifica se a operação falhou
-        }
+        // Assert
+        result.Should().NotBeNull(); // Verifica se o resultado não é nulo
+        result.IsSuccess.Should().BeFalse(); // Verifica se a operação falhou
     }
 }
+

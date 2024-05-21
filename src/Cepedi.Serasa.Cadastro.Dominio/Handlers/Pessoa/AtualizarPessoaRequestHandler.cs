@@ -1,4 +1,5 @@
-﻿using Cepedi.Serasa.Cadastro.Compartilhado.Exececoes;
+﻿using Cepedi.Serasa.Cadastro.Compartilhado.Enums;
+using Cepedi.Serasa.Cadastro.Compartilhado.Exececoes;
 using Cepedi.Serasa.Cadastro.Compartilhado.Requests.Pessoa;
 using Cepedi.Serasa.Cadastro.Compartilhado.Responses.Pessoa;
 using Cepedi.Serasa.Cadastro.Dominio.Repositorio;
@@ -25,7 +26,7 @@ public class AtualizarPessoaRequestHandler
 
         if (pessoa == null)
         {
-            return Result.Error<AtualizarPessoaResponse>(new SemResultadoExcecao());
+            return Result.Error<AtualizarPessoaResponse>(new Compartilhado.Exececoes.ExcecaoAplicacao(CadastroErros.IdPessoaInvalido));
         }
 
         pessoa.Atualizar(request.Nome, request.CPF);

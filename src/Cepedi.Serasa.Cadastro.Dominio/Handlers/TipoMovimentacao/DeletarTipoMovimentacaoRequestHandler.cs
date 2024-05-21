@@ -1,4 +1,5 @@
-﻿﻿using Cepedi.Serasa.Cadastro.Compartilhado.Requests.TipoMovimentacao;
+﻿﻿using Cepedi.Serasa.Cadastro.Compartilhado.Enums;
+using Cepedi.Serasa.Cadastro.Compartilhado.Requests.TipoMovimentacao;
 using Cepedi.Serasa.Cadastro.Compartilhado.Responses.TipoMovimentacao;
 using Cepedi.Serasa.Cadastro.Dominio.Repositorio;
 using MediatR;
@@ -19,7 +20,12 @@ public class DeletarTipoMovimentacaoRequestHandler : IRequestHandler<DeletarTipo
     public async Task<Result<DeletarTipoMovimentacaoResponse>> Handle(DeletarTipoMovimentacaoRequest request, CancellationToken cancellationToken)
     {
         var tipoMovimentacaoEntity = await _tipoMovimentacaoRepository.ObterTipoMovimentacaoAsync(request.Id);
-        if (tipoMovimentacaoEntity == null) return Result.Error<DeletarTipoMovimentacaoResponse>(new Compartilhado.Exececoes.SemResultadoExcecao());
+        
+        if (tipoMovimentacaoEntity == null) {
+            return Result.Error<DeletarTipoMovimentacaoResponse>(
+                new Compartilhado.Exececoes.ExcecaoAplicacao(CadastroErros.IdTipoMovimentacaoInvalido));
+        }
+        
         await _tipoMovimentacaoRepository.DeletarTipoMovimentacaoAsync(tipoMovimentacaoEntity.Id);
         return Result.Success(new DeletarTipoMovimentacaoResponse(tipoMovimentacaoEntity.Id, tipoMovimentacaoEntity.NomeTipo));
     }

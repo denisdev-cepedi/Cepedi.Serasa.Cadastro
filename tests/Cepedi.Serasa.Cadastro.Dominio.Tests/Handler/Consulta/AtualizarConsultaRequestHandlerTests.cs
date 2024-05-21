@@ -1,3 +1,4 @@
+using Cepedi.Serasa.Cadastro.Compartilhado.Enums;
 using Cepedi.Serasa.Cadastro.Compartilhado.Requests.Consulta;
 using Cepedi.Serasa.Cadastro.Compartilhado.Responses.Consulta;
 using Cepedi.Serasa.Cadastro.Dominio.Entidades;
@@ -17,10 +18,9 @@ public class AtualizarConsultaRequestHandlerTests
 
     public AtualizarConsultaRequestHandlerTests()
     {
-        _consultaRepository = Substitute.For<IConsultaRepository>();
-        _logger = Substitute.For<ILogger<AtualizarConsultaRequestHandler>>();
         _sut = new AtualizarConsultaRequestHandler(_consultaRepository, _logger);
     }
+
     [Fact]
     public async Task Handle_QuandoAtualizarConsulta_DeveRetornarSucesso()
     {
@@ -28,43 +28,60 @@ public class AtualizarConsultaRequestHandlerTests
         var request = new AtualizarConsultaRequest
         {
             Id = 1,
-            Status = true,
-            Data = DateTime.Now
+            Status = true
         };
+
         var consultaExistente = new ConsultaEntity
         {
             Id = request.Id,
+            IdPessoa = 1,
             Status = false,
-            Data = DateTime.UtcNow.AddDays(-1),
+            Data = DateTime.UtcNow
         };
-        var consultaAtualizada = new ConsultaEntity
-        {
-            Id = request.Id,
-            Status = request.Status,
-            Data = request.Data,
-        };
-        _consultaRepository.ObterConsultaAsync(request.Id)
-                                    .Returns(Task.FromResult(consultaExistente));
 
-        _consultaRepository.AtualizarConsultaAsync(Arg.Any<ConsultaEntity>())
-                                    .Returns(Task.FromResult(consultaAtualizada));
+        _consultaRepository.ObterConsultaAsync(request.Id).Returns(Task.FromResult(consultaExistente));
+
         // Act
         var result = await _sut.Handle(request, CancellationToken.None);
 
-        //Assert
+        // Assert
         result.Should().BeOfType<Result<AtualizarConsultaResponse>>()
-            .Which.IsSuccess.Should().BeTrue();
+                .Which.IsSuccess.Should().BeTrue();
 
         result.Value.Should().NotBeNull();
-        result.Value.id.Should().Be(request.Id);
-        result.Value.status.Should().Be(request.Status);
-        result.Value.data.Should().Be(request.Data);
+        result.Value.Id.Should().Be(consultaExistente.Id);
+        result.Value.IdPessoa.Should().Be(consultaExistente.IdPessoa);
+        result.Value.Status.Should().Be(request.Status);
+        result.Value.Data.Should().Be(consultaExistente.Data);
 
         await _consultaRepository.Received(1).ObterConsultaAsync(request.Id);
         await _consultaRepository.Received(1).AtualizarConsultaAsync(Arg.Is<ConsultaEntity>(
-                m => m.Id == request.Id &&
-                    m.Data == request.Data &&
-                    m.Status == request.Status
-           ));
+            c => c.Id == request.Id &&
+                    c.Status == request.Status
+        ));
+    }
+
+    [Fact]
+    public async Task Handle_QuandoConsultaNaoExistir_DeveRetornarErro()
+    {
+        // Arrange
+        var request = new AtualizarConsultaRequest
+        {
+            Id = 1,
+            Status = true
+        };
+
+        _consultaRepository.ObterConsultaAsync(request.Id).Returns(Task.FromResult<ConsultaEntity>(null));
+
+        // Act
+        var result = await _sut.Handle(request, CancellationToken.None);
+
+        // Assert
+        result.Should().BeOfType<Result<AtualizarConsultaResponse>>()
+                .Which.IsSuccess.Should().BeFalse();
+
+        result.Exception.Should().BeOfType<Compartilhado.Exececoes.ExcecaoAplicacao>()
+                .Which.ResultadoErro.Should().Be(CadastroErros.IdConsultaInvalido);
     }
 }
+
