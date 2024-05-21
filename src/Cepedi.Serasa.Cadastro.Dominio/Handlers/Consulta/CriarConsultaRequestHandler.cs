@@ -14,9 +14,10 @@ public class CriarConsultaRequestHandler
     private readonly ILogger<CriarConsultaRequestHandler> _logger;
     private readonly IConsultaRepository _consultaRepository;
 
-    public CriarConsultaRequestHandler(IConsultaRepository consultaRepository, ILogger<CriarConsultaRequestHandler> logger)
+    public CriarConsultaRequestHandler(IConsultaRepository consultaRepository, IPessoaRepository _pessoaRepository, ILogger<CriarConsultaRequestHandler> logger)
     {
         _consultaRepository = consultaRepository;
+        _pessoaRepository = _pessoaRepository;
         _logger = logger;
     }
 

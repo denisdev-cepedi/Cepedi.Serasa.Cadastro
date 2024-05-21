@@ -1,12 +1,10 @@
 using Cepedi.Serasa.Cadastro.Compartilhado.Requests.Consulta;
-using Cepedi.Serasa.Cadastro.Compartilhado.Responses.Consulta;
 using Cepedi.Serasa.Cadastro.Dominio.Entidades;
 using Cepedi.Serasa.Cadastro.Dominio.Handlers.Consulta;
 using Cepedi.Serasa.Cadastro.Dominio.Repositorio;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
-using OperationResult;
 
 namespace Cepedi.Serasa.Cadastro.Dominio.Tests.Handlers.Consulta;
 public class ObterConsultaRequestHandlerTests
@@ -50,10 +48,10 @@ public class ObterConsultaRequestHandlerTests
         result.Should().NotBeNull();
         result.Value.Should().NotBeNull();
 
-        result.Value.id.Should().Be(consultaExistente.Id);
-        result.Value.status.Should().Be(consultaExistente.Status);
-        result.Value.data.Should().Be(consultaExistente.Data);
-        result.Value.idPessoa.Should().Be(consultaExistente.IdPessoa);
+        result.Value.Id.Should().Be(consultaExistente.Id);
+        result.Value.Status.Should().Be(consultaExistente.Status);
+        result.Value.Data.Should().Be(consultaExistente.Data);
+        result.Value.IdPessoa.Should().Be(consultaExistente.IdPessoa);
 
         await _consultaRepository.Received(1).ObterConsultaAsync(idConsulta);
 

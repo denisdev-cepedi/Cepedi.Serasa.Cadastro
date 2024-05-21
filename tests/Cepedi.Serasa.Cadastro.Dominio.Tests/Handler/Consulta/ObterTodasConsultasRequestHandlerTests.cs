@@ -1,12 +1,10 @@
 using Cepedi.Serasa.Cadastro.Compartilhado.Requests.Consulta;
-using Cepedi.Serasa.Cadastro.Compartilhado.Responses.Consulta;
 using Cepedi.Serasa.Cadastro.Dominio.Entidades;
 using Cepedi.Serasa.Cadastro.Dominio.Handlers.Consulta;
 using Cepedi.Serasa.Cadastro.Dominio.Repositorio;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
-using OperationResult;
 
 namespace Cepedi.Serasa.Cadastro.Dominio.Tests.Handlers.Consulta;
 public class ObterTodasConsultasRequestHandlerTests
@@ -59,10 +57,10 @@ public class ObterTodasConsultasRequestHandlerTests
 
         for (int i = 0; i < consultas.Count; i++)
         {
-            result.Value[i].id.Should().Be(consultas[i].Id);
-            result.Value[i].status.Should().Be(consultas[i].Status);
-            result.Value[i].data.Should().Be(consultas[i].Data);
-            result.Value[i].idPessoa.Should().Be(consultas[i].IdPessoa);
+            result.Value[i].Id.Should().Be(consultas[i].Id);
+            result.Value[i].Status.Should().Be(consultas[i].Status);
+            result.Value[i].Data.Should().Be(consultas[i].Data);
+            result.Value[i].IdPessoa.Should().Be(consultas[i].IdPessoa);
         }
 
         await _consultaRepository.Received(1).ObterTodasConsultasAsync();
