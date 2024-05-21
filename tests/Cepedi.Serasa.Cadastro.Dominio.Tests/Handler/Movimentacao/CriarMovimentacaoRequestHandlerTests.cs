@@ -58,7 +58,6 @@ public class CriarMovimentacaoRequestHandlerTests
             Valor = request.Valor,
         };
 
-        // Configure mocks to return appropriate entities
         _pessoaRepository.ObterPessoaAsync(request.IdPessoa).Returns(Task.FromResult(pessoa));
         _tipoMovimentacaoRepository.ObterTipoMovimentacaoAsync(request.IdTipoMovimentacao).Returns(Task.FromResult(tipoMovimentacao));
 
@@ -136,7 +135,6 @@ public class CriarMovimentacaoRequestHandlerTests
             Valor = 100.0m
         };
 
-        // Configurar os mocks para retornar os valores apropriados
         _pessoaRepository.ObterPessoaAsync(request.IdPessoa).Returns(Task.FromResult<PessoaEntity>(null));
         _tipoMovimentacaoRepository.ObterTipoMovimentacaoAsync(request.IdTipoMovimentacao).Returns(Task.FromResult<TipoMovimentacaoEntity>(tipoMovimentacao));
 
