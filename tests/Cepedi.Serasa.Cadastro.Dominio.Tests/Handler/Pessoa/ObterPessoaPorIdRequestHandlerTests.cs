@@ -9,7 +9,7 @@ using NSubstitute;
 using NSubstitute.ReturnsExtensions;
 using OperationResult;
 
-namespace Cepedi.Serasa.Cadastro.Domain.Tests.Handler.Pessoa;
+namespace Cepedi.Serasa.Cadastro.Dominio.Tests.Handler.Pessoa;
 public class ObterPessoaPorIdRequestHandlerTests
 {
     private readonly IPessoaRepository _pessoaRepository;

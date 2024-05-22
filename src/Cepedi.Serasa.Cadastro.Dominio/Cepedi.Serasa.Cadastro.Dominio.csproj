@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <RootNamespace>Cepedi.Serasa.Cadastro.Domain</RootNamespace>
-    <AssemblyName>Cepedi.Serasa.Cadastro.Domain</AssemblyName>
+    <RootNamespace>Cepedi.Serasa.Cadastro.Dominio</RootNamespace>
+    <AssemblyName>Cepedi.Serasa.Cadastro.Dominio</AssemblyName>
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>

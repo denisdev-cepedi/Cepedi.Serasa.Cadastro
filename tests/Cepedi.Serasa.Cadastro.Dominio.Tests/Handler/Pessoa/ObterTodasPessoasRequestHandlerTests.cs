@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 using NSubstitute;
 using OperationResult;
 
-namespace Cepedi.Serasa.Cadastro.Domain.Tests.Handler.Pessoa;
+namespace Cepedi.Serasa.Cadastro.Dominio.Tests.Handler.Pessoa;
 public class ObterTodasPessoasRequestHandlerTests
 {
     private readonly IPessoaRepository _pessoasRepository;
