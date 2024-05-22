@@ -1,66 +1,77 @@
+using Cepedi.Serasa.Cadastro.Compartilhado.Enums;
 using Cepedi.Serasa.Cadastro.Compartilhado.Requests.TipoMovimentacao;
-using Cepedi.Serasa.Cadastro.Compartilhado.Responses.TipoMovimentacao;
 using Cepedi.Serasa.Cadastro.Dominio.Entidades;
 using Cepedi.Serasa.Cadastro.Dominio.Handlers.TipoMovimentacao;
 using Cepedi.Serasa.Cadastro.Dominio.Repositorio;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
-using NSubstitute.ReturnsExtensions;
-using OperationResult;
 
-namespace Cepedi.Serasa.Cadastro.Domain.Tests.Handler.TipoMovimentacao;
+namespace Cepedi.Serasa.Cadastro.Dominio.Tests.Handlers.TipoMovimentacao;
+
 public class ObterTipoMovimentacaoRequestHandlerTests
 {
-    private readonly ITipoMovimentacaoRepository _tipoMovimentacaoRepository;
-    private readonly ILogger<ObterTipoMovimentacaoRequestHandler> _logger;
+    private readonly ITipoMovimentacaoRepository _tipoMovimentacaoRepository = Substitute.For<ITipoMovimentacaoRepository>();
+    private readonly ILogger<ObterTipoMovimentacaoRequestHandler> _logger = Substitute.For<ILogger<ObterTipoMovimentacaoRequestHandler>>();
     private readonly ObterTipoMovimentacaoRequestHandler _sut;
 
     public ObterTipoMovimentacaoRequestHandlerTests()
     {
-        _tipoMovimentacaoRepository = Substitute.For<ITipoMovimentacaoRepository>();
-        _logger = Substitute.For<ILogger<ObterTipoMovimentacaoRequestHandler>>();
         _sut = new ObterTipoMovimentacaoRequestHandler(_logger, _tipoMovimentacaoRepository);
     }
 
     [Fact]
-    public async Task QuandoBuscarIdExistenteDeveRetornarTipoMovimentacaoResponse()
+    public async Task Handle_QuandoObterTipoMovimentacaoExistente_DeveRetornarTipoMovimentacao()
     {
-        var request = new ObterTipoMovimentacaoRequest { Id = 1 };
+        // Arrange
+        var idTipoMovimentacao = 1;
 
-        var tipoMovimentacao = new TipoMovimentacaoEntity
+        var tipoMovimentacaoExistente = new TipoMovimentacaoEntity
         {
-            Id = request.Id,
-            NomeTipo = "Depósito"
+            Id = idTipoMovimentacao,
+            NomeTipo = "Compra"
         };
 
-        _tipoMovimentacaoRepository.ObterTipoMovimentacaoAsync(request.Id).Returns(Task.FromResult(tipoMovimentacao));
+        _tipoMovimentacaoRepository.ObterTipoMovimentacaoAsync(idTipoMovimentacao)
+                                    .Returns(Task.FromResult(tipoMovimentacaoExistente));
 
+        var request = new ObterTipoMovimentacaoRequest { Id = idTipoMovimentacao };
+
+        // Act
         var result = await _sut.Handle(request, CancellationToken.None);
 
+        // Assert
         result.Should().NotBeNull();
-        result.Should().BeOfType<Result<ObterTipoMovimentacaoResponse>>();
-        result.Value.Id.Should().Be(request.Id);
-        result.Value.NomeTipo.Should().Be(tipoMovimentacao.NomeTipo);
+        result.Value.Should().NotBeNull();
 
-        await _tipoMovimentacaoRepository.Received(1).ObterTipoMovimentacaoAsync(request.Id);
+        result.Value.Id.Should().Be(tipoMovimentacaoExistente.Id);
+        result.Value.NomeTipo.Should().Be(tipoMovimentacaoExistente.NomeTipo);
+
+        // Verifica se o método no repositório foi chamado corretamente
+        await _tipoMovimentacaoRepository.Received(1).ObterTipoMovimentacaoAsync(idTipoMovimentacao);
     }
 
     [Fact]
-    public async Task QuandoBuscarInexistenteDeveRetornarNulo()
+    public async Task Handle_QuandoObterTipoMovimentacaoInexistente_DeveRetornarErro()
     {
-        //Arrange
-        var request = new ObterTipoMovimentacaoRequest { Id = 100 };
+        // Arrange
+        var idTipoMovimentacaoInexistente = 99;
 
-        _tipoMovimentacaoRepository.ObterTipoMovimentacaoAsync(request.Id).ReturnsNull();
+        _tipoMovimentacaoRepository.ObterTipoMovimentacaoAsync(idTipoMovimentacaoInexistente)
+                                    .Returns(Task.FromResult<TipoMovimentacaoEntity>(null));
 
-        //Act
+        var request = new ObterTipoMovimentacaoRequest { Id = idTipoMovimentacaoInexistente };
+
+        // Act
         var result = await _sut.Handle(request, CancellationToken.None);
 
-        //Assert
+        // Assert
         result.Should().NotBeNull();
-        result.Value.Should().BeNull();
+        result.IsSuccess.Should().BeFalse();
+        result.Exception.Should().BeOfType<Compartilhado.Exececoes.ExcecaoAplicacao>()
+            .Which.ResultadoErro.Should().Be(CadastroErros.IdTipoMovimentacaoInvalido);
 
-        await _tipoMovimentacaoRepository.Received(1).ObterTipoMovimentacaoAsync(request.Id);
+        // Verifica se o método no repositório foi chamado corretamente
+        await _tipoMovimentacaoRepository.Received(1).ObterTipoMovimentacaoAsync(idTipoMovimentacaoInexistente);
     }
 }
