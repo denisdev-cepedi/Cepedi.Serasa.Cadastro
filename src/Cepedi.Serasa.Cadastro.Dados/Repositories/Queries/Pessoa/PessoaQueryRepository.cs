@@ -9,7 +9,7 @@ public class PessoaQueryRepository : BaseDapperRepository, IPessoaQueryRepositor
 {
     private readonly ICache<List<PessoaEntity>> _cache;
 
-    protected PessoaQueryRepository(IConfiguration configuration, ICache<List<PessoaEntity>> cache) : base(configuration)
+    public PessoaQueryRepository(IConfiguration configuration, ICache<List<PessoaEntity>> cache) : base(configuration)
     {
         _cache = cache;
     }

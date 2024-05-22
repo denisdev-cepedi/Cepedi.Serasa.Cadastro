@@ -3,7 +3,6 @@ using Cepedi.Serasa.Cadastro.Dados.Repositories;
 using Cepedi.Serasa.Cadastro.Dados;
 using Cepedi.Serasa.Cadastro.Dominio.Pipelines;
 using Cepedi.Serasa.Cadastro.Dominio.Repositorio;
-using Cepedi.Serasa.Cadastro.Dominio;
 using Cepedi.Serasa.Cadastro.Dominio.Repository;
 using FluentValidation;
 using MediatR;
@@ -11,6 +10,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Cepedi.Serasa.Cadastro.Compartilhado;
+using Cepedi.Serasa.Cadastro.Domain.Repositorio.Queries;
+using Cepedi.Serasa.Cadastro.Dados.Repositories.Queries.Pessoa;
+using Cepedi.Serasa.Cadastro.Domain.Servicos;
+using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Caching.StackExchangeRedis;
+using Cepedi.Serasa.Cadastro.Cache;
 
 namespace Cepedi.Serasa.Cadastro.IoC
 {
@@ -32,6 +37,16 @@ namespace Cepedi.Serasa.Cadastro.IoC
             services.AddScoped<ITipoMovimentacaoRepository, TipoMovimentacaoRepository>();
             services.AddScoped<IScoreRepository, ScoreRepository>();
             services.AddScoped<IMovimentacaoRepository, MovimentacaoRepository>();
+            services.AddScoped<IPessoaQueryRepository, PessoaQueryRepository>();
+
+            services.AddStackExchangeRedisCache(obj =>
+            {
+                obj.Configuration = configuration["Redis::Connection"];
+                obj.InstanceName = configuration["Redis::Instance"];
+            });
+
+            services.AddSingleton<IDistributedCache, RedisCache>();
+            services.AddScoped(typeof(ICache<>), typeof(Cache<>));
             //services.AddHttpContextAccessor();
 
             services.AddHealthChecks()

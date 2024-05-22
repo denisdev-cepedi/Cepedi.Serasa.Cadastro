@@ -35,6 +35,17 @@ public class PessoaController : BaseController
         return await SendCommand(request);
     }
 
+    [HttpGet("PorCpf/{cpf}")]
+    [ProducesResponseType(typeof(IEnumerable<ObterPessoaResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<IEnumerable<ObterPessoaResponse>>> ObterPessoaPorCpfAsync(
+        [FromRoute] string cpf)
+    {
+        var request = new ObterPessoaPorCpfRequest { Cpf = cpf };
+        return await SendCommand(request);
+    }
+
+
     [HttpPost]
     [ProducesResponseType(typeof(CriarPessoaResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ResultadoErro), StatusCodes.Status400BadRequest)]
