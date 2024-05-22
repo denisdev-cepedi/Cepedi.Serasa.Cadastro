@@ -40,12 +40,9 @@ public class CriarScoreRequestHandler
                 new Compartilhado.Exececoes.ExcecaoAplicacao(CadastroErros.ScoreJaExistente));
         }
 
-        var credorEntity = await _scoreRepository.ObterPessoaScoreAsync(request.IdPessoa);
-
         var score = new ScoreEntity()
         {
             Score = request.Score,
-
             IdPessoa = request.IdPessoa,
         };
 
@@ -53,4 +50,5 @@ public class CriarScoreRequestHandler
 
         return Result.Success(new CriarScoreResponse(score.Id, score.IdPessoa, score.Score));
     }
+
 }

@@ -32,7 +32,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cepedi.Serasa.Cadastro.Dado
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cepedi.Serasa.Cadastro.Compartilhado", "src\Cepedi.Serasa.Cadastro.Compartilhado\Cepedi.Serasa.Cadastro.Compartilhado.csproj", "{664C1369-D2E4-4008-AB3C-A1AA23FCCC69}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cepedi.Serasa.Cadastro.Domain.Tests", "tests\Cepedi.Serasa.Cadastro.Dominio.Tests\Cepedi.Serasa.Cadastro.Domain.Tests.csproj", "{2191D0B2-EE12-48BB-8977-70BAEC8C9D2D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cepedi.Serasa.Cadastro.Dominio.Tests", "tests\Cepedi.Serasa.Cadastro.Dominio.Tests\Cepedi.Serasa.Cadastro.Dominio.Tests.csproj", "{2191D0B2-EE12-48BB-8977-70BAEC8C9D2D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cepedi.Serasa.Cadastro.Dados.Tests", "tests\Cepedi.Serasa.Cadastro.Dados.Tests\Cepedi.Serasa.Cadastro.Dados.Tests.csproj", "{2C7C5C0F-B91E-4BA3-9126-0DABB33C30B6}"
 EndProject

@@ -1,8 +1,8 @@
-using Cepedi.Serasa.Cadastro.Data.Repositories;
+using Cepedi.Serasa.Cadastro.Dados.Repositories;
 using Cepedi.Serasa.Cadastro.Dominio.Entidades;
 using Microsoft.EntityFrameworkCore;
 
-namespace Cepedi.Serasa.Cadastro.Data.Tests.MemoryDatabase;
+namespace Cepedi.Serasa.Cadastro.Dados.Tests.MemoryDatabase;
 
 public class UserRepositoryTests
 {
