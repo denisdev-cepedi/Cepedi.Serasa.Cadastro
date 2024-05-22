@@ -24,6 +24,7 @@ public class CriarPessoaRequestHandler
 
     public async Task<Result<CriarPessoaResponse>> Handle(CriarPessoaRequest request, CancellationToken cancellationToken)
     {
+        _logger.LogInformation("Criando pessoa");
         var pessoa = new PessoaEntity
         {
             Nome = request.Nome,
