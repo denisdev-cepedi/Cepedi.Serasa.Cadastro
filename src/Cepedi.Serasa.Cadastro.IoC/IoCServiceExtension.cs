@@ -11,6 +11,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Cepedi.Serasa.Cadastro.Compartilhado;
+using Keycloak.AuthServices.Authentication;
+using Keycloak.AuthServices.Authorization;
+using Keycloak.AuthServices.Sdk.Admin;
 
 namespace Cepedi.Serasa.Cadastro.IoC
 {
@@ -33,6 +36,8 @@ namespace Cepedi.Serasa.Cadastro.IoC
             services.AddScoped<IScoreRepository, ScoreRepository>();
             services.AddScoped<IMovimentacaoRepository, MovimentacaoRepository>();
             //services.AddHttpContextAccessor();
+
+            ConfigurarSso(services, configuration);
 
             services.AddHealthChecks()
                 .AddDbContextCheck<ApplicationDbContext>();
@@ -65,6 +70,28 @@ namespace Cepedi.Serasa.Cadastro.IoC
             });
 
             services.AddScoped<ApplicationDbContextInitialiser>();
+        }
+
+        private static void ConfigurarSso(IServiceCollection services, IConfiguration configuration)
+        {
+            var authenticationOptions = configuration
+                            .GetSection(KeycloakAuthenticationOptions.Section)
+                            .Get<KeycloakAuthenticationOptions>();
+
+            services.AddKeycloakAuthentication(authenticationOptions!);
+
+
+            var authorizationOptions = configuration
+                                        .GetSection(KeycloakProtectionClientOptions.Section)
+                                        .Get<KeycloakProtectionClientOptions>();
+
+            services.AddKeycloakAuthorization(authorizationOptions);
+
+            var adminClientOptions = configuration
+                                        .GetSection(KeycloakAdminClientOptions.Section)
+                                        .Get<KeycloakAdminClientOptions>();
+
+            services.AddKeycloakAdminHttpClient(adminClientOptions);
         }
     }
 }

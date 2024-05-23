@@ -2,12 +2,14 @@
 using Cepedi.Serasa.Cadastro.Compartilhado.Requests.Pessoa;
 using Cepedi.Serasa.Cadastro.Compartilhado.Responses.Pessoa;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Cepedi.Serasa.Cadastro.Api.Controllers;
 
 [ApiController]
 [Route("[controller]")]
+[Authorize]
 public class PessoaController : BaseController
 {
     private readonly IMediator _mediator;

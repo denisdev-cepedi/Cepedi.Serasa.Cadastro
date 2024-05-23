@@ -1,6 +1,7 @@
 using Serilog;
 using Cepedi.Serasa.Cadastro.IoC;
 using Cepedi.Serasa.Cadastro.Api;
+using Microsoft.IdentityModel.Logging;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,11 +28,16 @@ if (app.Environment.IsDevelopment())
     await app.InitialiseDatabaseAsync();
     app.UseSwagger();
     app.UseSwaggerUI();
+    IdentityModelEventSource.ShowPII = true;
+}
+else
+{
+    app.UseHttpsRedirection();
 }
 
 app.UseHealthChecks("/health");
-app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
