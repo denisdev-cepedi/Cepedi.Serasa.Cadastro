@@ -48,10 +48,10 @@ namespace Cepedi.Serasa.Cadastro.Dados.Repositories
             return await _context.Set<ScoreEntity>().ToListAsync();
         }
 
-        public async Task<PessoaEntity> ObterPessoaScoreAsync(int id)
+        public async Task<ScoreEntity> ObterPessoaScoreAsync(int id)
         {
             return await
-                _context.Pessoa.Where(e => e.Id == id).FirstOrDefaultAsync();
+                _context.Score.Where(e => e.IdPessoa == id).FirstOrDefaultAsync();
         }
 
         public async Task<ScoreEntity> DeletarScoreAsync(int id)
