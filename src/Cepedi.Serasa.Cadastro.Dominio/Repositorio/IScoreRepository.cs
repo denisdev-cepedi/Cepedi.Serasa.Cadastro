@@ -8,6 +8,6 @@ public interface IScoreRepository
     Task<ScoreEntity> ObterScoreAsync(int id);
     Task<List<ScoreEntity>> ObterTodosScoresAsync();
     Task<ScoreEntity> AtualizarScoreAsync(ScoreEntity score);
-    Task<PessoaEntity> ObterPessoaScoreAsync(int id);
+    Task<ScoreEntity> ObterPessoaScoreAsync(int id);
     Task<ScoreEntity> DeletarScoreAsync(int id);
 }
