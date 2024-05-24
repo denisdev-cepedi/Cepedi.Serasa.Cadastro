@@ -41,7 +41,7 @@ public class CriarScoreRequestHandlerTests
         };
 
         _pessoaRepository.ObterPessoaAsync(request.IdPessoa).Returns(Task.FromResult(pessoa));
-        _scoreRepository.ObterPessoaScoreAsync(request.IdPessoa).Returns(Task.FromResult<PessoaEntity>(null));
+        _scoreRepository.ObterPessoaScoreAsync(request.IdPessoa).Returns(Task.FromResult<ScoreEntity>(null));
 
         // Act
         var result = await _sut.Handle(request, CancellationToken.None);
@@ -112,7 +112,7 @@ public class CriarScoreRequestHandlerTests
         };
 
         _pessoaRepository.ObterPessoaAsync(request.IdPessoa).Returns(Task.FromResult(pessoa));
-        _scoreRepository.ObterPessoaScoreAsync(request.IdPessoa).Returns(Task.FromResult(pessoa));
+        _scoreRepository.ObterPessoaScoreAsync(request.IdPessoa).Returns(Task.FromResult(scoreEntity));
 
         // Act
         var result = await _sut.Handle(request, CancellationToken.None);
